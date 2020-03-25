@@ -51,6 +51,7 @@ jobs:
       - run:
           name: Checkout related modules
           command: |
+            set -x
             cd /var/www/html/magento/
             for moduleName in $MODULES_NAME; do
               composer config repositories.TNW_$moduleName git git@github.com:PowerSync/TNW_$moduleName.git
