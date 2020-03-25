@@ -73,7 +73,8 @@ jobs:
               echo $CIRCLE_BRANCH
               echo $COMPOSER_BRANCH
               echo "composer config repositories.TNW_$moduleName git git@github.com:PowerSync/TNW_$moduleName.git"
-              echo "composer info -a tnw/$moduleNameLower"
+              composer info -a tnw/$moduleNameLower
+              echo "--- ERROR HERE ---"
 
               composer require --prefer-source tnw/${moduleNameLower}:"${COMPOSER_BRANCH}"
 
