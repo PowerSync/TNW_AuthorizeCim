@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Observer;
 
 use Magento\Framework\DataObject;
@@ -15,10 +17,19 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class DataAssignObserverTest
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Observer
  */
 class DataAssignObserverTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @var string
+     */
     const PAYMENT_METHOD_NONCE = 'nonce';
+
+    /**
+     * @var string
+     */
     const DEVICE_DATA = '{"test": "test"}';
 
     /**
@@ -36,7 +47,10 @@ class DataAssignObserverTest extends \PHPUnit\Framework\TestCase
      */
     private $observer;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->observerContainer = $this->getMockBuilder(Event\Observer::class)
             ->disableOriginalConstructor()

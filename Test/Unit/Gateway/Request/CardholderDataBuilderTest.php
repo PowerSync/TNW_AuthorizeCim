@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Request;
 
 use TNW\AuthorizeCim\Gateway\Request\CardholderDataBuilder;
@@ -13,6 +15,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Test CaptureDataBuilder
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Request
  */
 class CardholderDataBuilderTest extends \PHPUnit\Framework\TestCase
 {
@@ -31,7 +35,10 @@ class CardholderDataBuilderTest extends \PHPUnit\Framework\TestCase
      */
     private $paymentDO;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->paymentDO = $this->createMock(PaymentDataObjectInterface::class);
         $this->payment = $this->getMockBuilder(Payment::class)

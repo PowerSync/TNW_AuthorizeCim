@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Config;
 
 use TNW\AuthorizeCim\Gateway\Config\CanVoidHandler;
@@ -11,6 +13,10 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
+/**
+ * Class CanVoidHandlerTest
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Config
+ */
 class CanVoidHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -28,7 +34,10 @@ class CanVoidHandlerTest extends \PHPUnit\Framework\TestCase
      */
     private $voidHandler;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->paymentDO = $this->createMock(PaymentDataObjectInterface::class);
 

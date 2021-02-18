@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Request;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
@@ -10,6 +12,8 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
 /**
  * Class for build request payment data
+ *
+ * @package TNW\AuthorizeCim\Gateway\Request
  */
 class CardholderDataBuilder implements BuilderInterface
 {

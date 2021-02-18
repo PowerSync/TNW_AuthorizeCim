@@ -3,6 +3,8 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Model\Ui;
 
 use Magento\Vault\Api\Data\PaymentTokenInterface;
@@ -12,6 +14,8 @@ use Magento\Vault\Model\Ui\TokenUiComponentInterfaceFactory;
 
 /**
  * Token Component Provider
+ *
+ * @package TNW\AuthorizeCim\Model\Ui
  */
 class TokenUiComponentProvider implements TokenUiComponentProviderInterface
 {
@@ -31,6 +35,7 @@ class TokenUiComponentProvider implements TokenUiComponentProviderInterface
 
     /**
      * Get UI component for token
+     *
      * @param PaymentTokenInterface $paymentToken
      * @return TokenUiComponentInterface
      */

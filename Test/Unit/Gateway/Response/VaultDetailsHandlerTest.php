@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Response;
 
 use TNW\AuthorizeCim\Gateway\Config\Config;
@@ -20,6 +22,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  * VaultDetailsHandler Test
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Response
  */
 class VaultDetailsHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -63,7 +66,10 @@ class VaultDetailsHandlerTest extends \PHPUnit\Framework\TestCase
      */
     private $handler;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->paymentDO = $this->getMockBuilder(PaymentDataObject::class)
             ->setMethods(['getPayment'])

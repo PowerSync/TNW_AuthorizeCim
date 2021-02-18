@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace TNW\AuthorizeCim\Model\Source;
+namespace TNW\AuthorizeCim\Model\Adminhtml\Source;
 
 use Magento\Payment\Model\Source\Cctype as PaymentCctype;
 

@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Helper;
 
 use Magento\Framework\Api\ObjectFactory;
@@ -13,6 +15,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Test SubjectReader
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Helper
  */
 class DataObjectTest extends \PHPUnit\Framework\TestCase
 {
@@ -36,7 +40,10 @@ class DataObjectTest extends \PHPUnit\Framework\TestCase
      */
     private $dataObject;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->objectFactory = $this->getMockBuilder(ObjectFactory::class)
             ->disableOriginalConstructor()

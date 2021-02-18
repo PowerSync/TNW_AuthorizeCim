@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Model\Ui;
 
 use Magento\Framework\UrlInterface;
@@ -13,6 +15,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * ConfigProvider Test
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Model\Ui
  */
 class ConfigProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -36,7 +40,10 @@ class ConfigProviderTest extends \PHPUnit\Framework\TestCase
      */
     private $configProvider;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->config = $this->getMockBuilder(Config::class)
             ->disableOriginalConstructor()

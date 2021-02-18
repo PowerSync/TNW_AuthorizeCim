@@ -1,7 +1,10 @@
 <?php
 /**
- *
+ * Copyright © 2018 TechNWeb, Inc. All rights reserved.
+ * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Config;
 
 use TNW\AuthorizeCim\Gateway\Config\Config;
@@ -10,6 +13,8 @@ use Magento\Store\Model\ScopeInterface;
 
 /**
  * Test Config
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Config
  */
 class ConfigTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +30,10 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
      */
     private $scopeConfigMock;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->scopeConfigMock = $this->createMock(ScopeConfigInterface::class);
 

@@ -3,6 +3,8 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Model\Adapter;
 
 use TNW\AuthorizeCim\Gateway\Config\Config;
@@ -10,6 +12,8 @@ use Magento\Framework\ObjectManagerInterface;
 
 /**
  * This factory is preferable to use for Authorize adapter instance creation.
+ *
+ * @package TNW\AuthorizeCim\Model\Adapter
  */
 class AuthorizeAdapterFactory
 {

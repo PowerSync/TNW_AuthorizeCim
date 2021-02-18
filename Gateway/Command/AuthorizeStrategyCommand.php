@@ -3,16 +3,20 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Command;
 
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Payment\Gateway\Command;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
-use Magento\Sales\Api\TransactionRepositoryInterface;
 
+/**
+ * Class AuthorizeStrategyCommand
+ * @package TNW\AuthorizeCim\Gateway\Command
+ */
 class AuthorizeStrategyCommand implements CommandInterface
 {
     /**

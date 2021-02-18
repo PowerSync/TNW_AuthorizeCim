@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Model\Ui\Adminhtml;
 
 use TNW\AuthorizeCim\Model\Ui\Adminhtml\TokenUiComponentProvider;
@@ -16,6 +18,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class TokenUiComponentProviderTest
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Model\Ui\Adminhtml
  */
 class TokenUiComponentProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -30,7 +34,10 @@ class TokenUiComponentProviderTest extends \PHPUnit\Framework\TestCase
      */
     private $tokenUiComponentProvider;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->componentFactory = $this->getMockBuilder(TokenUiComponentInterfaceFactory::class)
             ->disableOriginalConstructor()

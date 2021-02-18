@@ -3,6 +3,7 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Observer;
 
@@ -11,10 +12,16 @@ use Magento\Payment\Observer\AbstractDataAssignObserver;
 
 /**
  * Observer for set additional data
+ *
+ * @package TNW\AuthorizeCim\Observer
  */
 class DataAssignObserver extends AbstractDataAssignObserver
 {
-    /** additional information key */
+    /**
+     * Additional information key
+     *
+     * @var string
+     */
     const KEY_ADDITIONAL_DATA = 'additional_data';
 
     /**

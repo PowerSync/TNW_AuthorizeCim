@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Response;
 
 use Magento\Sales\Api\Data\OrderPaymentInterface;
@@ -14,6 +16,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Test CardDetailsHandler
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Response
  */
 class CardDetailsHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,7 +36,10 @@ class CardDetailsHandlerTest extends \PHPUnit\Framework\TestCase
      */
     private $cardHandler;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->paymentDO = $this->getMockBuilder(PaymentDataObject::class)
             ->setMethods(['getPayment'])

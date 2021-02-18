@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Controller\Jwt;
 
 use Magento\Framework\App\RequestInterface;
@@ -19,6 +21,8 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 /**
  * Test Encode
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Controller\Jwt
  */
 class EncodeTest extends \PHPUnit\Framework\TestCase
 {
@@ -52,7 +56,10 @@ class EncodeTest extends \PHPUnit\Framework\TestCase
      */
     private $action;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $resultFactory = $this->getMockBuilder(ResultFactory::class)
             ->disableOriginalConstructor()

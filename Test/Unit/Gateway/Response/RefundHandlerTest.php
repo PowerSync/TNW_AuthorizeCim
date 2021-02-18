@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Response;
 
 use Magento\Sales\Model\Order\Creditmemo;
@@ -13,6 +15,11 @@ use Magento\Payment\Gateway\Data\PaymentDataObject;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
+/**
+ * Class RefundHandlerTest
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Response
+ */
 class RefundHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -40,7 +47,10 @@ class RefundHandlerTest extends \PHPUnit\Framework\TestCase
      */
     private $handler;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->paymentDO = $this->getMockBuilder(PaymentDataObject::class)
             ->setMethods(['getPayment'])

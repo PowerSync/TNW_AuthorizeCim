@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Http;
 
 use TNW\AuthorizeCim\Gateway\Http\TransferFactory;
@@ -11,6 +13,8 @@ use Magento\Payment\Gateway\Http\TransferInterface;
 
 /**
  * Class TransferFactoryTest
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Http
  */
 class TransferFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,7 +33,10 @@ class TransferFactoryTest extends \PHPUnit\Framework\TestCase
      */
     private $transferBuilder;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->transferBuilder = $this->createMock(TransferBuilder::class);
         $this->transferMock = $this->createMock(TransferInterface::class);
