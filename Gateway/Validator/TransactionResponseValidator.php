@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Validator;
 
 use net\authorize\api\contract\v1\CreateTransactionResponse;
@@ -11,6 +13,8 @@ use net\authorize\api\contract\v1\TransactionResponseType\ErrorsAType\ErrorAType
 
 /**
  * Validate response data
+ *
+ * @package TNW\AuthorizeCim\Gateway\Validator
  */
 class TransactionResponseValidator extends GeneralResponseValidator
 {
@@ -65,6 +69,10 @@ class TransactionResponseValidator extends GeneralResponseValidator
         return __($message->getDescription());
     }
 
+    /**
+     * @param ErrorAType|MessageAType $message
+     * @return bool
+     */
     private function errorFilter($message)
     {
         $errorCode = method_exists($message, 'getErrorCode')
@@ -73,6 +81,10 @@ class TransactionResponseValidator extends GeneralResponseValidator
         return  $errorCode != 1;
     }
 
+    /**
+     * @param ErrorAType|MessageAType $message
+     * @return \Magento\Framework\Phrase
+     */
     private function errorMap($message)
     {
         $messageText = method_exists($message, 'getErrorText')

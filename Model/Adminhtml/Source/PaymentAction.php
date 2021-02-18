@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace TNW\AuthorizeCim\Model\Source;
+namespace TNW\AuthorizeCim\Model\Adminhtml\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
@@ -17,9 +17,17 @@ use Magento\Framework\Data\OptionSourceInterface;
 class PaymentAction implements OptionSourceInterface
 {
     /**
-     * Different payment actions.
+     * "authorize" payment action
+     *
+     * @var string
      */
     const ACTION_AUTHORIZE = 'authorize';
+
+    /**
+     * "authorize_capture" payment action
+     *
+     * @var string
+     */
     const ACTION_AUTHORIZE_CAPTURE = 'authorize_capture';
 
     /**

@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Model\Adapter;
 
 use Magento\Framework\ObjectManagerInterface;
@@ -13,6 +15,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * AuthorizeAdapterFactory Test
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Model\Adapter
  */
 class AuthorizeAdapterFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -31,7 +35,10 @@ class AuthorizeAdapterFactoryTest extends \PHPUnit\Framework\TestCase
      */
     private $adapterFactory;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->config = $this->getMockBuilder(Config::class)
             ->disableOriginalConstructor()

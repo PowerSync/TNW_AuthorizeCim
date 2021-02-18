@@ -3,6 +3,7 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Response;
 
@@ -11,13 +12,24 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
 
+/**
+ * Class CardDetailsHandler
+ * @package TNW\AuthorizeCim\Gateway\Response
+ */
 class CardDetailsHandler implements HandlerInterface
 {
+    /**
+     * @var string
+     */
     const CARD_NUMBER = 'cc_number';
+
+    /**
+     * @var string
+     */
     const CARD_LAST4 = 'cc_last4';
 
-    /** @var
-     * SubjectReader
+    /**
+     * @var SubjectReader
      */
     private $subjectReader;
 

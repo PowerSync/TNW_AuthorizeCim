@@ -3,6 +3,8 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Command;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
@@ -14,10 +16,19 @@ use Magento\Sales\Api\Data\TransactionInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
+/**
+ * Class CaptureStrategyCommand
+ * @package TNW\AuthorizeCim\Gateway\Command
+ */
 class CaptureStrategyCommand implements CommandInterface
 {
+    /** @var string */
     const SALE = 'sale';
+
+    /** @var string */
     const CAPTURE = 'settlement';
+
+    /** @var string */
     const CUSTOMER = 'customer';
 
     /** @var SearchCriteriaBuilder */
@@ -86,7 +97,7 @@ class CaptureStrategyCommand implements CommandInterface
      * @param OrderPaymentInterface $payment
      * @return string
      */
-    private function getCommand(OrderPaymentInterface $payment)
+    private function getCommand(OrderPaymentInterface $payment): string
     {
         $existsCapture = $this->isExistsCaptureTransaction($payment);
         if (!$payment->getAuthorizationTransaction() && !$existsCapture) {
@@ -102,7 +113,7 @@ class CaptureStrategyCommand implements CommandInterface
      * @param OrderPaymentInterface $payment
      * @return bool
      */
-    private function isExistsCaptureTransaction(OrderPaymentInterface $payment)
+    private function isExistsCaptureTransaction(OrderPaymentInterface $payment): bool
     {
         $searchCriteria = $this->searchCriteriaBuilder
             ->addFilter('payment_id', $payment->getId())

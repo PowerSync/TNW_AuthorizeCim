@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Request;
 
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
@@ -10,6 +12,8 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 
 /**
  * Vault Data Builder
+ *
+ * @package TNW\AuthorizeCim\Gateway\Request
  */
 class VaultDataBuilder implements BuilderInterface
 {

@@ -3,12 +3,16 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Helper;
 
 use Magento\Payment\Gateway\Helper;
 
 /**
  * Subject Reader
+ *
+ * @package TNW\AuthorizeCim\Gateway\Helper
  */
 class SubjectReader
 {

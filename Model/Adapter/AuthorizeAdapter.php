@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Model\Adapter;
 
 use net\authorize\api\constants\ANetEnvironment;
@@ -14,6 +16,10 @@ use net\authorize\api\controller\CreateCustomerProfileFromTransactionController;
 use net\authorize\api\controller\CreateCustomerProfileController;
 use TNW\AuthorizeCim\Gateway\Helper\DataObject;
 
+/**
+ * Class AuthorizeAdapter
+ * @package TNW\AuthorizeCim\Model\Adapter
+ */
 class AuthorizeAdapter
 {
     /**
@@ -40,7 +46,7 @@ class AuthorizeAdapter
      * AuthorizeAdapter constructor.
      * @param string $apiLoginId
      * @param string $transactionKey
-     * @param string $sandboxMode
+     * @param bool $sandboxMode
      * @param DataObject $dataObjectHelper
      */
     public function __construct(

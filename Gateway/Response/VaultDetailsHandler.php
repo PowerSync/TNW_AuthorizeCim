@@ -3,6 +3,7 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Response;
 
@@ -16,22 +17,44 @@ use TNW\AuthorizeCim\Gateway\Config\Config;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Magento\Vault\Model\PaymentTokenManagement;
 
+/**
+ * Class VaultDetailsHandler
+ * @package TNW\AuthorizeCim\Gateway\Response
+ */
 class VaultDetailsHandler implements HandlerInterface
 {
-    /** @var CreditCardTokenFactory */
+    /**
+     * @var CreditCardTokenFactory
+     */
     private $paymentTokenFactory;
 
-    /** @var OrderPaymentExtensionInterfaceFactory */
+    /**
+     * @var OrderPaymentExtensionInterfaceFactory
+     */
     private $paymentExtensionFactory;
 
-    /** @var SubjectReader */
+    /**
+     * @var SubjectReader
+     */
     private $subjectReader;
 
-    /** @var Config */
+    /**
+     * @var Config
+     */
     private $config;
 
+    /**
+     * @var PaymentTokenManagement
+     */
     private $paymentTokenManagement;
 
+    /**
+     * @param CreditCardTokenFactory $creditCardTokenFactory
+     * @param OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory
+     * @param Config $config
+     * @param SubjectReader $subjectReader
+     * @param PaymentTokenManagement $paymentTokenManagement
+     */
     public function __construct(
         CreditCardTokenFactory $creditCardTokenFactory,
         OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory,
@@ -70,10 +93,10 @@ class VaultDetailsHandler implements HandlerInterface
 
     /**
      * @param \net\authorize\api\contract\v1\CreateCustomerProfileResponse $transaction
-     * @param $payment
+     * @param InfoInterface $payment
      * @return PaymentTokenInterface|null
      */
-    private function getVaultPaymentToken($transaction, $payment)
+    private function getVaultPaymentToken($transaction, InfoInterface $payment)
     {
         if (
             $payment->getAdditionalInformation('customer_id')
@@ -106,10 +129,10 @@ class VaultDetailsHandler implements HandlerInterface
     }
 
     /**
-     * @param $payment
+     * @param InfoInterface $payment
      * @return string
      */
-    private function _getExpirationDate($payment)
+    private function _getExpirationDate(InfoInterface $payment)
     {
         $time = sprintf(
             '%s-%s-01 00:00:00',
@@ -122,7 +145,11 @@ class VaultDetailsHandler implements HandlerInterface
             ->format('Y-m-d 00:00:00');
     }
 
-    private function _convertDetailsToJSON($details)
+    /**
+     * @param array $details
+     * @return string
+     */
+    private function _convertDetailsToJSON(array $details)
     {
         $json = \Zend_Json::encode($details);
         return $json ? $json : '{}';

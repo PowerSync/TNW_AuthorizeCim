@@ -3,6 +3,8 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
@@ -10,17 +12,34 @@ use Magento\Framework\Session\SessionManagerInterface;
 use TNW\AuthorizeCim\Gateway\Config\Config;
 use Magento\Framework\UrlInterface;
 
+/**
+ * Class ConfigProvider
+ * @package TNW\AuthorizeCim\Model\Ui
+ */
 class ConfigProvider implements ConfigProviderInterface
 {
-    /** Payment code */
+    /**
+     * Payment code
+     *
+     * @var string
+     */
     const CODE = 'tnw_authorize_cim';
-    /** Vault payment code */
+
+    /**
+     * Vault payment code
+     *
+     * @var string
+     */
     const VAULT_CODE = 'tnw_authorize_cim_vault';
 
-    /** @var Config */
+    /**
+     * @var Config
+     */
     private $config;
 
-    /** @var SessionManagerInterface */
+    /**
+     * @var SessionManagerInterface
+     */
     private $session;
 
     /**

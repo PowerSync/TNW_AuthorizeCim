@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Block;
 
 use Magento\Store\Model\Store;
@@ -17,6 +19,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class FormTest
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Block
  */
 class FormTest extends \PHPUnit\Framework\TestCase
 {
@@ -45,7 +49,10 @@ class FormTest extends \PHPUnit\Framework\TestCase
      */
     private $block;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->gatewayConfig = $this->getMockBuilder(GatewayConfig::class)
             ->disableOriginalConstructor()

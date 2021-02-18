@@ -3,15 +3,22 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Http;
 
 use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferFactoryInterface;
 
+/**
+ * Class TransferFactory
+ * @package TNW\AuthorizeCim\Gateway\Http
+ */
 class TransferFactory implements TransferFactoryInterface
 {
-    /** @var TransferBuilder */
+    /**
+     * @var TransferBuilder
+     */
     private $transferBuilder;
 
     /**

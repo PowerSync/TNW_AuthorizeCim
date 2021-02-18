@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Validator;
 
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
@@ -13,6 +15,8 @@ use net\authorize\api\contract\v1\MessagesType\MessageAType;
 
 /**
  * Validate response data
+ *
+ * @package TNW\AuthorizeCim\Gateway\Validator
  */
 class GeneralResponseValidator extends AbstractValidator
 {

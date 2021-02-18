@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Helper;
 
 use Magento\Framework\Api\SimpleDataObjectConverter;
@@ -10,6 +12,10 @@ use Magento\Framework\Reflection\MethodsMap;
 use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Reflection\TypeProcessor;
 
+/**
+ * Class DataObject
+ * @package TNW\AuthorizeCim\Gateway\Helper
+ */
 class DataObject
 {
     /**
@@ -45,10 +51,10 @@ class DataObject
     /**
      * Populate data object using data in array format.
      *
-     * @param $dataObject
+     * @param object $dataObject
      * @param array $data
      */
-    public function populateWithArray($dataObject, array $data)
+    public function populateWithArray(object $dataObject, array $data): void
     {
         $dataObjectMethods = get_class_methods($dataObject);
         foreach ($data as $key => $value) {
@@ -92,9 +98,9 @@ class DataObject
 
     /**
      * @param array $data
-     * @param $dataObject
+     * @param object $dataObject
      */
-    public function populateWithObject(array &$data, $dataObject)
+    public function populateWithObject(array &$data, object $dataObject)
     {
         foreach (get_class_methods($dataObject) as $methodName) {
             if (strpos($methodName, 'get') !== 0) {

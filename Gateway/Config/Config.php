@@ -3,6 +3,7 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Config;
 
@@ -11,41 +12,138 @@ use TNW\AuthorizeCim\Model\Adminhtml\Source\Environment;
 
 /**
  * Config for payment config values
+ *
+ * @package TNW\AuthorizeCim\Gateway\Config
  */
 class Config extends MagentoGatewayConfig
 {
-    /** is method active field name */
+    /**
+     * Is method active field name
+     *
+     * @var string
+     */
     const ACTIVE = 'active';
-    /** is need use CCV field name */
+
+    /**
+     * Is need use CCV field name
+     *
+     * @var string
+     */
     const USE_CCV = 'useccv';
-    /** API login id field name */
+
+    /**
+     * API login id field name
+     *
+     * @var string
+     */
     const LOGIN = 'login';
-    /** API transaction key field name */
+
+    /**
+     * API transaction key field name
+     *
+     * @var string
+     */
     const TRANSACTION_KEY = 'trans_key';
-    /** API client key field name */
+
+    /**
+     * API client key field name
+     *
+     * @var string
+     */
     const CLIENT_KEY = 'client_key';
-    /** payment mode field name */
+
+    /**
+     * Payment mode field name
+     *
+     * @var string
+     */
     const ENVIRONMENT = 'environment';
-    /** currency code field name */
+
+    /**
+     * Currency code field name
+     *
+     * @var string
+     */
     const CURRENCY = 'currency';
-    /** validation mode field name */
+
+    /**
+     * Validation mode field name
+     *
+     * @var string
+     */
     const VALIDATION_MODE = 'validation_mode';
-    /** js sdk url */
+
+    /**
+     * JS sdk url
+     *
+     * @var string
+     */
     const SDK_URL = 'sdk_url';
-    /** js sdk url */
+
+    /**
+     * Test JS sdk url
+     *
+     * @var string
+     */
     const SDK_URL_TEST = 'sdk_url_test_mode';
-    /** cc types mapper */
+
+    /**
+     * CC types mapper
+     *
+     * @var string
+     */
     const CC_TYPES_MAPPER = 'cctypes_mapper';
-    /** cc types */
+
+    /**
+     * CC types
+     *
+     * @var string
+     */
     const CC_TYPES = 'cctypes';
+
+    /**
+     * @var string
+     */
     const VERIFY_3DSECURE = 'verify_3dsecure';
+
+    /**
+     * @var string
+     */
     const VERIFY_API_IDENTIFIER = 'verify_api_identifier';
+
+    /**
+     * @var string
+     */
     const VERIFY_ORG_UNIT_ID = 'verify_org_unit_id';
+
+    /**
+     * @var string
+     */
     const VERIFY_API_KEY = 'verify_api_key';
+
+    /**
+     * @var string
+     */
     const VERIFY_SDK_URL = 'verify_sdk_url';
+
+    /**
+     * @var string
+     */
     const THRESHOLD_AMOUNT = 'threshold_amount';
+
+    /**
+     * @var string
+     */
     const VALUE_3DSECURE_ALL = 0;
+
+    /**
+     * @var string
+     */
     const VERIFY_ALLOW_SPECIFIC = 'verify_all_countries';
+
+    /**
+     * @var string
+     */
     const VERIFY_SPECIFIC = 'verify_specific_countries';
 
     /**
@@ -54,7 +152,7 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return bool
      */
-    public function isActive($storeId = null)
+    public function isActive($storeId = null): bool
     {
         return (bool)$this->getValue(self::ACTIVE, $storeId);
     }
@@ -65,7 +163,7 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return bool
      */
-    public function isCcvEnabled($storeId = null)
+    public function isCcvEnabled($storeId = null): bool
     {
         return (bool)$this->getValue(self::USE_CCV, $storeId);
     }
@@ -76,7 +174,7 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return string|null
      */
-    public function getApiLoginId($storeId = null)
+    public function getApiLoginId($storeId = null): ?string
     {
         return $this->getValue(self::LOGIN, $storeId);
     }
@@ -87,7 +185,7 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return string|null
      */
-    public function getTransactionKey($storeId = null)
+    public function getTransactionKey($storeId = null): ?string
     {
         return $this->getValue(self::TRANSACTION_KEY, $storeId);
     }
@@ -98,7 +196,7 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return null|string
      */
-    public function getClientKey($storeId = null)
+    public function getClientKey($storeId = null): ?string
     {
         return $this->getValue(self::CLIENT_KEY, $storeId);
     }
@@ -107,9 +205,9 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return string
      */
-    public function getEnvironment($storeId = null)
+    public function getEnvironment($storeId = null): string
     {
-        return $this->getValue(self::ENVIRONMENT, $storeId);
+        return (string)$this->getValue(self::ENVIRONMENT, $storeId);
     }
 
     /**
@@ -118,7 +216,7 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return bool
      */
-    public function isSandboxMode($storeId = null)
+    public function isSandboxMode($storeId = null): bool
     {
         return $this->getEnvironment($storeId) == Environment::ENVIRONMENT_SANDBOX;
     }
@@ -129,22 +227,22 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return string
      */
-    public function getValidationMode($storeId = null)
+    public function getValidationMode($storeId = null): string
     {
-        return $this->getValue(self::VALIDATION_MODE, $storeId);
+        return (string)$this->getValue(self::VALIDATION_MODE, $storeId);
     }
 
     /**
      * @param int|null $storeId
      * @return string
      */
-    public function getSdkUrl($storeId = null)
+    public function getSdkUrl($storeId = null): string
     {
         if ($this->isSandboxMode($storeId)) {
-            return $this->getValue(self::SDK_URL_TEST, $storeId);
+            return (string)$this->getValue(self::SDK_URL_TEST, $storeId);
         }
 
-        return $this->getValue(self::SDK_URL, $storeId);
+        return (string)$this->getValue(self::SDK_URL, $storeId);
     }
 
     /**
@@ -153,7 +251,7 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return array
      */
-    public function getAvailableCardTypes($storeId = null)
+    public function getAvailableCardTypes($storeId = null): array
     {
         $ccTypes = $this->getValue(self::CC_TYPES, $storeId);
 
@@ -165,7 +263,7 @@ class Config extends MagentoGatewayConfig
      *
      * @return array
      */
-    public function getCcTypesMapper()
+    public function getCcTypesMapper(): array
     {
         $result = json_decode(
             $this->getValue(self::CC_TYPES_MAPPER),
@@ -201,7 +299,7 @@ class Config extends MagentoGatewayConfig
      * @param int|null $storeId
      * @return array
      */
-    public function get3DSecureSpecificCountries($storeId = null)
+    public function get3DSecureSpecificCountries($storeId = null): array
     {
         if ((int) $this->getValue(self::VERIFY_ALLOW_SPECIFIC, $storeId) == self::VALUE_3DSECURE_ALL) {
             return [];
@@ -211,7 +309,7 @@ class Config extends MagentoGatewayConfig
     }
 
     /**
-     * @param null $storeId
+     * @param int|null $storeId
      * @return mixed
      */
     public function getVerifyApiIdentifier($storeId = null)
@@ -220,7 +318,7 @@ class Config extends MagentoGatewayConfig
     }
 
     /**
-     * @param null $storeId
+     * @param int|null $storeId
      * @return mixed
      */
     public function getVerifyOrgUnitId($storeId = null)
@@ -229,7 +327,7 @@ class Config extends MagentoGatewayConfig
     }
 
     /**
-     * @param null $storeId
+     * @param int|null $storeId
      * @return mixed
      */
     public function getVerifyApiKey($storeId = null)
@@ -238,7 +336,7 @@ class Config extends MagentoGatewayConfig
     }
 
     /**
-     * @param null $storeId
+     * @param int|null $storeId
      * @return mixed
      */
     public function getVerifySdkUrl($storeId = null)

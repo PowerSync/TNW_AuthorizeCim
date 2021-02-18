@@ -3,6 +3,8 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Block;
 
 use Magento\Framework\View\Element\Template\Context;
@@ -12,6 +14,10 @@ use Magento\Payment\Model\Config as PaymentConfig;
 use TNW\AuthorizeCim\Gateway\Config\Config;
 use TNW\AuthorizeCim\Model\Ui\ConfigProvider;
 
+/**
+ * Class Form
+ * @package TNW\AuthorizeCim\Block
+ */
 class Form extends Cc
 {
     /** @var Config */
@@ -40,7 +46,9 @@ class Form extends Cc
         $this->helper = $helper;
     }
 
-    /** @return bool */
+    /**
+     * @return bool
+     */
     public function useCcv()
     {
         return $this->config->isCcvEnabled();
@@ -50,11 +58,12 @@ class Form extends Cc
      * @return bool
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function isVaultEnabled()
+    public function isVaultEnabled(): bool
     {
         $storeId = $this->_storeManager->getStore()->getId();
         $vaultPayment = $this->getVaultPayment();
-        return $vaultPayment->isActive($storeId);
+
+        return (bool)$vaultPayment->isActive($storeId);
     }
 
     /**

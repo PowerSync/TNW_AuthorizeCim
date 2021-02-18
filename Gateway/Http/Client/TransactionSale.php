@@ -3,10 +3,14 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
 /**
  * Transaction Sale
+ *
+ * @package TNW\AuthorizeCim\Gateway\Http\Client
  */
 class TransactionSale extends AbstractTransaction
 {

@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Command;
 
 use TNW\AuthorizeCim\Gateway\Command\CaptureStrategyCommand;
@@ -66,7 +68,10 @@ class CaptureStrategyCommandTest extends \PHPUnit\Framework\TestCase
      */
     private $strategyCommand;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->commandPool = $this->getMockBuilder(CommandPoolInterface::class)
             ->disableOriginalConstructor()

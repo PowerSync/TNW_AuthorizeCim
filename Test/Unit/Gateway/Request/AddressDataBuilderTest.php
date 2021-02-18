@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Request;
 
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
@@ -14,6 +16,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Test AddressDataBuilder
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Request
  */
 class AddressDataBuilderTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,7 +36,10 @@ class AddressDataBuilderTest extends \PHPUnit\Framework\TestCase
      */
     private $builder;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->paymentDO = $this->createMock(PaymentDataObjectInterface::class);
         $this->order = $this->createMock(OrderAdapterInterface::class);

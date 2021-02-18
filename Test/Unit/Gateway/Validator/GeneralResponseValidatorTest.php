@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Validator;
 
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
@@ -12,7 +14,9 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * GeneralResponseValidator Test
+ *
  * @covers \TNW\AuthorizeCim\Gateway\Validator\GeneralResponseValidator
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Validator
  */
 class GeneralResponseValidatorTest extends \PHPUnit\Framework\TestCase
 {
@@ -26,7 +30,10 @@ class GeneralResponseValidatorTest extends \PHPUnit\Framework\TestCase
      */
     private $validator;
 
-    protected function setUp()
+    /**
+     * @inheritdoc
+     */
+    protected function setUp(): void
     {
         $this->resultInterfaceFactory = $this->getMockBuilder(ResultInterfaceFactory::class)
             ->disableOriginalConstructor()

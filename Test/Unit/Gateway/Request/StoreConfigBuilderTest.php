@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Request;
 
 use Magento\Payment\Gateway\Data\OrderAdapterInterface;
@@ -13,6 +15,8 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Test StoreDataBuilder
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Request
  */
 class StoreConfigBuilderTest extends \PHPUnit\Framework\TestCase
 {
@@ -31,7 +35,10 @@ class StoreConfigBuilderTest extends \PHPUnit\Framework\TestCase
      */
     private $builder;
 
-    public function setUp()
+    /**
+     * @inheritdoc
+     */
+    public function setUp(): void
     {
         $this->paymentDO = $this->createMock(PaymentDataObjectInterface::class);
 

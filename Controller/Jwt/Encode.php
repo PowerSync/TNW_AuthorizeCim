@@ -3,6 +3,8 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Controller\Jwt;
 
 use Magento\Framework\App\Action;
@@ -70,7 +72,7 @@ class Encode extends Action\Action
      * @param array $orderDetails
      * @return string
      */
-    private function generateToken($orderDetails)
+    private function generateToken($orderDetails): string
     {
         $currentTime = $this->dataTime->gmtTimestamp();
         $expireTime = 3600; // expiration in seconds - this equals 1hr

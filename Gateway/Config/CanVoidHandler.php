@@ -3,6 +3,7 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Config;
 
@@ -12,6 +13,8 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
 /**
  * Check transaction status and order is paid
+ *
+ * @package TNW\AuthorizeCim\Gateway\Config
  */
 class CanVoidHandler implements ValueHandlerInterface
 {

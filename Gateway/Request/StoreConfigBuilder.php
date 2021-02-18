@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Request;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
@@ -11,6 +13,8 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 /**
  * This builder is used for correct store resolving and used only to retrieve correct store ID.
  * The data from this build won't be send to AuthorizeCim Gateway.
+ *
+ * @package TNW\AuthorizeCim\Gateway\Request
  */
 class StoreConfigBuilder implements BuilderInterface
 {

@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Http\Client;
 
 use TNW\AuthorizeCim\Gateway\Http\Client\CreateCustomerProfileFromTransaction;
@@ -16,6 +18,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Test TransactionSale
+ *
+ * @package TNW\AuthorizeCim\Test\Unit\Gateway\Http\Client
  */
 class CreateCustomerProfileFromTransactionTest extends \PHPUnit\Framework\TestCase
 {
@@ -47,7 +51,7 @@ class CreateCustomerProfileFromTransactionTest extends \PHPUnit\Framework\TestCa
     /**
      * @inheritdoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->criticalLogger = $this->getMockForAbstractClass(LoggerInterface::class);
 

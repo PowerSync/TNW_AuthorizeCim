@@ -3,6 +3,7 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Block;
 
@@ -10,6 +11,10 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use TNW\AuthorizeCim\Model\Ui\ConfigProvider;
 
+/**
+ * Class Payment
+ * @package TNW\AuthorizeCim\Block
+ */
 class Payment extends Template
 {
     /**
@@ -32,8 +37,10 @@ class Payment extends Template
         $this->config = $configProvider;
     }
 
-    /** @return string */
-    public function getPaymentConfig()
+    /**
+     * @return string
+     */
+    public function getPaymentConfig(): string
     {
         $payment = $this->config->getConfig()['payment'];
 
@@ -43,8 +50,10 @@ class Payment extends Template
         return json_encode($config, JSON_UNESCAPED_SLASHES);
     }
 
-    /** @return string */
-    public function getCode()
+    /**
+     * @return string
+     */
+    public function getCode(): string
     {
         return ConfigProvider::CODE;
     }

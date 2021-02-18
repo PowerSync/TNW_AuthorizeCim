@@ -3,6 +3,8 @@
  * Copyright © 2018 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
+
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
 use Magento\Payment\Gateway\Http\ClientException;
@@ -13,6 +15,10 @@ use Psr\Log\LoggerInterface;
 use TNW\AuthorizeCim\Gateway\Helper\DataObject;
 use TNW\AuthorizeCim\Model\Adapter\AuthorizeAdapterFactory;
 
+/**
+ * Class AbstractTransaction
+ * @package TNW\AuthorizeCim\Gateway\Http\Client
+ */
 abstract class AbstractTransaction implements ClientInterface
 {
     /**

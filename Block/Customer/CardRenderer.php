@@ -3,6 +3,7 @@
  * Copyright © 2017 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
+declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Block\Customer;
 
@@ -10,6 +11,10 @@ use Magento\Vault\Api\Data\PaymentTokenInterface;
 use Magento\Vault\Block\AbstractCardRenderer;
 use TNW\AuthorizeCim\Model\Ui\ConfigProvider;
 
+/**
+ * Class CardRenderer
+ * @package TNW\AuthorizeCim\Block\Customer
+ */
 class CardRenderer extends AbstractCardRenderer
 {
     /**
