@@ -31,6 +31,7 @@
         </policy>
         <policy id="connect-src">
             <values>
+                <value id="authorize_net_direct_test_api" type="host">apitest.authorize.net</value>
                 <value id="authorize_net_direct_test_js" type="host">jstest.authorize.net</value>
             </values>
         </policy>
