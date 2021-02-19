@@ -10,29 +10,28 @@
     <policies>
         <policy id="script-src">
             <values>
-                <value id="authorize_net_direct" type="host">secure.authorize.net</value>
+                <value id="authorize_net_direct_secure" type="host">secure.authorize.net</value>
                 <value id="authorize_net_direct_test" type="host">test.authorize.net</value>
-                <value id="authorize_net_direct_test_js" type="host">jstest.authorize.net</value>
+                <value id="authorize_net_direct_js" type="host">js.authorize.net</value>
+                <value id="authorize_net_direct_jstest" type="host">jstest.authorize.net</value>
             </values>
         </policy>
         <policy id="frame-src">
             <values>
-                <value id="authorize_net_direct" type="host">secure.authorize.net</value>
+                <value id="authorize_net_direct_secure" type="host">secure.authorize.net</value>
                 <value id="authorize_net_direct_test" type="host">test.authorize.net</value>
-                <value id="authorize_net_direct_test_js" type="host">jstest.authorize.net</value>
             </values>
         </policy>
         <policy id="form-action">
             <values>
-                <value id="authorize_net_direct" type="host">secure.authorize.net</value>
+                <value id="authorize_net_direct_secure" type="host">secure.authorize.net</value>
                 <value id="authorize_net_direct_test" type="host">test.authorize.net</value>
-                <value id="authorize_net_direct_test_js" type="host">jstest.authorize.net</value>
             </values>
         </policy>
         <policy id="connect-src">
             <values>
-                <value id="authorize_net_direct_test_api" type="host">apitest.authorize.net</value>
-                <value id="authorize_net_direct_test_js" type="host">jstest.authorize.net</value>
+                <value id="authorize_net_direct_apitest" type="host">apitest.authorize.net</value>
+                <value id="authorize_net_direct_jstest" type="host">jstest.authorize.net</value>
             </values>
         </policy>
     </policies>
