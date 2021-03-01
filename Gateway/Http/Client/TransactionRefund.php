@@ -21,7 +21,7 @@ class TransactionRefund extends AbstractTransaction
     {
         $storeId = $data['store_id'] ?? null;
         // sending store id and other additional keys are restricted by Authorize API
-        unset($data['store_id']);
+        unset($data['store_id'], $data['storeId']);
 
         return $this->adapterFactory->create($storeId)
             ->transaction(array_merge_recursive($data, [
