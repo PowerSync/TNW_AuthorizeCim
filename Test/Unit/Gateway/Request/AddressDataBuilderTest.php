@@ -14,11 +14,6 @@ use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Test AddressDataBuilder
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Request
- */
 class AddressDataBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**

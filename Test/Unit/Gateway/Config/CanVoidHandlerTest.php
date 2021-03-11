@@ -13,10 +13,6 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Class CanVoidHandlerTest
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Config
- */
 class CanVoidHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**

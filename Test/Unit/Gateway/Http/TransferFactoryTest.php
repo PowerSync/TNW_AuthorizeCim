@@ -11,11 +11,6 @@ use TNW\AuthorizeCim\Gateway\Http\TransferFactory;
 use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferInterface;
 
-/**
- * Class TransferFactoryTest
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Http
- */
 class TransferFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**

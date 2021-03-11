@@ -12,8 +12,6 @@ use Magento\Framework\ObjectManagerInterface;
 
 /**
  * This factory is preferable to use for Authorize adapter instance creation.
- *
- * @package TNW\AuthorizeCim\Model\Adapter
  */
 class AuthorizeAdapterFactory
 {

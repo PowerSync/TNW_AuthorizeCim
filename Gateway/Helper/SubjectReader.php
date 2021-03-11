@@ -9,11 +9,6 @@ namespace TNW\AuthorizeCim\Gateway\Helper;
 
 use Magento\Payment\Gateway\Helper;
 
-/**
- * Subject Reader
- *
- * @package TNW\AuthorizeCim\Gateway\Helper
- */
 class SubjectReader
 {
     /**

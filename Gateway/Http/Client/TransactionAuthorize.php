@@ -7,11 +7,6 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
-/**
- * Transaction Authorize
- *
- * @package TNW\AuthorizeCim\Gateway\Http\Client
- */
 class TransactionAuthorize extends AbstractTransaction
 {
     /**

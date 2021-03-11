@@ -13,8 +13,6 @@ use TNW\AuthorizeCim\Helper\Payment\Formatter;
 
 /**
  * Class for build request payment data
- *
- * @package TNW\AuthorizeCim\Gateway\Request
  */
 class PaymentDataBuilder implements BuilderInterface
 {

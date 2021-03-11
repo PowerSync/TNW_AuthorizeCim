@@ -11,8 +11,6 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Authorize.net Payment Action Dropdown source
- *
- * @package TNW\AuthorizeCim\Model\Source
  */
 class PaymentAction implements OptionSourceInterface
 {

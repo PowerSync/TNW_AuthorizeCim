@@ -13,8 +13,6 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
 /**
  * Class for build request payment data
- *
- * @package TNW\AuthorizeCim\Gateway\Request
  */
 class CaptureDataBuilder implements BuilderInterface
 {

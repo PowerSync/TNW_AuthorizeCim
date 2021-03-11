@@ -7,11 +7,6 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
-/**
- * Transaction Capture
- *
- * @package TNW\AuthorizeCim\Gateway\Http\Client
- */
 class TransactionCapture extends AbstractTransaction
 {
     /**

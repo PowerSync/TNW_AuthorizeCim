@@ -13,10 +13,6 @@ use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
 
-/**
- * Class AuthorizeStrategyCommand
- * @package TNW\AuthorizeCim\Gateway\Command
- */
 class AuthorizeStrategyCommand implements CommandInterface
 {
     /**

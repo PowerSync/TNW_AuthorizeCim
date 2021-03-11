@@ -11,11 +11,6 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchVersionInterface;
 
-/**
- * Class InstallSurveyStartDate
- *
- * @package TNW\AuthorizeCim\Setup\Patch\Data
- */
 class InstallSurveyStartDate implements DataPatchInterface, PatchVersionInterface
 {
     /**

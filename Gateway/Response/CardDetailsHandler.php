@@ -12,10 +12,6 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
 
-/**
- * Class CardDetailsHandler
- * @package TNW\AuthorizeCim\Gateway\Response
- */
 class CardDetailsHandler implements HandlerInterface
 {
     /**

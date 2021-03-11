@@ -11,11 +11,6 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
-/**
- * TransactionId Handler
- *
- * @package TNW\AuthorizeCim\Gateway\Response
- */
 class TransactionIdHandler implements HandlerInterface
 {
     /**

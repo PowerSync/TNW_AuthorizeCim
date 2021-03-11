@@ -19,10 +19,7 @@ use Magento\Vault\Model\CreditCardTokenFactory;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
- * VaultDetailsHandler Test
- *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Response
  */
 class VaultDetailsHandlerTest extends \PHPUnit\Framework\TestCase
 {

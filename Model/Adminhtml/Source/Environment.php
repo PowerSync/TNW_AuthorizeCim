@@ -9,10 +9,6 @@ namespace TNW\AuthorizeCim\Model\Adminhtml\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
-/**
- * Class Environment
- * @package TNW\AuthorizeCim\Model\Adminhtml\Source
- */
 class Environment implements OptionSourceInterface
 {
     /**

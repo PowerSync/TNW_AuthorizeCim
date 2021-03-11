@@ -12,10 +12,6 @@ use Magento\Framework\Session\SessionManagerInterface;
 use TNW\AuthorizeCim\Gateway\Config\Config;
 use Magento\Framework\UrlInterface;
 
-/**
- * Class ConfigProvider
- * @package TNW\AuthorizeCim\Model\Ui
- */
 class ConfigProvider implements ConfigProviderInterface
 {
     /**

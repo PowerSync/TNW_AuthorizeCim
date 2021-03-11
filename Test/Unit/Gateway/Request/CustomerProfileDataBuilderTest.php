@@ -13,11 +13,6 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Class CustomerProfileDataBuilderTest
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Request
- */
 class CustomerProfileDataBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**

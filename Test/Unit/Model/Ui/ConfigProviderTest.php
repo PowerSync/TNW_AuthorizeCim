@@ -13,11 +13,6 @@ use TNW\AuthorizeCim\Model\Ui\ConfigProvider;
 use Magento\Customer\Model\Session;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * ConfigProvider Test
- *
- * @package TNW\AuthorizeCim\Test\Unit\Model\Ui
- */
 class ConfigProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**

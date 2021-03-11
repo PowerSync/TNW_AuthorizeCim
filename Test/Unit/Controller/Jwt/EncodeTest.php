@@ -19,11 +19,6 @@ use TNW\AuthorizeCim\Gateway\Config\Config;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 
-/**
- * Test Encode
- *
- * @package TNW\AuthorizeCim\Test\Unit\Controller\Jwt
- */
 class EncodeTest extends \PHPUnit\Framework\TestCase
 {
     /**

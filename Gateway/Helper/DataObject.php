@@ -13,8 +13,7 @@ use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Reflection\TypeProcessor;
 
 /**
- * Class DataObject
- * @package TNW\AuthorizeCim\Gateway\Helper
+ *  @codingStandardsIgnoreFile
  */
 class DataObject
 {
@@ -67,7 +66,10 @@ class DataObject
             }
 
             $methodName = array_values($methodNames)[0];
-            $returnType = $this->methodsMapProcessor->getMethodReturnType(\get_class($dataObject), "get{$camelCaseKey}");
+            $returnType = $this->methodsMapProcessor->getMethodReturnType(
+                \get_class($dataObject),
+                "get{$camelCaseKey}"
+            );
 
             switch (true) {
                 case $this->typeProcessor->isTypeSimple($returnType):

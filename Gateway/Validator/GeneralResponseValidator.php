@@ -15,8 +15,6 @@ use net\authorize\api\contract\v1\MessagesType\MessageAType;
 
 /**
  * Validate response data
- *
- * @package TNW\AuthorizeCim\Gateway\Validator
  */
 class GeneralResponseValidator extends AbstractValidator
 {
@@ -48,6 +46,7 @@ class GeneralResponseValidator extends AbstractValidator
         $isValid = true;
         $errorMessages = [];
 
+        // @codingStandardsIgnoreStart
         foreach ($this->getResponseValidators() as $validator) {
             $validationResult = $validator($response);
 
@@ -56,6 +55,7 @@ class GeneralResponseValidator extends AbstractValidator
                 $errorMessages = array_merge($errorMessages, $validationResult[1]);
             }
         }
+        // @codingStandardsIgnoreEnd
 
         return $this->createResult($isValid, $errorMessages);
     }

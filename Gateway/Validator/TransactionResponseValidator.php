@@ -13,8 +13,6 @@ use net\authorize\api\contract\v1\TransactionResponseType\ErrorsAType\ErrorAType
 
 /**
  * Validate response data
- *
- * @package TNW\AuthorizeCim\Gateway\Validator
  */
 class TransactionResponseValidator extends GeneralResponseValidator
 {

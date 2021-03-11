@@ -7,11 +7,6 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
-/**
- * Transaction Void
- *
- * @package TNW\AuthorizeCim\Gateway\Http\Client
- */
 class TransactionVoid extends AbstractTransaction
 {
     /**
