@@ -13,11 +13,6 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Class RefundDataBuilderTest
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Request
- */
 class RefundDataBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**

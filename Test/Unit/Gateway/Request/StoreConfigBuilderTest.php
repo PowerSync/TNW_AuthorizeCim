@@ -13,11 +13,6 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use TNW\AuthorizeCim\Gateway\Request\StoreConfigBuilder;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Test StoreDataBuilder
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Request
- */
 class StoreConfigBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**

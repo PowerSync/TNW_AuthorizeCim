@@ -15,11 +15,6 @@ use TNW\AuthorizeCim\Observer\DataAssignObserver;
 use Magento\Quote\Api\Data\PaymentInterface;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Class DataAssignObserverTest
- *
- * @package TNW\AuthorizeCim\Test\Unit\Observer
- */
 class DataAssignObserverTest extends \PHPUnit\Framework\TestCase
 {
     /**

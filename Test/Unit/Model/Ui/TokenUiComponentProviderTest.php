@@ -15,11 +15,6 @@ use Magento\Vault\Model\Ui\TokenUiComponentProviderInterface;
 use Magento\Vault\Model\Ui\TokenUiComponentInterfaceFactory;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Class TokenUiComponentProviderTest
- *
- * @package TNW\AuthorizeCim\Test\Unit\Model\Ui
- */
 class TokenUiComponentProviderTest extends \PHPUnit\Framework\TestCase
 {
 

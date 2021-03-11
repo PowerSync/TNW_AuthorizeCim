@@ -11,10 +11,6 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use TNW\AuthorizeCim\Model\Ui\ConfigProvider;
 
-/**
- * Class Payment
- * @package TNW\AuthorizeCim\Block
- */
 class Payment extends Template
 {
     /**

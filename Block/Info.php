@@ -9,10 +9,6 @@ namespace TNW\AuthorizeCim\Block;
 
 use Magento\Payment\Block\ConfigurableInfo;
 
-/**
- * Class Info
- * @package TNW\AuthorizeCim\Block
- */
 class Info extends ConfigurableInfo
 {
     /**

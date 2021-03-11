@@ -12,8 +12,6 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
 /**
  * Profile Data Builder
- *
- * @package TNW\AuthorizeCim\Gateway\Request
  */
 class CustomerProfileDataBuilder implements BuilderInterface
 {

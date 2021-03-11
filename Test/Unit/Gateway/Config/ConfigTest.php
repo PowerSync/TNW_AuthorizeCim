@@ -11,11 +11,6 @@ use TNW\AuthorizeCim\Gateway\Config\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
-/**
- * Test Config
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Config
- */
 class ConfigTest extends \PHPUnit\Framework\TestCase
 {
     const METHOD_CODE = 'tnw_authorize_cim';

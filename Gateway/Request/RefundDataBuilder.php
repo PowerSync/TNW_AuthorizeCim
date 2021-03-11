@@ -12,11 +12,6 @@ use TNW\AuthorizeCim\Helper\Payment\Formatter;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Framework\Exception\LocalizedException;
 
-/**
- * Refund Data Builder
- *
- * @package TNW\AuthorizeCim\Gateway\Request
- */
 class RefundDataBuilder implements BuilderInterface
 {
     use Formatter;

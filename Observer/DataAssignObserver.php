@@ -12,8 +12,6 @@ use Magento\Payment\Observer\AbstractDataAssignObserver;
 
 /**
  * Observer for set additional data
- *
- * @package TNW\AuthorizeCim\Observer
  */
 class DataAssignObserver extends AbstractDataAssignObserver
 {

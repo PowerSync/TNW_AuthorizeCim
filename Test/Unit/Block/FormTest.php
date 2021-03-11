@@ -17,11 +17,6 @@ use Magento\Payment\Helper\Data;
 use Magento\Vault\Model\VaultPaymentInterface;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Class FormTest
- *
- * @package TNW\AuthorizeCim\Test\Unit\Block
- */
 class FormTest extends \PHPUnit\Framework\TestCase
 {
     /**

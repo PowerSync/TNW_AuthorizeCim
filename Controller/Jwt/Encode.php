@@ -17,7 +17,6 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 /**
  * Additional save action
- * @package TNW\Subscriptions\Controller\Adminhtml\SubscriptionProfile
  */
 class Encode extends Action\Action
 {

@@ -14,10 +14,6 @@ use Magento\Vault\Model\Ui\TokenUiComponentInterface;
 use Magento\Vault\Model\Ui\TokenUiComponentProviderInterface;
 use Magento\Vault\Model\Ui\TokenUiComponentInterfaceFactory;
 
-/**
- * Class TokenUiComponentProvider
- * @package TNW\AuthorizeCim\Model\Ui\Adminhtml
- */
 class TokenUiComponentProvider implements TokenUiComponentProviderInterface
 {
     /**

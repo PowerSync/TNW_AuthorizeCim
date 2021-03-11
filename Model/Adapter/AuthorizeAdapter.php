@@ -16,10 +16,6 @@ use net\authorize\api\controller\CreateCustomerProfileFromTransactionController;
 use net\authorize\api\controller\CreateCustomerProfileController;
 use TNW\AuthorizeCim\Gateway\Helper\DataObject;
 
-/**
- * Class AuthorizeAdapter
- * @package TNW\AuthorizeCim\Model\Adapter
- */
 class AuthorizeAdapter
 {
     /**

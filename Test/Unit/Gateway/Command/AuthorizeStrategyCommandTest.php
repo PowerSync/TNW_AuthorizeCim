@@ -16,11 +16,6 @@ use TNW\AuthorizeCim\Gateway\Command\AuthorizeStrategyCommand;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Test AuthorizeStrategyCommand
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class AuthorizeStrategyCommandTest extends \PHPUnit\Framework\TestCase
 {
     /**

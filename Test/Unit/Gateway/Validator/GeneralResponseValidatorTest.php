@@ -13,10 +13,7 @@ use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
- * GeneralResponseValidator Test
- *
  * @covers \TNW\AuthorizeCim\Gateway\Validator\GeneralResponseValidator
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Validator
  */
 class GeneralResponseValidatorTest extends \PHPUnit\Framework\TestCase
 {

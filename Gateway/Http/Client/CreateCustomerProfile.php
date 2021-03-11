@@ -7,11 +7,6 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
-/**
- * Customer Profile Create
- *
- * @package TNW\AuthorizeCim\Gateway\Http\Client
- */
 class CreateCustomerProfile extends AbstractTransaction
 {
     /**

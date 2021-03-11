@@ -17,10 +17,6 @@ use TNW\AuthorizeCim\Gateway\Config\Config;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Magento\Vault\Model\PaymentTokenManagement;
 
-/**
- * Class VaultDetailsHandler
- * @package TNW\AuthorizeCim\Gateway\Response
- */
 class VaultDetailsHandler implements HandlerInterface
 {
     /**
@@ -98,8 +94,7 @@ class VaultDetailsHandler implements HandlerInterface
      */
     private function getVaultPaymentToken($transaction, InfoInterface $payment)
     {
-        if (
-            $payment->getAdditionalInformation('customer_id')
+        if ($payment->getAdditionalInformation('customer_id')
             && $payment->getAdditionalInformation('public_hash')
         ) {
             return $this->paymentTokenManagement->getByPublicHash(

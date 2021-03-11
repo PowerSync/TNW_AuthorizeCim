@@ -13,11 +13,6 @@ use Magento\Framework\Reflection\TypeProcessor;
 use TNW\AuthorizeCim\Gateway\Helper\DataObject;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Test SubjectReader
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Helper
- */
 class DataObjectTest extends \PHPUnit\Framework\TestCase
 {
     /**

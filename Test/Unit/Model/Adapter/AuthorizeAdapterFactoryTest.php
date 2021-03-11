@@ -13,11 +13,6 @@ use TNW\AuthorizeCim\Model\Adapter\AuthorizeAdapter;
 use TNW\AuthorizeCim\Model\Adapter\AuthorizeAdapterFactory;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * AuthorizeAdapterFactory Test
- *
- * @package TNW\AuthorizeCim\Test\Unit\Model\Adapter
- */
 class AuthorizeAdapterFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**

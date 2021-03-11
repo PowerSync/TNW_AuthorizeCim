@@ -9,7 +9,6 @@ namespace TNW\AuthorizeCim\Helper\Payment;
 
 /**
  * Trait Formatter
- * @package TNW\AuthorizeCim\Helper\Payment
  */
 trait Formatter
 {

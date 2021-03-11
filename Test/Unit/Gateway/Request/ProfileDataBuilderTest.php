@@ -15,11 +15,6 @@ use Magento\Sales\Model\Order\Payment;
 use Magento\Vault\Model\PaymentToken;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Class ProfileDataBuilderTest
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Request
- */
 class ProfileDataBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**

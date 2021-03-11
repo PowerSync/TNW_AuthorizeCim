@@ -16,10 +16,6 @@ use Magento\Sales\Api\Data\TransactionInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
-/**
- * Class CaptureStrategyCommand
- * @package TNW\AuthorizeCim\Gateway\Command
- */
 class CaptureStrategyCommand implements CommandInterface
 {
     /** @var string */

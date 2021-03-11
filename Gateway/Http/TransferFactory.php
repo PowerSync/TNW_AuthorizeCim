@@ -10,10 +10,6 @@ namespace TNW\AuthorizeCim\Gateway\Http;
 use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferFactoryInterface;
 
-/**
- * Class TransferFactory
- * @package TNW\AuthorizeCim\Gateway\Http
- */
 class TransferFactory implements TransferFactoryInterface
 {
     /**

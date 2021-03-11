@@ -21,11 +21,6 @@ use Magento\Sales\Api\TransactionRepositoryInterface;
 use Magento\Sales\Model\Order\Payment;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
-/**
- * Test CaptureStrategyCommand
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class CaptureStrategyCommandTest extends \PHPUnit\Framework\TestCase
 {
     /**

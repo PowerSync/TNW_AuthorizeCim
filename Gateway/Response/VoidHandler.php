@@ -9,10 +9,6 @@ namespace TNW\AuthorizeCim\Gateway\Response;
 
 use Magento\Sales\Model\Order\Payment;
 
-/**
- * Class VoidHandler
- * @package TNW\AuthorizeCim\Gateway\Response
- */
 class VoidHandler extends TransactionIdHandler
 {
     /**
@@ -21,6 +17,7 @@ class VoidHandler extends TransactionIdHandler
      */
     protected function setTransactionId(Payment $orderPayment, $transaction)
     {
+        // @codingStandardsIgnoreLine
         return;
     }
 

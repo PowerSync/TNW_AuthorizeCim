@@ -10,11 +10,6 @@ namespace TNW\AuthorizeCim\Test\Unit\Gateway\Helper;
 use InvalidArgumentException;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
-/**
- * Test SubjectReader
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Helper
- */
 class SubjectReaderTest extends \PHPUnit\Framework\TestCase
 {
     /**

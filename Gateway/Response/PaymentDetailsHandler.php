@@ -10,10 +10,6 @@ namespace TNW\AuthorizeCim\Gateway\Response;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
-/**
- * Class PaymentDetailsHandler
- * @package TNW\AuthorizeCim\Gateway\Response
- */
 class PaymentDetailsHandler implements HandlerInterface
 {
     /**

@@ -12,8 +12,6 @@ use TNW\AuthorizeCim\Model\Adminhtml\Source\Environment;
 
 /**
  * Config for payment config values
- *
- * @package TNW\AuthorizeCim\Gateway\Config
  */
 class Config extends MagentoGatewayConfig
 {
@@ -88,15 +86,11 @@ class Config extends MagentoGatewayConfig
     const SDK_URL_TEST = 'sdk_url_test_mode';
 
     /**
-     * CC types mapper
-     *
      * @var string
      */
     const CC_TYPES_MAPPER = 'cctypes_mapper';
 
     /**
-     * CC types
-     *
      * @var string
      */
     const CC_TYPES = 'cctypes';

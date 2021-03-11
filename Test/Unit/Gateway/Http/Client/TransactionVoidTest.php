@@ -16,11 +16,6 @@ use Magento\Payment\Model\Method\Logger;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Psr\Log\LoggerInterface;
 
-/**
- * Test TransactionVoid
- *
- * @package TNW\AuthorizeCim\Test\Unit\Gateway\Http\Client
- */
 class TransactionVoidTest extends \PHPUnit\Framework\TestCase
 {
     /**

@@ -12,8 +12,6 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
 /**
  * Class for build request customer data
- *
- * @package TNW\AuthorizeCim\Gateway\Request
  */
 class CustomerDataBuilder implements BuilderInterface
 {

@@ -10,11 +10,6 @@ namespace TNW\AuthorizeCim\Gateway\Request;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 
-/**
- * Void Data Builder
- *
- * @package TNW\AuthorizeCim\Gateway\Request
- */
 class VoidDataBuilder implements BuilderInterface
 {
     /**

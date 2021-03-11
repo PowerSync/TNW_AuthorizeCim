@@ -15,10 +15,6 @@ use Psr\Log\LoggerInterface;
 use TNW\AuthorizeCim\Gateway\Helper\DataObject;
 use TNW\AuthorizeCim\Model\Adapter\AuthorizeAdapterFactory;
 
-/**
- * Class AbstractTransaction
- * @package TNW\AuthorizeCim\Gateway\Http\Client
- */
 abstract class AbstractTransaction implements ClientInterface
 {
     /**

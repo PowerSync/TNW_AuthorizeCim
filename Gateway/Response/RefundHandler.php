@@ -9,11 +9,6 @@ namespace TNW\AuthorizeCim\Gateway\Response;
 
 use Magento\Sales\Model\Order\Payment;
 
-/**
- * Refund Handler
- *
- * @package TNW\AuthorizeCim\Gateway\Response
- */
 class RefundHandler extends VoidHandler
 {
     /**
