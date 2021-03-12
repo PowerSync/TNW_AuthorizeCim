@@ -85,12 +85,12 @@ class TransactionRefundTest extends \PHPUnit\Framework\TestCase
      * Runs test placeRequest method (exception)
      *
      * @return void
-     *
-     * @expectedException \Magento\Payment\Gateway\Http\ClientException
-     * @expectedExceptionMessage Test messages
      */
     public function testPlaceRequestException()
     {
+        $this->expectException(\Magento\Payment\Gateway\Http\ClientException::class);
+        $this->expectExceptionMessage("Test messages");
+
         $transfer = $this->getTransferData();
 
         $this->logger->method('debug')
@@ -149,7 +149,7 @@ class TransactionRefundTest extends \PHPUnit\Framework\TestCase
 
         $actualResult = $this->model->placeRequest($this->getTransferObjectMock());
 
-        $this->assertInternalType('object', $actualResult['object']);
+        $this->assertIsObject($actualResult['object']);
         $this->assertEquals(['object' => $response], $actualResult);
     }
 
