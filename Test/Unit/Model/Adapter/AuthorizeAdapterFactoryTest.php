@@ -62,26 +62,27 @@ class AuthorizeAdapterFactoryTest extends \PHPUnit\Framework\TestCase
                 [
                     'apiLoginId' => 'api_login_id',
                     'transactionKey' => 'transaction_key',
-                    'sandboxMode' => 'is_sandbox_mode',
+                    'sandboxMode' => true,
                 ]
             )
             ->willReturn($expected);
 
+        $storeId = 5;
         $this->config
             ->method('getApiLoginId')
-            ->with(5)
+            ->with($storeId)
             ->willReturn('api_login_id');
 
         $this->config
             ->method('getTransactionKey')
-            ->with(5)
+            ->with($storeId)
             ->willReturn('transaction_key');
 
         $this->config
             ->method('isSandboxMode')
-            ->with(5)
-            ->willReturn('is_sandbox_mode');
+            ->with($storeId)
+            ->willReturn(true);
 
-        self::assertEquals($expected, $this->adapterFactory->create(5));
+        self::assertEquals($expected, $this->adapterFactory->create($storeId));
     }
 }
