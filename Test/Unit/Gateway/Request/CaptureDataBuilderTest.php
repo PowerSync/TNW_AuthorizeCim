@@ -38,7 +38,7 @@ class CaptureDataBuilderTest extends \PHPUnit\Framework\TestCase
         $this->paymentDO = $this->createMock(PaymentDataObjectInterface::class);
         $this->payment = $this->getMockBuilder(Payment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getCcTransId'])
+            ->onlyMethods(['getCcTransId'])
             ->getMock();
 
         $this->paymentDO->method('getPayment')

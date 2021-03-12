@@ -36,13 +36,13 @@ class TransactionIdHandlerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->paymentDO = $this->getMockBuilder(PaymentDataObject::class)
-            ->setMethods(['getPayment'])
+            ->onlyMethods(['getPayment'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->payment = $this->getMockBuilder(Payment::class)
             ->disableOriginalConstructor()
-            ->setMethods([
+            ->onlyMethods([
                 'setTransactionId',
                 'setIsTransactionClosed',
                 'setShouldCloseParentTransaction',

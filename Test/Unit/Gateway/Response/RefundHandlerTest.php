@@ -48,13 +48,13 @@ class RefundHandlerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->paymentDO = $this->getMockBuilder(PaymentDataObject::class)
-            ->setMethods(['getPayment'])
+            ->onlyMethods(['getPayment'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->payment = $this->getMockBuilder(Payment::class)
             ->disableOriginalConstructor()
-            ->setMethods([
+            ->onlyMethods([
                 'getCreditmemo',
                 'setTransactionId',
                 'setIsTransactionClosed',
@@ -68,7 +68,7 @@ class RefundHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->creditmemo = $this->getMockBuilder(Creditmemo::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getInvoice'])
+            ->onlyMethods(['getInvoice'])
             ->getMock();
 
         $this->payment
@@ -77,7 +77,7 @@ class RefundHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->invoice = $this->getMockBuilder(Invoice::class)
             ->disableOriginalConstructor()
-            ->setMethods(['canRefund'])
+            ->onlyMethods(['canRefund'])
             ->getMock();
 
         $this->creditmemo

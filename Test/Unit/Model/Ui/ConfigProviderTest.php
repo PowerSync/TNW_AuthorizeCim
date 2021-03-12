@@ -46,7 +46,7 @@ class ConfigProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->session = $this->getMockBuilder(Session::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getStoreId'])
+            ->addMethods(['getStoreId'])
             ->getMock();
 
         $this->urlBuilder = $this->getMockBuilder(UrlInterface::class)
