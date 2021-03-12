@@ -27,11 +27,12 @@ class SubjectReaderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @covers \TNW\AuthorizeCim\Gateway\Helper\SubjectReader::readTransaction
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Response object does not exist
      */
     public function testReadTransactionWithException()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Response object does not exist");
+
         $this->subjectReader->readTransaction([]);
     }
 
@@ -46,21 +47,23 @@ class SubjectReaderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @covers \TNW\AuthorizeCim\Gateway\Helper\SubjectReader::readResponseObject
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Response does not exist
      */
     public function testReadResponseObjectWithException()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Response does not exist");
+
         $this->subjectReader->readResponseObject([]);
     }
 
     /**
      * @covers \TNW\AuthorizeCim\Gateway\Helper\SubjectReader::readResponseObject
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Response object does not exist.
      */
     public function testReadResponseObjectWithExceptionObject()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Response object does not exist.");
+
         $this->subjectReader->readResponseObject(['response' => []]);
     }
 
