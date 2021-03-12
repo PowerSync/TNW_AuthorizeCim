@@ -7,7 +7,7 @@
     "proprietary"
   ],
   "require": {
-    "powersync/authorizenet-sdk-php": "~2.0.1",
+    "powersync/authorizenet-sdk-php": "~2.0.2",
     "tnw/marketing": "~2",
     "lcobucci/jwt": "~3.2.2"
   },
