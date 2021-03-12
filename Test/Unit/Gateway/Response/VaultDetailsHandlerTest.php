@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Test\Unit\Gateway\Response;
 
+use Magento\Vault\Model\PaymentTokenManagement;
 use TNW\AuthorizeCim\Gateway\Config\Config;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use TNW\AuthorizeCim\Gateway\Response\VaultDetailsHandler;
@@ -64,18 +65,23 @@ class VaultDetailsHandlerTest extends \PHPUnit\Framework\TestCase
     private $handler;
 
     /**
+     * @var PaymentTokenManagement|MockObject
+     */
+    private $paymentTokenManagement;
+
+    /**
      * @inheritdoc
      */
     protected function setUp(): void
     {
         $this->paymentDO = $this->getMockBuilder(PaymentDataObject::class)
-            ->setMethods(['getPayment'])
+            ->onlyMethods(['getPayment'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->payment = $this->getMockBuilder(Payment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getAdditionalInformation'])
+            ->onlyMethods(['getAdditionalInformation', 'getExtensionAttributes', 'setExtensionAttributes'])
             ->getMock();
 
         $this->payment->method('getAdditionalInformation')
@@ -96,7 +102,7 @@ class VaultDetailsHandlerTest extends \PHPUnit\Framework\TestCase
         $this->paymentToken = $this->createMock(PaymentTokenInterface::class);
 
         $this->paymentTokenFactory = $this->getMockBuilder(CreditCardTokenFactory::class)
-            ->setMethods(['create'])
+            ->onlyMethods(['create'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -106,12 +112,15 @@ class VaultDetailsHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->paymentExtension = $this->getMockBuilder(OrderPaymentExtensionInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods(['setVaultPaymentToken', 'getVaultPaymentToken'])
+            ->onlyMethods([
+                'setVaultPaymentToken', 'getVaultPaymentToken',
+                'setNotificationMessage', 'getNotificationMessage'
+            ])
             ->getMock();
 
         $this->paymentExtensionFactory = $this->getMockBuilder(OrderPaymentExtensionInterfaceFactory::class)
             ->disableOriginalConstructor()
-            ->setMethods(['create'])
+            ->onlyMethods(['create'])
             ->getMock();
 
         $this->paymentExtensionFactory->expects(self::once())
@@ -123,7 +132,7 @@ class VaultDetailsHandlerTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->config = $this->getMockBuilder(Config::class)
-            ->setMethods(['getCctypesMapper'])
+            ->onlyMethods(['getCctypesMapper'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -135,11 +144,28 @@ class VaultDetailsHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('getVaultPaymentToken')
             ->willReturn($this->paymentToken);
 
+        $this->paymentExtension->expects(self::once())
+            ->method('setVaultPaymentToken')
+            ->with($this->paymentToken);
+
+        $this->payment
+            ->method('getExtensionAttributes')
+            ->will($this->onConsecutiveCalls(null, $this->paymentExtension, $this->paymentExtension));
+
+        $this->payment
+            ->method('setExtensionAttributes')
+            ->with($this->paymentExtension);
+
+        $this->paymentTokenManagement = $this->getMockBuilder(PaymentTokenManagement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->handler = new VaultDetailsHandler(
             $this->paymentTokenFactory,
             $this->paymentExtensionFactory,
             $this->config,
-            new SubjectReader()
+            new SubjectReader(),
+            $this->paymentTokenManagement
         );
     }
 
