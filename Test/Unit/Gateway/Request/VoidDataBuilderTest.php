@@ -47,11 +47,10 @@ class VoidDataBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder = new VoidDataBuilder(new SubjectReader());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testBuildReadPaymentException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $buildSubject = [
             'payment' => null,
         ];

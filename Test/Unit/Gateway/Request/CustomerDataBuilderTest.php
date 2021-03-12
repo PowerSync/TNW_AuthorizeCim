@@ -61,11 +61,10 @@ class CustomerDataBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder = new CustomerDataBuilder(new SubjectReader());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testBuildReadPaymentException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $buildSubject = [
             'payment' => null,
         ];
@@ -73,9 +72,6 @@ class CustomerDataBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder->build($buildSubject);
     }
 
-    /**
-     *
-     */
     public function testBuild()
     {
         $expected = [

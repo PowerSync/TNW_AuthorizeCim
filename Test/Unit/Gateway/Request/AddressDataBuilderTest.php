@@ -42,11 +42,10 @@ class AddressDataBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder = new AddressDataBuilder(new SubjectReader());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testBuildReadPaymentException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $buildSubject = [
             'payment' => null,
         ];

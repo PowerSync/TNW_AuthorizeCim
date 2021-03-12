@@ -47,21 +47,19 @@ class RefundDataBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder = new RefundDataBuilder(new SubjectReader());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testBuildReadPaymentException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $buildSubject = [];
 
         $this->builder->build($buildSubject);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testBuildReadAmountException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $buildSubject = [
             'payment' => $this->paymentDO,
             'amount' => null

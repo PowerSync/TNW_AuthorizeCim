@@ -50,10 +50,11 @@ class OpaqueDataBuilderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @covers \TNW\AuthorizeCim\Gateway\Request\OpaqueDataBuilder::build()
-     * @expectedException \InvalidArgumentException
      */
     public function testBuildReadPaymentException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $buildSubject = [
             'payment' => null,
         ];
