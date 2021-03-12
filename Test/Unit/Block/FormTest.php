@@ -51,22 +51,22 @@ class FormTest extends \PHPUnit\Framework\TestCase
     {
         $this->gatewayConfig = $this->getMockBuilder(GatewayConfig::class)
             ->disableOriginalConstructor()
-            ->setMethods(['isCcvEnabled'])
+            ->onlyMethods(['isCcvEnabled'])
             ->getMock();
 
         $this->paymentDataHelper = $this->getMockBuilder(Data::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getMethodInstance'])
+            ->onlyMethods(['getMethodInstance'])
             ->getMock();
 
         $this->storeManager = $this->getMockBuilder(StoreManager::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getStore'])
+            ->onlyMethods(['getStore'])
             ->getMock();
 
         $this->store = $this->getMockBuilder(Store::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->onlyMethods(['getId'])
             ->getMock();
 
         $this->storeManager

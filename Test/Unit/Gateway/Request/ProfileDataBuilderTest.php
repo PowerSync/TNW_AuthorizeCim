@@ -70,7 +70,7 @@ class ProfileDataBuilderTest extends \PHPUnit\Framework\TestCase
         ];
 
         $paymentExtension = $this->getMockBuilder(OrderPaymentExtension::class)
-            ->setMethods(['getVaultPaymentToken'])
+            ->onlyMethods(['getVaultPaymentToken'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 

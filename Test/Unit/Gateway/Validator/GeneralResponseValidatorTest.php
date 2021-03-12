@@ -34,7 +34,7 @@ class GeneralResponseValidatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->resultInterfaceFactory = $this->getMockBuilder(ResultInterfaceFactory::class)
             ->disableOriginalConstructor()
-            ->setMethods(['create'])
+            ->onlyMethods(['create'])
             ->getMock();
 
         $this->validator = new GeneralResponseValidator(

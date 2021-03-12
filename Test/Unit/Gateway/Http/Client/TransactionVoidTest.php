@@ -56,7 +56,7 @@ class TransactionVoidTest extends \PHPUnit\Framework\TestCase
 
         $this->adapter = $this->getMockBuilder(AuthorizeAdapter::class)
             ->disableOriginalConstructor()
-            ->setMethods(['transaction'])
+            ->onlyMethods(['transaction'])
             ->getMock();
 
         /** @var AuthorizeAdapterFactory|MockObject $adapterFactory */
@@ -70,7 +70,7 @@ class TransactionVoidTest extends \PHPUnit\Framework\TestCase
 
         $this->dataObject = $this->getMockBuilder(DataObject::class)
             ->disableOriginalConstructor()
-            ->setMethods(['populateWithObject'])
+            ->onlyMethods(['populateWithObject'])
             ->getMock();
 
         $this->model = new TransactionVoid(

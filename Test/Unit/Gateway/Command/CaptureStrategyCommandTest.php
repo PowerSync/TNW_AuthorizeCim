@@ -70,7 +70,8 @@ class CaptureStrategyCommandTest extends \PHPUnit\Framework\TestCase
     {
         $this->commandPool = $this->getMockBuilder(CommandPoolInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods(['get', '__wakeup'])
+            ->onlyMethods(['get'])
+            ->addMethods(['__wakeup'])
             ->getMock();
 
         $this->initCommandMock();
@@ -79,11 +80,11 @@ class CaptureStrategyCommandTest extends \PHPUnit\Framework\TestCase
 
         $this->payment = $this->getMockBuilder(Payment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getAuthorizationTransaction', 'getAdditionalInformation'])
+            ->onlyMethods(['getId', 'getAuthorizationTransaction', 'getAdditionalInformation'])
             ->getMock();
 
         $this->paymentDO = $this->getMockBuilder(PaymentDataObject::class)
-            ->setMethods(['getPayment', 'getOrder'])
+            ->onlyMethods(['getPayment', 'getOrder'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -128,7 +129,7 @@ class CaptureStrategyCommandTest extends \PHPUnit\Framework\TestCase
     {
         $this->command = $this->getMockBuilder(GatewayCommand::class)
             ->disableOriginalConstructor()
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->getMock();
     }
 
@@ -139,7 +140,8 @@ class CaptureStrategyCommandTest extends \PHPUnit\Framework\TestCase
     {
         $this->transactionRepository = $this->getMockBuilder(TransactionRepositoryInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getList', 'getTotalCount', 'delete', 'get', 'save', 'create'])
+            ->onlyMethods(['getList', 'delete', 'get', 'save', 'create'])
+            ->addMethods(['getTotalCount'])
             ->getMock();
     }
 
@@ -150,7 +152,7 @@ class CaptureStrategyCommandTest extends \PHPUnit\Framework\TestCase
     {
         $this->searchCriteriaBuilder = $this->getMockBuilder(SearchCriteriaBuilder::class)
             ->disableOriginalConstructor()
-            ->setMethods(['addFilter', 'create'])
+            ->onlyMethods(['addFilter', 'create'])
             ->getMock();
     }
 

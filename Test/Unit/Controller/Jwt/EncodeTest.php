@@ -70,17 +70,17 @@ class EncodeTest extends \PHPUnit\Framework\TestCase
 
         $this->config = $this->getMockBuilder(Config::class)
             ->disableOriginalConstructor()
-            ->setMethods(['isVerify3DSecure', 'getVerifyApiIdentifier', 'getVerifyOrgUnitId', 'getVerifyApiKey'])
+            ->onlyMethods(['isVerify3DSecure', 'getVerifyApiIdentifier', 'getVerifyOrgUnitId', 'getVerifyApiKey'])
             ->getMock();
 
         $this->mathRandom = $this->getMockBuilder(Random::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getUniqueHash'])
+            ->onlyMethods(['getUniqueHash'])
             ->getMock();
 
         $this->dataTime = $this->getMockBuilder(DateTime::class)
             ->disableOriginalConstructor()
-            ->setMethods(['gmtTimestamp'])
+            ->onlyMethods(['gmtTimestamp'])
             ->getMock();
 
         $managerHelper = new ObjectManager($this);

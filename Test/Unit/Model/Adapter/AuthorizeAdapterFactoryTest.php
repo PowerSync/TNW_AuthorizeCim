@@ -37,7 +37,7 @@ class AuthorizeAdapterFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->config = $this->getMockBuilder(Config::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getApiLoginId', 'getTransactionKey', 'isSandboxMode'])
+            ->onlyMethods(['getApiLoginId', 'getTransactionKey', 'isSandboxMode'])
             ->getMock();
 
         $this->objectManager = $this->createMock(ObjectManagerInterface::class);

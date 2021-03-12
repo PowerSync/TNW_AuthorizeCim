@@ -39,7 +39,7 @@ class VaultDataBuilderTest extends \PHPUnit\Framework\TestCase
 
         $this->payment = $this->getMockBuilder(Payment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getAdditionalInformation'])
+            ->onlyMethods(['getAdditionalInformation'])
             ->getMock();
 
         $this->paymentDO->method('getPayment')

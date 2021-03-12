@@ -56,7 +56,7 @@ class CreateCustomerProfileFromTransactionTest extends \PHPUnit\Framework\TestCa
 
         $this->adapter = $this->getMockBuilder(AuthorizeAdapter::class)
             ->disableOriginalConstructor()
-            ->setMethods(['createCustomerProfileFromTransaction'])
+            ->onlyMethods(['createCustomerProfileFromTransaction'])
             ->getMock();
 
         /** @var AuthorizeAdapterFactory|MockObject $adapterFactory */
@@ -70,7 +70,7 @@ class CreateCustomerProfileFromTransactionTest extends \PHPUnit\Framework\TestCa
 
         $this->dataObject = $this->getMockBuilder(DataObject::class)
             ->disableOriginalConstructor()
-            ->setMethods(['populateWithObject'])
+            ->onlyMethods(['populateWithObject'])
             ->getMock();
 
         $this->model = new CreateCustomerProfileFromTransaction(
