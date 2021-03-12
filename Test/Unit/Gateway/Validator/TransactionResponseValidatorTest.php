@@ -56,7 +56,8 @@ class TransactionResponseValidatorTest extends \PHPUnit\Framework\TestCase
         $this->resultInterfaceFactory->method('create')
             ->with([
                 'isValid' => (bool)$isValid,
-                'failsDescription' => $messages
+                'failsDescription' => $messages,
+                'errorCodes' => []
             ]);
 
         $this->validator->validate($validationSubject);
