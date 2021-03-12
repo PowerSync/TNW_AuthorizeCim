@@ -85,12 +85,12 @@ class CreateCustomerProfileTest extends \PHPUnit\Framework\TestCase
      * Runs test placeRequest method (exception)
      *
      * @return void
-     *
-     * @expectedException \Magento\Payment\Gateway\Http\ClientException
-     * @expectedExceptionMessage Test messages
      */
     public function testPlaceRequestException()
     {
+        $this->expectException(\Magento\Payment\Gateway\Http\ClientException::class);
+        $this->expectExceptionMessage("Test messages");
+
         $this->logger->method('debug')
             ->with([
                 'request' => $this->getTransferData(),
@@ -141,7 +141,7 @@ class CreateCustomerProfileTest extends \PHPUnit\Framework\TestCase
 
         $actualResult = $this->model->placeRequest($this->getTransferObjectMock());
 
-        $this->assertInternalType('object', $actualResult['object']);
+        $this->assertIsObject($actualResult['object']);
         $this->assertEquals(['object' => $response], $actualResult);
     }
 
