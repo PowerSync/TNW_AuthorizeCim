@@ -294,7 +294,7 @@ jobs:
   m226_php71:
     <<: *php71-base
     environment:
-      MAGENTO_VERSION: "2.2.6"
+      MAGENTO_VERSION: "2.3.5"
   m223_php71:
     <<: *php71-base
     environment:
