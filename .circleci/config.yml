@@ -11,7 +11,10 @@ jobs:
           ssh $SSH_USER@$SSH_HOST "./release"
   check-composer-installation:
     docker:
-    - image: circleci/php:7.2-apache-node-browsers
+    - image: powersync/magento-builds:m234-commerce-php72
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
     - image: circleci/mysql:5.7
       environment:
         MYSQL_PASSWORD: mage
@@ -92,7 +95,7 @@ jobs:
 
   update-wiki:
     docker:
-    - image: circleci/php:7.2-apache-node-browsers
+    - image: circleci/php:7.1-apache-node-browsers
     steps:
     - run:
         name: Prepare for wiki update
@@ -149,7 +152,7 @@ jobs:
 
   m225_php71: &php71-base
     docker:
-      - image: circleci/php:7.2-apache-node-browsers
+      - image: circleci/php:7.1-apache-node-browsers
       - image: circleci/mysql:5.7
         environment:
           MYSQL_PASSWORD: mage
