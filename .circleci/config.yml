@@ -265,12 +265,12 @@ workflows:
             - m242-commerce-php74
             - m242-open_source-php74
             
-     - check-composer-installation:
+      - check-composer-installation:
           context: powersync
           requires:
             - deploy
 
-     - update-wiki:
+      - update-wiki:
           context: powersync
           requires:
             - check-composer-installation
