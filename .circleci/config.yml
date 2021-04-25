@@ -9,6 +9,7 @@ jobs:
         name: Deploy Over SSH
         command: |
           ssh $SSH_USER@$SSH_HOST "./release"
+
   m242-commerce-php74: &base-image
     docker:
     - image: powersync/magento-builds:m242-commerce-php74
