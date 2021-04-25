@@ -181,10 +181,33 @@ workflows:
               only:
                 - v.2.4
 
+      - magento-coding-standard:
+          context: powersync
+          filters:
+            branches:
+              only:
+                - master-2.4.x
+
+      - deploy:
+          context: powersync
+          requires:
+            - tag-release
+          filters:
+            branches:
+              only:
+                - master-2.4.x
+
+      - tag-release:
+          context: powersync
+          requires:
+            - magento-coding-standard
+            - m242-commerce-php74
+            - m242-open_source-php74
+            
      - check-composer-installation:
           context: powersync
           requires:
-          - deploy
+            - deploy
 
      - update-wiki:
           context: powersync
