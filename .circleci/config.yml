@@ -9,7 +9,7 @@ jobs:
         name: Deploy Over SSH
         command: |
           ssh $SSH_USER@$SSH_HOST "./release"
-  check-composer-installation:
+  m242-commerce-php74: &base-image
     docker:
     - image: powersync/magento-builds:m242-commerce-php74
       auth:
@@ -69,7 +69,46 @@ jobs:
           command: |
             cd /var/www/html/magento
             php bin/magento setup:di:compile
-            php bin/magento deploy:mode:set developerm226
+            php bin/magento deploy:mode:set developer
+
+  m242-open_source-php74:
+    <<: *base-image
+    docker:
+      - image: powersync/magento-builds:m242-open_source-php74
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
+      - image: circleci/mysql:8.0
+        environment:
+          MYSQL_PASSWORD: mage
+          MYSQL_USER: mage
+          MYSQL_DATABASE: magento
+          MYSQL_ROOT_PASSWORD: docker
+      - image: elasticsearch:7.12.0
+        environment:
+          - cluster.name: elasticsearch
+          - transport.host: localhost
+          - network.host: 127.0.0.1
+          - http.port: 9200
+          - discovery.type: single-node
+          - xpack.security.enabled: false
+          - ES_JAVA_OPTS: -Xms750m -Xmx750m
+
+  magento-coding-standard:
+    docker:
+      - image: powersync/magento-builds:m242-commerce-php74
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
+    working_directory: ~/tnw_extension
+    steps:
+      - checkout
+      - run:
+          name: Run Magento Coding Standard
+          command: |
+            /var/www/html/magento/vendor/bin/phpcs --standard=Magento2 --extensions=php,phtml --severity=10 --ignore-annotations $CIRCLE_WORKING_DIRECTORY
+
+    
   update-wiki:
     docker:
       - image: circleci/php:7.1-apache-node-browsers
@@ -127,13 +166,27 @@ jobs:
 
             done
 
+workflows:
+  version: 2
 
-    - check-composer-installation:
-        context: powersync
-        requires:
-        - deploy
+  test-deploy-wiki:
+    jobs:
+     
+      - m242-commerce-php74:
+          context: powersync
+          requires:
+            - magento-coding-standard
+          filters:
+            branches:
+              only:
+                - v.2.4
 
-    - update-wiki:
-        context: powersync
-        requires:
-        - check-composer-installation
+     - check-composer-installation:
+          context: powersync
+          requires:
+          - deploy
+
+     - update-wiki:
+          context: powersync
+          requires:
+          - check-composer-installation
