@@ -240,14 +240,14 @@ workflows:
           filters:
             branches:
               only:
-                - v.2.4
+                - v2.4
 
       - magento-coding-standard:
           context: powersync
           filters:
             branches:
               only:
-                - master-2.4.x
+                - v2.4
 
       - deploy:
           context: powersync
@@ -256,7 +256,7 @@ workflows:
           filters:
             branches:
               only:
-                - master-2.4.x
+                - master
 
       - tag-release:
           context: powersync
@@ -277,4 +277,4 @@ workflows:
           filters:
             branches:
               only:
-                - master-2.4.x
+                - v2.4
