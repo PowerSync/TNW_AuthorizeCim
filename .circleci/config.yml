@@ -31,7 +31,7 @@ jobs:
         - xpack.security.enabled: false
         - ES_JAVA_OPTS: -Xms750m -Xmx750m
   working_directory: ~/tnw_extension
-   steps:
+  steps:
     - run:
         name: Install System Package
         command: |
