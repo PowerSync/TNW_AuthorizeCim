@@ -354,7 +354,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - v2.4
 
       - m240-open_source-php74:
           context: powersync
@@ -363,7 +363,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - v2.4
       - m241-commerce-php74:
           context: powersync
           requires:
@@ -371,7 +371,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - v2.4
 
       - m241-open_source-php74:
           context: powersync
@@ -380,7 +380,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - v2.4
 
       - m242-commerce-php74:
           context: powersync
