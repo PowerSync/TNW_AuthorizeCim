@@ -355,6 +355,7 @@ workflows:
             branches:
               only:
                 - v2.4
+                - master
 
       - m240-open_source-php74:
           context: powersync
@@ -364,6 +365,8 @@ workflows:
             branches:
               only:
                 - v2.4
+                - master
+
       - m241-commerce-php74:
           context: powersync
           requires:
@@ -372,6 +375,7 @@ workflows:
             branches:
               only:
                 - v2.4
+                - master
 
       - m241-open_source-php74:
           context: powersync
@@ -381,6 +385,7 @@ workflows:
             branches:
               only:
                 - v2.4
+                - master
 
       - m242-commerce-php74:
           context: powersync
@@ -390,7 +395,7 @@ workflows:
             branches:
               only:
                 - v2.4
-
+                - master
       - m242-open_source-php74:
           context: powersync
           requires:
@@ -399,6 +404,7 @@ workflows:
             branches:
               only:
                 - v2.4
+                - master
 
       - magento-coding-standard:
           context: powersync
@@ -406,6 +412,7 @@ workflows:
             branches:
               only:
                 - v2.4
+                - master
 
       - deploy:
           context: powersync
