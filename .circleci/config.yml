@@ -356,6 +356,7 @@ workflows:
               only:
                 - v2.4
                 - master
+                - develop
 
       - m240-open_source-php74:
           context: powersync
@@ -366,6 +367,7 @@ workflows:
               only:
                 - v2.4
                 - master
+                - develop
 
       - m241-commerce-php74:
           context: powersync
@@ -386,6 +388,7 @@ workflows:
               only:
                 - v2.4
                 - master
+                - develop
 
       - m242-commerce-php74:
           context: powersync
@@ -396,6 +399,8 @@ workflows:
               only:
                 - v2.4
                 - master
+                - develop
+
       - m242-open_source-php74:
           context: powersync
           requires:
@@ -405,6 +410,7 @@ workflows:
               only:
                 - v2.4
                 - master
+                - develop
 
       - magento-coding-standard:
           context: powersync
@@ -413,6 +419,7 @@ workflows:
               only:
                 - v2.4
                 - master
+                - develop
 
       - deploy:
           context: powersync
@@ -422,6 +429,7 @@ workflows:
             branches:
               only:
                 - master
+                - develop
 
       - tag-release:
           context: powersync
@@ -447,3 +455,4 @@ workflows:
             branches:
               only:
                 - master
+                - develop
