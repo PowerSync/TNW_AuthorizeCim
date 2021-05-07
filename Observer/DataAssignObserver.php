@@ -31,12 +31,9 @@ class DataAssignObserver extends AbstractDataAssignObserver
     public function execute(Observer $observer)
     {
         $data = $this->readDataArgument($observer);
-
         $additionalData = $data->getData(self::KEY_ADDITIONAL_DATA);
-
         if (is_array($additionalData)) {
             $paymentInfo = $this->readPaymentModelArgument($observer);
-
             foreach ($additionalData as $key => $value) {
                 if ($key === \Magento\Framework\Api\ExtensibleDataInterface::EXTENSION_ATTRIBUTES_KEY) {
                     continue;
