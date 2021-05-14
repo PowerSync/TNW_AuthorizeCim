@@ -130,6 +130,7 @@
                 <item name="sale" xsi:type="string">AuthorizeCimSaleCommand</item>
                 <item name="customer" xsi:type="string">AuthorizeCimCustomerProfileCommand</item>
                 <item name="vault_capture" xsi:type="string">AuthorizeCimVaultCaptureCommand</item>
+                <item name="vault_sale" xsi:type="string">AuthorizeCimVaultSaleCommand</item>
             </argument>
         </arguments>
     </virtualType>
