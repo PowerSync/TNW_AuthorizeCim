@@ -25,6 +25,9 @@ class CaptureStrategyCommand implements CommandInterface
     const CAPTURE = 'settlement';
 
     /** @var string */
+    const VAULT_SALE = 'vault_sale';
+
+    /** @var string */
     const CUSTOMER = 'customer';
 
     /** @var SearchCriteriaBuilder */
@@ -103,6 +106,8 @@ class CaptureStrategyCommand implements CommandInterface
         if (!$existsCapture) {
             return self::CAPTURE;
         }
+
+        return self::VAULT_SALE;
     }
 
     /**
