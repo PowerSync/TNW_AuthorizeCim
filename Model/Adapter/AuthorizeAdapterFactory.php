@@ -45,6 +45,10 @@ class AuthorizeAdapterFactory
      */
     public function create($storeId = null)
     {
+        if ($this->config->isDebugMode($storeId) && !defined('AUTHORIZENET_LOG_FILE')) {
+            define('AUTHORIZENET_LOG_FILE', $this->config->getDebugFile($storeId));
+        }
+
         return $this->objectManager->create(
             AuthorizeAdapter::class,
             [

@@ -13,6 +13,8 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
 class TransactionIdHandler implements HandlerInterface
 {
+    const RESPONSE_DECLINED_TRANSACTION = 4;
+
     /**
      * @var SubjectReader
      */
@@ -49,6 +51,12 @@ class TransactionIdHandler implements HandlerInterface
             $orderPayment->setIsTransactionClosed($this->shouldCloseTransaction());
             $closed = $this->shouldCloseParentTransaction($orderPayment);
             $orderPayment->setShouldCloseParentTransaction($closed);
+
+            if ($transaction->getResponseCode() == self::RESPONSE_DECLINED_TRANSACTION) {
+                $orderPayment->setIsTransactionPending(true);
+                $orderPayment->setIsFraudDetected(true);
+                $orderPayment->setTransactionAdditionalInfo('is_transaction_fraud', true);
+            }
         }
     }
 
