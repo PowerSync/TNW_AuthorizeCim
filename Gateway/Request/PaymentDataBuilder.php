@@ -10,6 +10,7 @@ namespace TNW\AuthorizeCim\Gateway\Request;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use TNW\AuthorizeCim\Helper\Payment\Formatter;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Class for build request payment data
@@ -24,12 +25,20 @@ class PaymentDataBuilder implements BuilderInterface
     private $subjectReader;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * @param SubjectReader $subjectReader
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        StoreManagerInterface $storeManager
     ) {
         $this->subjectReader = $subjectReader;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -42,13 +51,17 @@ class PaymentDataBuilder implements BuilderInterface
     {
         $paymentDO = $this->subjectReader->readPayment($subject);
         $order = $paymentDO->getOrder();
+        $storeUrl = $this->storeManager->getStore($paymentDO->getOrder()->getStoreId())->getBaseUrl();
 
         return [
             'transaction_request' => [
                 'amount' => $this->formatPrice($this->subjectReader->readAmount($subject)),
                 'currency_code' => $order->getCurrencyCode(),
                 'po_number' => $order->getOrderIncrementId(),
-            ]
+                'order' => [
+                    'description' => $storeUrl . ' Order: #' . $paymentDO->getOrder()->getOrderIncrementId(),
+                ],
+            ],
         ];
     }
 }
