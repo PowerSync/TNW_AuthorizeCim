@@ -99,6 +99,16 @@
             <frontend_class>validate-number</frontend_class>
             <config_path>payment/tnw_authorize_cim/sort_order</config_path>
           </field>
+          <field id="order_invoice_number" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Order Invoice Number</label>
+            <source_model>\TNW\AuthorizeCim\Model\Adminhtml\Source\IncrementNumber</source_model>
+            <config_path>payment/tnw_authorize_cim/order_invoice_number</config_path>
+          </field>
+          <field id="order_po_number" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Order PO Number</label>
+            <source_model>\TNW\AuthorizeCim\Model\Adminhtml\Source\IncrementNumber</source_model>
+            <config_path>payment/tnw_authorize_cim/order_po_number</config_path>
+          </field>
         </group>
         <group id="country_specific" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
           <label>Country Specific Settings</label>
