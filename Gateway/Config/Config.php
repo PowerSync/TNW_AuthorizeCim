@@ -153,6 +153,11 @@ class Config extends MagentoGatewayConfig
     private $dir;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * @param DirectoryList $dir
      * @param ScopeConfigInterface $scopeConfig
      * @param null $methodCode
@@ -165,6 +170,7 @@ class Config extends MagentoGatewayConfig
         $pathPattern = self::DEFAULT_PATH_PATTERN
     ) {
         $this->dir = $dir;
+        $this->scopeConfig = $scopeConfig;
         parent::__construct($scopeConfig, $methodCode, $pathPattern);
     }
 
