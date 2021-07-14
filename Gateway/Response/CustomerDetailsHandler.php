@@ -49,6 +49,13 @@ class CustomerDetailsHandler implements HandlerInterface
         /** @var \net\authorize\api\contract\v1\CreateTransactionResponse $transaction */
         $transaction = $this->subjectReader->readTransaction($response);
         $paymentObject = $this->subjectReader->readPayment($subject);
-        $paymentObject->getPayment()->setAdditionalInformation('profile_id', $transaction->getCustomerProfileId());
+        if (method_exists($transaction, 'getCustomerProfileId')) {
+            $paymentObject->getPayment()->setAdditionalInformation('profile_id', $transaction->getCustomerProfileId());
+        } else if ($transaction->getProfile()) {
+            $paymentObject->getPayment()->setAdditionalInformation(
+                'profile_id',
+                $transaction->getProfile()->getCustomerProfileId()
+            );
+        }
     }
 }

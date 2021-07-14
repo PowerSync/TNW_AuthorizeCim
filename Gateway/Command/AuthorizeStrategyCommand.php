@@ -13,6 +13,7 @@ use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
 use Psr\Log\LoggerInterface;
+use Magento\Payment\Gateway\Command\CommandException;
 
 class AuthorizeStrategyCommand implements CommandInterface
 {
@@ -36,6 +37,8 @@ class AuthorizeStrategyCommand implements CommandInterface
     const CUSTOMER_SHIPPING_CREATE = 'customer_shipping_profile_create';
 
     const AUTHORIZE_CUSTOMER = 'authorize_customer';
+
+    const CUSTOMER_GET = 'customer_get';
 
     /**
      * @var CommandPoolInterface
@@ -76,39 +79,22 @@ class AuthorizeStrategyCommand implements CommandInterface
         $shippingAddress = $order->getShippingAddress();
         $customerId = $order->getCustomerId();
         if ($customerId) {
-
+            //TODO: optimize and handle case for already synced customer
         }
-
-        try {
+        $this->commandPool->get(self::CUSTOMER_GET)->execute($commandSubject);
+        if (!$payment->getAdditionalInformation('profile_id')) {
             $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
-        } catch (\Exception $e) {
-            //there is already customer with provided email.
-            $this->logger->error($e->getMessage());
         }
-
-        try {
-            $this->commandPool->get(self::CUSTOMER_PAYMENT_CREATE)->execute($commandSubject);
-        } catch (\Exception $e) {
-            //there is already customer with provided email.
-            $this->logger->error($e->getMessage());
-        }
-
-        try {
-            $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
-        } catch (\Exception $e) {
-            //there is already customer with provided email.
-            $this->logger->error($e->getMessage());
-        }
-
-
-
+        $this->commandPool->get(self::CUSTOMER_PAYMENT_CREATE)->execute($commandSubject);
+        $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
         $this->commandPool->get(self::AUTHORIZE_CUSTOMER)->execute($commandSubject);
 
         if ($payment->getAdditionalInformation('is_active_payment_token_enabler')
-            && true
+            && false
         ) {
+            //TODO: currently handles each time with customer creation
             try {
-               // $this->commandPool->get(self::CUSTOMER)->execute($commandSubject);
+               $this->commandPool->get(self::CUSTOMER)->execute($commandSubject);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
             }
