@@ -12,6 +12,7 @@ use Magento\Payment\Gateway\Command;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
+use Psr\Log\LoggerInterface;
 
 class AuthorizeStrategyCommand implements CommandInterface
 {
@@ -26,6 +27,17 @@ class AuthorizeStrategyCommand implements CommandInterface
     const CUSTOMER = 'customer';
 
     /**
+     * Stripe customer command
+     */
+    const CUSTOMER_CREATE = 'customer_create';
+
+    const CUSTOMER_PAYMENT_CREATE = 'customer_payment_profile_create';
+
+    const CUSTOMER_SHIPPING_CREATE = 'customer_shipping_profile_create';
+
+    const AUTHORIZE_CUSTOMER = 'authorize_customer';
+
+    /**
      * @var CommandPoolInterface
      */
     private $commandPool;
@@ -35,21 +47,12 @@ class AuthorizeStrategyCommand implements CommandInterface
      */
     private $subjectReader;
 
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
     private $logger;
 
-    /**
-     * Constructor.
-     * @param CommandPoolInterface $commandPool
-     * @param SubjectReader $subjectReader
-     * @param \Psr\Log\LoggerInterface $logger
-     */
     public function __construct(
         CommandPoolInterface $commandPool,
         SubjectReader $subjectReader,
-        \Psr\Log\LoggerInterface $logger
+        LoggerInterface $logger
     ) {
         $this->commandPool = $commandPool;
         $this->subjectReader = $subjectReader;
@@ -64,16 +67,48 @@ class AuthorizeStrategyCommand implements CommandInterface
      */
     public function execute(array $commandSubject)
     {
+
         /** @var \Magento\Payment\Gateway\Data\PaymentDataObjectInterface $paymentDO */
         $paymentDO = $this->subjectReader->readPayment($commandSubject);
         $payment = $paymentDO->getPayment();
         ContextHelper::assertOrderPayment($payment);
+        $order = $paymentDO->getOrder();
+        $shippingAddress = $order->getShippingAddress();
+        $customerId = $order->getCustomerId();
+        if ($customerId) {
 
-        $this->commandPool->get(self::AUTHORIZE)->execute($commandSubject);
+        }
 
-        if ($payment->getAdditionalInformation('is_active_payment_token_enabler')) {
+        try {
+            $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
+        } catch (\Exception $e) {
+            //there is already customer with provided email.
+            $this->logger->error($e->getMessage());
+        }
+
+        try {
+            $this->commandPool->get(self::CUSTOMER_PAYMENT_CREATE)->execute($commandSubject);
+        } catch (\Exception $e) {
+            //there is already customer with provided email.
+            $this->logger->error($e->getMessage());
+        }
+
+        try {
+            $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
+        } catch (\Exception $e) {
+            //there is already customer with provided email.
+            $this->logger->error($e->getMessage());
+        }
+
+
+
+        $this->commandPool->get(self::AUTHORIZE_CUSTOMER)->execute($commandSubject);
+
+        if ($payment->getAdditionalInformation('is_active_payment_token_enabler')
+            && true
+        ) {
             try {
-                $this->commandPool->get(self::CUSTOMER)->execute($commandSubject);
+               // $this->commandPool->get(self::CUSTOMER)->execute($commandSubject);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
             }

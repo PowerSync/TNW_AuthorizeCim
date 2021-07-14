@@ -56,4 +56,21 @@ class SubjectReader
     {
         return Helper\SubjectReader::readAmount($subject);
     }
+
+    public function readCustomerData(array $data)
+    {
+        $result =  new \Magento\Framework\DataObject();
+        if (is_array($data) && array_key_exists('payment', $data)) {
+            $paymentDO = $this->readPayment($data);
+            $order = $paymentDO->getOrder();
+            $billingAddress = $order->getBillingAddress();
+            $result->setEmail($billingAddress->getEmail());
+            $result->setCustomerId($order->getCustomerId());
+        } elseif (is_array($data) && array_key_exists('customer', $data)) {
+            $customerObject = $data['customer'];
+            $result->setEmail($customerObject->getEmail());
+            $result->setCustomerId($customerObject->getId());
+        }
+        return $result;
+    }
 }

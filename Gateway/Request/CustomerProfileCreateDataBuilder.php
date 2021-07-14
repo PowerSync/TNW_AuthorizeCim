@@ -10,10 +10,7 @@ namespace TNW\AuthorizeCim\Gateway\Request;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
-/**
- * Profile Data Builder
- */
-class CustomerProfileDataBuilder implements BuilderInterface
+class CustomerProfileCreateDataBuilder implements BuilderInterface
 {
     /**
      * @var SubjectReader
@@ -37,13 +34,12 @@ class CustomerProfileDataBuilder implements BuilderInterface
      */
     public function build(array $subject)
     {
-        $paymentDO = $this->subjectReader->readPayment($subject);
-
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        $payment = $paymentDO->getPayment();
-
+        $customerDataObject = $this->subjectReader->readCustomerData($subject);
         return [
-            'trans_id' => $payment->getParentTransactionId() ?: $payment->getLastTransId(),
+            'profile' => [
+                "merchant_customer_id" => $customerDataObject->getCustomerId(),
+                "email" => $customerDataObject->getEmail(),
+            ]
         ];
     }
 }
