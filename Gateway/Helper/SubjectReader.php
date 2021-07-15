@@ -57,6 +57,10 @@ class SubjectReader
         return Helper\SubjectReader::readAmount($subject);
     }
 
+    /**
+     * @param array $data
+     * @return \Magento\Framework\DataObject
+     */
     public function readCustomerData(array $data)
     {
         $result =  new \Magento\Framework\DataObject();
