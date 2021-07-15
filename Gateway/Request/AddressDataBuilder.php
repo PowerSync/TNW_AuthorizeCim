@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace TNW\AuthorizeCim\Gateway\Request;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use Magento\Sales\Api\Data\OrderAddressInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
 /**
@@ -43,14 +42,13 @@ class AddressDataBuilder implements BuilderInterface
         $order = $paymentDO->getOrder();
         $result = [];
 
-        /** @var OrderAddressInterface $billingAddress */
         $billingAddress = $order->getBillingAddress();
         if ($billingAddress) {
             $result['transaction_request']['bill_to'] = [
                 'first_name' => $billingAddress->getFirstname(),
                 'last_name' => $billingAddress->getLastname(),
                 'company' => $billingAddress->getCompany(),
-                'address' => $billingAddress->getStreetLine(1),
+                'address' => $billingAddress->getStreetLine1(),
                 'city' => $billingAddress->getCity(),
                 'state' => $billingAddress->getRegionCode(),
                 'zip' => $billingAddress->getPostcode(),
@@ -60,14 +58,13 @@ class AddressDataBuilder implements BuilderInterface
             ];
         }
 
-        /** @var OrderAddressInterface $shippingAddress */
         $shippingAddress = $order->getShippingAddress();
         if ($shippingAddress) {
             $result['transaction_request']['ship_to'] = [
                 'first_name' => $shippingAddress->getFirstname(),
                 'last_name' => $shippingAddress->getLastname(),
                 'company' => $shippingAddress->getCompany(),
-                'address' => $shippingAddress->getStreetLine(1),
+                'address' => $shippingAddress->getStreetLine1(),
                 'city' => $shippingAddress->getCity(),
                 'state' => $shippingAddress->getRegionCode(),
                 'zip' => $shippingAddress->getPostcode(),
