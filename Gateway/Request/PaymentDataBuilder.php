@@ -44,13 +44,11 @@ class PaymentDataBuilder implements BuilderInterface
         SubjectReader $subjectReader,
         StoreManagerInterface $storeManager,
         ScopeConfigInterface $scopeConfig
-    )
-    {
+    ) {
         $this->subjectReader = $subjectReader;
         $this->storeManager = $storeManager;
         $this->scopeConfig = $scopeConfig;
     }
-
 
     /**
      * Build payment data

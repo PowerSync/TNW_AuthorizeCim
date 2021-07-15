@@ -7,6 +7,9 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
+/**
+ * Class CreateCustomerPaymentProfile - transaction to create customer payment profile
+ */
 class CreateCustomerPaymentProfile extends AbstractTransaction
 {
     /**

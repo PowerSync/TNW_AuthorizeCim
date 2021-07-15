@@ -7,6 +7,9 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
+/**
+ * Class CreateCustomerShippingProfile - transaction to create customer shipping profile
+ */
 class CreateCustomerShippingProfile extends AbstractTransaction
 {
     /**

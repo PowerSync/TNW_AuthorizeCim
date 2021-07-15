@@ -10,6 +10,9 @@ namespace TNW\AuthorizeCim\Gateway\Request;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
+/**
+ * Class CustomerAccountDataBuilder - builds required account data
+ */
 class CustomerAccountDataBuilder implements BuilderInterface
 {
     /**

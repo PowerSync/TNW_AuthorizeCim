@@ -7,11 +7,12 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Response;
 
-use Magento\Payment\Gateway\Helper\ContextHelper;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
-use Magento\Sales\Api\Data\OrderPaymentInterface;
 
+/**
+ * Class CustomerDetailsHandler - handles customer profile details
+ */
 class CustomerDetailsHandler implements HandlerInterface
 {
     /**
@@ -51,7 +52,7 @@ class CustomerDetailsHandler implements HandlerInterface
         $paymentObject = $this->subjectReader->readPayment($subject);
         if (method_exists($transaction, 'getCustomerProfileId')) {
             $paymentObject->getPayment()->setAdditionalInformation('profile_id', $transaction->getCustomerProfileId());
-        } else if ($transaction->getProfile()) {
+        } elseif ($transaction->getProfile()) {
             $paymentObject->getPayment()->setAdditionalInformation(
                 'profile_id',
                 $transaction->getProfile()->getCustomerProfileId()

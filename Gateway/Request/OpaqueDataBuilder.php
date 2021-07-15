@@ -20,8 +20,16 @@ class OpaqueDataBuilder implements BuilderInterface
      */
     protected $subjectReader;
 
+    /**
+     * @var string
+     */
     protected $requestedDataBlockName;
 
+    /**
+     * OpaqueDataBuilder constructor.
+     * @param SubjectReader $subjectReader
+     * @param string $requestedDataBlockName
+     */
     public function __construct(
         SubjectReader $subjectReader,
         $requestedDataBlockName = 'transaction_request'

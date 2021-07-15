@@ -16,6 +16,9 @@ use Magento\Sales\Api\Data\TransactionInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
+/**
+ * Class CaptureStrategyCommand - capture/sale strategy command
+ */
 class CaptureStrategyCommand implements CommandInterface
 {
     /** @var string */
@@ -29,6 +32,19 @@ class CaptureStrategyCommand implements CommandInterface
 
     /** @var string */
     const CUSTOMER = 'customer';
+
+    /**
+     * Stripe customer command
+     */
+    const CUSTOMER_CREATE = 'customer_create';
+
+    const CUSTOMER_PAYMENT_CREATE = 'customer_payment_profile_create';
+
+    const CUSTOMER_SHIPPING_CREATE = 'customer_shipping_profile_create';
+
+    const SALE_CUSTOMER = 'sale_customer';
+
+    const CUSTOMER_GET = 'customer_get';
 
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
@@ -80,10 +96,35 @@ class CaptureStrategyCommand implements CommandInterface
         $paymentInfo = $paymentDataObject->getPayment();
         ContextHelper::assertOrderPayment($paymentInfo);
 
+        /** @var \Magento\Payment\Gateway\Data\PaymentDataObjectInterface $paymentDO */
+        $paymentDO = $this->subjectReader->readPayment($commandSubject);
+        $payment = $paymentDO->getPayment();
+        ContextHelper::assertOrderPayment($payment);
+        $order = $paymentDO->getOrder();
+        $shippingAddress = $order->getShippingAddress();
+        $customerId = $order->getCustomerId();
         $command = $this->getCommand($paymentInfo);
+        if ($command == self::SALE_CUSTOMER) {
+            if ($customerId) {
+                //TODO: optimize and handle case for already synced customer
+            }
+            try {
+                $this->commandPool->get(self::CUSTOMER_GET)->execute($commandSubject);
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
+            }
+            if (!$payment->getAdditionalInformation('profile_id')) {
+                $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
+            }
+            $this->commandPool->get(self::CUSTOMER_PAYMENT_CREATE)->execute($commandSubject);
+            if ($shippingAddress) {
+                $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
+            }
+        }
+
         $this->commandPool->get($command)->execute($commandSubject);
 
-        if ($paymentInfo->getAdditionalInformation('is_active_payment_token_enabler')) {
+        if ($paymentInfo->getAdditionalInformation('is_active_payment_token_enabler') && false) {
             try {
                 $this->commandPool->get(self::CUSTOMER)->execute($commandSubject);
             } catch (\Exception $e) {
@@ -100,7 +141,7 @@ class CaptureStrategyCommand implements CommandInterface
     {
         $existsCapture = $this->isExistsCaptureTransaction($payment);
         if (!$payment->getAuthorizationTransaction() && !$existsCapture) {
-            return self::SALE;
+            return self::SALE_CUSTOMER;
         }
 
         if (!$existsCapture) {

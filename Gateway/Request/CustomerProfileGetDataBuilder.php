@@ -10,6 +10,9 @@ namespace TNW\AuthorizeCim\Gateway\Request;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
+/**
+ * Class CustomerProfileGetDataBuilder - builds required data to get profile
+ */
 class CustomerProfileGetDataBuilder implements BuilderInterface
 {
     /**

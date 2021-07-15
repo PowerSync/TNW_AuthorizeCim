@@ -20,10 +20,22 @@ class AddressDataBuilder implements BuilderInterface
      */
     private $subjectReader;
 
+    /**
+     * @var string
+     */
     private $requestedDataBlockName;
 
+    /**
+     * @var string
+     */
     private $addressType;
 
+    /**
+     * AddressDataBuilder constructor.
+     * @param SubjectReader $subjectReader
+     * @param string $requestedDataBlockName
+     * @param string $addressType
+     */
     public function __construct(
         SubjectReader $subjectReader,
         $requestedDataBlockName = 'transaction_request',
@@ -62,6 +74,11 @@ class AddressDataBuilder implements BuilderInterface
         return $result;
     }
 
+    /**
+     * @param $address
+     * @param $result
+     * @param string $target
+     */
     private function populateAddress($address, &$result, $target = '')
     {
         if ($address) {

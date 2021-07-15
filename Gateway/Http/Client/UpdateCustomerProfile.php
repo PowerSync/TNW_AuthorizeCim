@@ -7,6 +7,9 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
+/**
+ * Class UpdateCustomerProfile - transaction to update customer payment profile
+ */
 class UpdateCustomerProfile extends AbstractTransaction
 {
     /**

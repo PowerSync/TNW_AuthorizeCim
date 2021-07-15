@@ -12,6 +12,9 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
 
+/**
+ * Class CustomerAddressDetailsHandler - handles address/payment responses
+ */
 class CustomerAddressDetailsHandler implements HandlerInterface
 {
     /**
@@ -42,11 +45,9 @@ class CustomerAddressDetailsHandler implements HandlerInterface
     /**
      * @param array $subject
      * @param array $response
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function handle(array $subject, array $response)
     {
-        /** @var \net\authorize\api\contract\v1\CreateTransactionResponse $transaction */
         $transaction = $this->subjectReader->readTransaction($response);
         $paymentObject = $this->subjectReader->readPayment($subject);
         if (method_exists($transaction, 'getCustomerProfileId')
