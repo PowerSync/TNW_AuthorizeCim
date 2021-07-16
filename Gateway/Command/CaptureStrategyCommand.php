@@ -47,6 +47,8 @@ class CaptureStrategyCommand implements CommandInterface
 
     const CUSTOMER_GET = 'customer_get';
 
+    const CUSTOMER_UPDATE = 'customer_update';
+
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
 
@@ -105,7 +107,7 @@ class CaptureStrategyCommand implements CommandInterface
                 $this->logger->error($e->getMessage());
             }
             if ($customerId && $payment->getAdditionalInformation('profile_id')) {
-
+                $this->commandPool->get(self::CUSTOMER_UPDATE)->execute($commandSubject);
             }
             if (!$payment->getAdditionalInformation('profile_id')) {
                 $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);

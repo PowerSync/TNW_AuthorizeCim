@@ -112,6 +112,7 @@
                 <item name="customer_create" xsi:type="string">AuthorizeCimCustomerCreateProfileCommand</item>
                 <item name="customer_payment_profile_create" xsi:type="string">AuthorizeCimCustomerPaymentCreateProfileCommand</item>
                 <item name="customer_shipping_profile_create" xsi:type="string">AuthorizeCimCustomerShippingCreateProfileCommand</item>
+                <item name="customer_update" xsi:type="string">AuthorizeCimCustomerUpdateProfileCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -140,6 +141,7 @@
                 <item name="customer_get" xsi:type="string">AuthorizeCimCustomerGetProfileCommand</item>
                 <item name="vault_capture" xsi:type="string">AuthorizeCimVaultCaptureCommand</item>
                 <item name="vault_sale" xsi:type="string">AuthorizeCimVaultSaleCommand</item>
+                <item name="customer_update" xsi:type="string">AuthorizeCimCustomerUpdateProfileCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -324,6 +326,15 @@
             <argument name="client" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\Client\CreateCustomerPaymentProfile</argument>
             <argument name="validator" xsi:type="object">CustomerPaymentProfilesResponseValidator</argument>
             <argument name="handler" xsi:type="object">TNW\AuthorizeCim\Gateway\Response\CustomerAddressDetailsHandler</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeCimCustomerUpdateProfileCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">AuthorizeCimCustomerPaymentProfileCreateBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\Client\UpdateCustomerProfile</argument>
+            <argument name="validator" xsi:type="object">CustomerProfilesResponseValidator</argument>
+            <argument name="handler" xsi:type="object">TNW\AuthorizeCim\Gateway\Response\CustomerDetailsHandler</argument>
         </arguments>
     </virtualType>
     <virtualType name="CustomerPaymentProfilesResponseValidator" type="TNW\AuthorizeCim\Gateway\Validator\CustomerProfilesResponseValidator">
