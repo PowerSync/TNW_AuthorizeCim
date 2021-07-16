@@ -95,36 +95,6 @@ class CreateCustomerProfileAttributes implements DataPatchInterface
                 'used_in_forms' => ['adminhtml_customer'],
             ])
             ->save();
-
-
-        $eavSetup = $this->eavSetupFactory->create();
-
-        $eavSetup->addAttribute('customer_address', 'customer_profile_id', [
-            'type'             => 'varchar',
-            'input'            => 'text',
-            'label'            => 'AuthorizeNet Customer Profile ID',
-            'visible'          => true,
-            'required'         => false,
-            'user_defined'     => true,
-            'system'           => false,
-            'group'            => 'General',
-            'global'           => true,
-            'visible_on_front' => false,
-            'sort_order' => 1000,
-            'position' => 1000,
-        ]);
-
-        $customAttribute = $customerSetup->getEavConfig()->getAttribute(
-            'customer_address',
-            'customer_profile_profile_id'
-        );
-
-        $customAttribute->setData(
-            'used_in_forms',
-            [
-                'adminhtml_customer_address'
-            ]
-        )->save();
     }
 
     /**

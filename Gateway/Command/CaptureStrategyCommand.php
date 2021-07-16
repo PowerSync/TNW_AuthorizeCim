@@ -15,6 +15,7 @@ use Magento\Sales\Api\Data\OrderPaymentInterface;
 use Magento\Sales\Api\Data\TransactionInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class CaptureStrategyCommand - capture/sale strategy command
@@ -61,19 +62,12 @@ class CaptureStrategyCommand implements CommandInterface
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    /**
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param TransactionRepositoryInterface $transactionRepository
-     * @param SubjectReader $subjectReader
-     * @param CommandPoolInterface $commandPool
-     * @param \Psr\Log\LoggerInterface $logger
-     */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         TransactionRepositoryInterface $transactionRepository,
         SubjectReader $subjectReader,
         CommandPoolInterface $commandPool,
-        \Psr\Log\LoggerInterface $logger
+        LoggerInterface $logger
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->transactionRepository = $transactionRepository;
@@ -105,13 +99,13 @@ class CaptureStrategyCommand implements CommandInterface
         $customerId = $order->getCustomerId();
         $command = $this->getCommand($paymentInfo);
         if ($command == self::SALE_CUSTOMER) {
-            if ($customerId) {
-                //TODO: optimize and handle case for already synced customer
-            }
             try {
                 $this->commandPool->get(self::CUSTOMER_GET)->execute($commandSubject);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
+            }
+            if ($customerId && $payment->getAdditionalInformation('profile_id')) {
+
             }
             if (!$payment->getAdditionalInformation('profile_id')) {
                 $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
