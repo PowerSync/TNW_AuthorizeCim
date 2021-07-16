@@ -18,14 +18,23 @@ class CustomerProfileIdDataBuilder implements BuilderInterface
     /**
      * @var SubjectReader
      */
-    private $subjectReader;
+    protected $subjectReader;
 
     /**
+     * @var string
+     */
+    protected $parentRequestFieldId;
+
+    /**
+     * CustomerProfileIdDataBuilder constructor.
      * @param SubjectReader $subjectReader
+     * @param string $parentRequestFieldId
      */
     public function __construct(
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        $parentRequestFieldId = ''
     ) {
+        $this->parentRequestFieldId = $parentRequestFieldId;
         $this->subjectReader = $subjectReader;
     }
 
@@ -40,8 +49,14 @@ class CustomerProfileIdDataBuilder implements BuilderInterface
         $paymentDO = $this->subjectReader->readPayment($subject);
         $payment = $paymentDO->getPayment();
 
-        return [
+        $profileIdData = [
             'customer_profile_id' => $payment->getAdditionalInformation('profile_id')
         ];
+        if ($this->parentRequestFieldId) {
+            return [
+                $this->parentRequestFieldId => $profileIdData
+            ];
+        }
+        return $profileIdData;
     }
 }

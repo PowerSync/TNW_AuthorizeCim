@@ -43,7 +43,6 @@ class CustomerDetailsHandler implements HandlerInterface
     /**
      * @param array $subject
      * @param array $response
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function handle(array $subject, array $response)
     {
@@ -52,7 +51,7 @@ class CustomerDetailsHandler implements HandlerInterface
         $paymentObject = $this->subjectReader->readPayment($subject);
         if (method_exists($transaction, 'getCustomerProfileId')) {
             $paymentObject->getPayment()->setAdditionalInformation('profile_id', $transaction->getCustomerProfileId());
-        } elseif ($transaction->getProfile()) {
+        } elseif (method_exists($transaction, 'getProfile') && $transaction->getProfile()) {
             $paymentObject->getPayment()->setAdditionalInformation(
                 'profile_id',
                 $transaction->getProfile()->getCustomerProfileId()
