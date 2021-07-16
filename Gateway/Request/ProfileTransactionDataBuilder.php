@@ -13,7 +13,7 @@ use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 /**
  * Profile Data Builder
  */
-class CustomerProfileDataBuilder implements BuilderInterface
+class ProfileTransactionDataBuilder implements BuilderInterface
 {
     /**
      * @var SubjectReader
@@ -43,7 +43,15 @@ class CustomerProfileDataBuilder implements BuilderInterface
         $payment = $paymentDO->getPayment();
 
         return [
-            'trans_id' => $payment->getParentTransactionId() ?: $payment->getLastTransId(),
+            'transaction_request' => [
+                'profile' => [
+                    'customer_profile_id' => $payment->getAdditionalInformation('profile_id'),
+                    'payment_profile' => [
+                        'payment_profile_id' => $payment->getAdditionalInformation('payment_profile_id')
+                    ],
+                    'shipping_profile_id' => $payment->getAdditionalInformation('shipping_profile_id'),
+                ]
+            ]
         ];
     }
 }

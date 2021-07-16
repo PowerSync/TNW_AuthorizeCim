@@ -11,6 +11,9 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
+/**
+ * Class TransactionIdHandler - handles transaction response
+ */
 class TransactionIdHandler implements HandlerInterface
 {
     const RESPONSE_DECLINED_TRANSACTION = 4;

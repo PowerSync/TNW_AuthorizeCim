@@ -21,11 +21,28 @@ class AddressDataBuilder implements BuilderInterface
     private $subjectReader;
 
     /**
+     * @var string
+     */
+    private $requestedDataBlockName;
+
+    /**
+     * @var string
+     */
+    private $addressType;
+
+    /**
+     * AddressDataBuilder constructor.
      * @param SubjectReader $subjectReader
+     * @param string $requestedDataBlockName
+     * @param string $addressType
      */
     public function __construct(
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        $requestedDataBlockName = 'transaction_request',
+        $addressType = 'both'
     ) {
+        $this->addressType = $addressType;
+        $this->requestedDataBlockName = $requestedDataBlockName;
         $this->subjectReader = $subjectReader;
     }
 
@@ -42,36 +59,44 @@ class AddressDataBuilder implements BuilderInterface
         $order = $paymentDO->getOrder();
         $result = [];
 
-        $billingAddress = $order->getBillingAddress();
-        if ($billingAddress) {
-            $result['transaction_request']['bill_to'] = [
-                'first_name' => $billingAddress->getFirstname(),
-                'last_name' => $billingAddress->getLastname(),
-                'company' => $billingAddress->getCompany(),
-                'address' => $billingAddress->getStreetLine1(),
-                'city' => $billingAddress->getCity(),
-                'state' => $billingAddress->getRegionCode(),
-                'zip' => $billingAddress->getPostcode(),
-                'country' => $billingAddress->getCountryId(),
-                'phone_number' => $billingAddress->getTelephone(),
-                'email' => $billingAddress->getEmail(),
-            ];
+        switch ($this->addressType) {
+            case 'shipping':
+                $this->populateAddress($order->getShippingAddress(), $result);
+                break;
+            case 'billing':
+                $this->populateAddress($order->getBillingAddress(), $result, 'bill_to');
+                break;
+            default:
+                $this->populateAddress($order->getShippingAddress(), $result, 'ship_to');
+                $this->populateAddress($order->getBillingAddress(), $result, 'bill_to');
+                break;
         }
-
-        $shippingAddress = $order->getShippingAddress();
-        if ($shippingAddress) {
-            $result['transaction_request']['ship_to'] = [
-                'first_name' => $shippingAddress->getFirstname(),
-                'last_name' => $shippingAddress->getLastname(),
-                'company' => $shippingAddress->getCompany(),
-                'address' => $shippingAddress->getStreetLine1(),
-                'city' => $shippingAddress->getCity(),
-                'state' => $shippingAddress->getRegionCode(),
-                'zip' => $shippingAddress->getPostcode(),
-                'country' => $shippingAddress->getCountryId(),
-            ];
-        }
-
         return $result;
+    }
+
+    /**
+     * @param $address
+     * @param $result
+     * @param string $target
+     */
+    private function populateAddress($address, &$result, $target = '')
+    {
+        if ($address) {
+            $addressData = [
+                'first_name' => $address->getFirstname(),
+                'last_name' => $address->getLastname(),
+                'company' => $address->getCompany(),
+                'address' => $address->getStreetLine1(),
+                'city' => $address->getCity(),
+                'state' => $address->getRegionCode(),
+                'zip' => $address->getPostcode(),
+                'country' => $address->getCountryId(),
+            ];
+            if ($target) {
+                $result[$this->requestedDataBlockName][$target] = $addressData;
+            } else {
+                $result[$this->requestedDataBlockName] = $addressData;
+            }
+        }
     }
 }

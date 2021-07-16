@@ -18,14 +18,23 @@ class OpaqueDataBuilder implements BuilderInterface
     /**
      * @var SubjectReader
      */
-    private $subjectReader;
+    protected $subjectReader;
 
     /**
+     * @var string
+     */
+    protected $requestedDataBlockName;
+
+    /**
+     * OpaqueDataBuilder constructor.
      * @param SubjectReader $subjectReader
+     * @param string $requestedDataBlockName
      */
     public function __construct(
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        $requestedDataBlockName = 'transaction_request'
     ) {
+        $this->requestedDataBlockName = $requestedDataBlockName;
         $this->subjectReader = $subjectReader;
     }
 
@@ -41,14 +50,12 @@ class OpaqueDataBuilder implements BuilderInterface
         $payment = $paymentDO->getPayment();
 
         return [
-            'transaction_request' => [
-                'payment' => [
-                    'opaque_data' => [
-                        'data_descriptor' => $payment->getAdditionalInformation('opaqueDescriptor'),
-                        'data_value' => $payment->getAdditionalInformation('opaqueValue')
-                    ]
+            $this->requestedDataBlockName => ['payment' => [
+                'opaque_data' => [
+                    'data_descriptor' => $payment->getAdditionalInformation('opaqueDescriptor'),
+                    'data_value' => $payment->getAdditionalInformation('opaqueValue')
                 ]
-            ]
+            ]]
         ];
     }
 }

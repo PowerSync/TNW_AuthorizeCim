@@ -46,7 +46,8 @@ class CustomerDataBuilder implements BuilderInterface
             'transaction_request' => [
                 'customer' => [
                     'type' => 'individual',
-                    'email' => $billingAddress->getEmail()
+                    'email' => $billingAddress->getEmail(),
+                    'profile_id' => $paymentDO->getPayment()->getAdditionalInformation('profile_id')
                 ]
             ]
         ];
