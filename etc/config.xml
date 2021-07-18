@@ -37,7 +37,6 @@
                 <order_status>processing</order_status>
                 <currency>USD</currency>
                 <debug>0</debug>
-                <debug_file>authorizenet-sdk.log</debug_file>
                 <cctypes>AE,VI,MC,DI,JCB,DN</cctypes>
                 <useccv>1</useccv>
                 <validation_mode>none</validation_mode>

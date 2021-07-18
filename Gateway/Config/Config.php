@@ -8,10 +8,7 @@ declare(strict_types=1);
 namespace TNW\AuthorizeCim\Gateway\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Exception\FileSystemException;
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Payment\Gateway\Config\Config as MagentoGatewayConfig;
-use Magento\Store\Model\ScopeInterface;
 use TNW\AuthorizeCim\Model\Adminhtml\Source\Environment;
 
 /**
@@ -145,26 +142,15 @@ class Config extends MagentoGatewayConfig
     const VERIFY_SPECIFIC = 'verify_specific_countries';
 
     /**
-     * @var string
-     */
-    const DEBUG = 'debug';
-
-    /** @var DirectoryList */
-    private $dir;
-
-    /**
-     * @param DirectoryList $dir
      * @param ScopeConfigInterface $scopeConfig
      * @param null $methodCode
      * @param string $pathPattern
      */
     public function __construct(
-        DirectoryList $dir,
         ScopeConfigInterface $scopeConfig,
         $methodCode = null,
         $pathPattern = self::DEFAULT_PATH_PATTERN
     ) {
-        $this->dir = $dir;
         parent::__construct($scopeConfig, $methodCode, $pathPattern);
     }
 
@@ -176,7 +162,7 @@ class Config extends MagentoGatewayConfig
      */
     public function isActive($storeId = null): bool
     {
-        return (bool)$this->getValue(self::ACTIVE, $storeId);
+        return (bool) $this->getValue(self::ACTIVE, $storeId);
     }
 
     /**
@@ -187,7 +173,7 @@ class Config extends MagentoGatewayConfig
      */
     public function isCcvEnabled($storeId = null): bool
     {
-        return (bool)$this->getValue(self::USE_CCV, $storeId);
+        return (bool) $this->getValue(self::USE_CCV, $storeId);
     }
 
     /**
@@ -229,7 +215,7 @@ class Config extends MagentoGatewayConfig
      */
     public function getEnvironment($storeId = null): string
     {
-        return (string)$this->getValue(self::ENVIRONMENT, $storeId);
+        return (string) $this->getValue(self::ENVIRONMENT, $storeId);
     }
 
     /**
@@ -364,31 +350,5 @@ class Config extends MagentoGatewayConfig
     public function getVerifySdkUrl($storeId = null)
     {
         return $this->getValue(self::VERIFY_SDK_URL, $storeId);
-    }
-
-    /**
-     * @param int|null $storeId
-     * @return bool
-     */
-    public function isDebugMode($storeId = null)
-    {
-        return (bool)$this->getValue(self::DEBUG, $storeId);
-    }
-
-    /**
-     * @param int|null $storeId
-     * @return string
-     * @throws FileSystemException
-     */
-    public function getDebugFile($storeId = null): string
-    {
-        $logDir  = (string)$this->dir->getPath($this->dir::LOG);
-        $logFile = (string)$this->scopeConfig->getValue(
-            'payment/tnw_authorize_cim/debug_file',
-            ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
-
-        return sprintf('%s/%s', $logDir, $logFile);
     }
 }
