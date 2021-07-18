@@ -8,6 +8,8 @@ declare(strict_types=1);
 namespace TNW\AuthorizeCim\Gateway\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Exception\FileSystemException;
 use Magento\Payment\Gateway\Config\Config as MagentoGatewayConfig;
 use TNW\AuthorizeCim\Model\Adminhtml\Source\Environment;
 
@@ -142,15 +144,33 @@ class Config extends MagentoGatewayConfig
     const VERIFY_SPECIFIC = 'verify_specific_countries';
 
     /**
+     * @var string
+     */
+    const DEBUG = 'debug';
+
+    /**
+     * @var string
+     */
+    const SDK_LOG_FILE = 'sdk_log_file';
+
+    /**
+     * @var DirectoryList
+     */
+    private $directoryList;
+
+    /**
+     * @param DirectoryList $directoryList
      * @param ScopeConfigInterface $scopeConfig
      * @param null $methodCode
      * @param string $pathPattern
      */
     public function __construct(
+        DirectoryList $directoryList,
         ScopeConfigInterface $scopeConfig,
         $methodCode = null,
         $pathPattern = self::DEFAULT_PATH_PATTERN
     ) {
+        $this->directoryList = $directoryList;
         parent::__construct($scopeConfig, $methodCode, $pathPattern);
     }
 
@@ -237,7 +257,7 @@ class Config extends MagentoGatewayConfig
      */
     public function getValidationMode($storeId = null): string
     {
-        return (string)$this->getValue(self::VALIDATION_MODE, $storeId);
+        return (string) $this->getValue(self::VALIDATION_MODE, $storeId);
     }
 
     /**
@@ -247,10 +267,10 @@ class Config extends MagentoGatewayConfig
     public function getSdkUrl($storeId = null): string
     {
         if ($this->isSandboxMode($storeId)) {
-            return (string)$this->getValue(self::SDK_URL_TEST, $storeId);
+            return (string) $this->getValue(self::SDK_URL_TEST, $storeId);
         }
 
-        return (string)$this->getValue(self::SDK_URL, $storeId);
+        return (string) $this->getValue(self::SDK_URL, $storeId);
     }
 
     /**
@@ -350,5 +370,27 @@ class Config extends MagentoGatewayConfig
     public function getVerifySdkUrl($storeId = null)
     {
         return $this->getValue(self::VERIFY_SDK_URL, $storeId);
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isDebugMode($storeId = null): bool
+    {
+        return (bool) $this->getValue(static::DEBUG, $storeId);
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return string|null
+     * @throws FileSystemException
+     */
+    public function getSdkLogFile($storeId = null): ?string
+    {
+        $logDir  = (string) $this->directoryList->getPath($this->directoryList::LOG);
+        $logFile = (string) $this->getValue(static::SDK_LOG_FILE, $storeId);
+
+        return $logFile ? $logDir . '/' . $logFile : null;
     }
 }

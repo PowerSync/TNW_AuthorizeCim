@@ -50,7 +50,8 @@ class AuthorizeAdapterFactory
             [
                 'apiLoginId' => $this->config->getApiLoginId($storeId),
                 'transactionKey' => $this->config->getTransactionKey($storeId),
-                'sandboxMode' => $this->config->isSandboxMode($storeId)
+                'sandboxMode' => $this->config->isSandboxMode($storeId),
+                'sdkLogFile' => $this->config->isDebugMode($storeId) ? $this->config->getSdkLogFile($storeId) : null
             ]
         );
     }

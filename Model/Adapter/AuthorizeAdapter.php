@@ -43,18 +43,34 @@ class AuthorizeAdapter
      * @param string $apiLoginId
      * @param string $transactionKey
      * @param bool $sandboxMode
+     * @param string|null $sdkLogFile
      * @param DataObject $dataObjectHelper
      */
     public function __construct(
         $apiLoginId,
         $transactionKey,
         $sandboxMode,
+        $sdkLogFile,
         DataObject $dataObjectHelper
     ) {
         $this->apiLoginId = $apiLoginId;
         $this->transactionKey = $transactionKey;
         $this->sandboxMode = $sandboxMode;
         $this->dataObjectHelper = $dataObjectHelper;
+
+        $this->setupEnvOfAdaptiveClient($sdkLogFile);
+    }
+
+    /**
+     * Setup after construct
+     *
+     * @param string|null $sdkLogFile
+     */
+    private function setupEnvOfAdaptiveClient(?string $sdkLogFile)
+    {
+        if ($sdkLogFile && !defined('AUTHORIZENET_LOG_FILE')) {
+            define('AUTHORIZENET_LOG_FILE', $sdkLogFile);
+        }
     }
 
     /**
