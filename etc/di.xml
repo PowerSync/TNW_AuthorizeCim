@@ -273,6 +273,7 @@
             <argument name="builders" xsi:type="array">
                 <item name="refund" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\RefundDataBuilder</item>
                 <item name="store" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\StoreConfigBuilder</item>
+                <item name="address" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\AddressDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>
