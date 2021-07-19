@@ -509,6 +509,7 @@
                 <item name="payment_details" xsi:type="string">TNW\AuthorizeCim\Gateway\Response\PaymentDetailsHandler</item>
                 <item name="txn_id" xsi:type="string">TNW\AuthorizeCim\Gateway\Response\TransactionIdHandler</item>
                 <item name="card_details" xsi:type="string">TNW\AuthorizeCim\Gateway\Response\CardDetailsHandler</item>
+                <item name="vault_handler" xsi:type="string">TNW\AuthorizeCim\Gateway\Response\VaultDetailsHandler</item>
             </argument>
         </arguments>
     </virtualType>
