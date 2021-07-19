@@ -64,6 +64,14 @@ class CaptureStrategyCommand implements CommandInterface
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
+    /**
+     * CaptureStrategyCommand constructor.
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param TransactionRepositoryInterface $transactionRepository
+     * @param SubjectReader $subjectReader
+     * @param CommandPoolInterface $commandPool
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         TransactionRepositoryInterface $transactionRepository,
@@ -122,6 +130,7 @@ class CaptureStrategyCommand implements CommandInterface
 
         if ($paymentInfo->getAdditionalInformation('is_active_payment_token_enabler') && false) {
             try {
+                //TODO: currently handles each time with customer creation
                 $this->commandPool->get(self::CUSTOMER)->execute($commandSubject);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());

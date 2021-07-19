@@ -42,6 +42,8 @@ class AuthorizeStrategyCommand implements CommandInterface
 
     const CUSTOMER_GET = 'customer_get';
 
+    const CUSTOMER_UPDATE = 'customer_update';
+
     /**
      * @var CommandPoolInterface
      */
@@ -89,13 +91,13 @@ class AuthorizeStrategyCommand implements CommandInterface
         $order = $paymentDO->getOrder();
         $shippingAddress = $order->getShippingAddress();
         $customerId = $order->getCustomerId();
-        if ($customerId) {
-            //TODO: optimize and handle case for already synced customer
-        }
         try {
             $this->commandPool->get(self::CUSTOMER_GET)->execute($commandSubject);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
+        }
+        if ($customerId && $payment->getAdditionalInformation('profile_id')) {
+            $this->commandPool->get(self::CUSTOMER_UPDATE)->execute($commandSubject);
         }
         if (!$payment->getAdditionalInformation('profile_id')) {
             $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
