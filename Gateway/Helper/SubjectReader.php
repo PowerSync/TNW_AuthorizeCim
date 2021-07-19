@@ -74,6 +74,11 @@ class SubjectReader
             $customerObject = $data['customer'];
             $result->setEmail($customerObject->getEmail());
             $result->setCustomerId($customerObject->getId());
+            if (method_exists($customerObject, 'getCustomAttribute')
+                && $customerObject->getCustomAttribute('customer_profile_id')
+            ) {
+                $result->setCustomerProfileId($customerObject->getCustomAttribute('customer_profile_id')->getValue());
+            }
         }
         return $result;
     }

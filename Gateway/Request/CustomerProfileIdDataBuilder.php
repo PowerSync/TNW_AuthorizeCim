@@ -46,11 +46,16 @@ class CustomerProfileIdDataBuilder implements BuilderInterface
      */
     public function build(array $subject)
     {
-        $paymentDO = $this->subjectReader->readPayment($subject);
-        $payment = $paymentDO->getPayment();
-
+        try {
+            $paymentDO = $this->subjectReader->readPayment($subject);
+            $payment = $paymentDO->getPayment();
+            $profileId =  $payment->getAdditionalInformation('profile_id');
+        } catch (\Exception $e) {
+            $customerDO = $paymentDO = $this->subjectReader->readCustomerData($subject);
+            $profileId = $customerDO->getCustomerProfileId();
+        }
         $profileIdData = [
-            'customer_profile_id' => $payment->getAdditionalInformation('profile_id')
+            'customer_profile_id' => $profileId
         ];
         if ($this->parentRequestFieldId) {
             return [

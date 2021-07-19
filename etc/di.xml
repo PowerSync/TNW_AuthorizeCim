@@ -116,6 +116,18 @@
             </argument>
         </arguments>
     </virtualType>
+    <type name="TNW\AuthorizeCim\Gateway\Command\ProfileUpdateCommand">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">AuthorizeCimUpdateProfileCommandPool</argument>
+        </arguments>
+    </type>
+    <virtualType name="AuthorizeCimUpdateProfileCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="customer_update" xsi:type="string">AuthorizeCimCustomerUpdateProfileCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <virtualType name="AuthorizeCimAuthorizeStrategyCommand" type="TNW\AuthorizeCim\Gateway\Command\AuthorizeStrategyCommand">
         <arguments>
             <argument name="commandPool" xsi:type="object">AuthorizeCimStrategyCommandPool</argument>
@@ -334,7 +346,7 @@
             <argument name="transferFactory" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\Client\UpdateCustomerProfile</argument>
             <argument name="validator" xsi:type="object">CustomerProfilesResponseValidator</argument>
-            <argument name="handler" xsi:type="object">TNW\AuthorizeCim\Gateway\Response\CustomerDetailsHandler</argument>
+            <argument name="handler" xsi:type="object">TNW\AuthorizeCim\Gateway\Response\CustomerUpdateHandler</argument>
         </arguments>
     </virtualType>
     <virtualType name="CustomerPaymentProfilesResponseValidator" type="TNW\AuthorizeCim\Gateway\Validator\CustomerProfilesResponseValidator">
@@ -414,7 +426,6 @@
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="customer_profile" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerProfileCreateDataBuilder</item>
-                <item name="store" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\StoreConfigBuilder</item>
                 <item name="customer_profile_id" xsi:type="string">AuthorizeCimCustomerProfileUpdateIdBuilder</item>
             </argument>
         </arguments>
