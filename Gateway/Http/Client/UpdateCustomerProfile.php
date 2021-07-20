@@ -8,9 +8,9 @@ declare(strict_types=1);
 namespace TNW\AuthorizeCim\Gateway\Http\Client;
 
 /**
- * Class CreateCustomerProfile - transaction to create customer profile
+ * Class UpdateCustomerProfile - transaction to update customer payment profile
  */
-class CreateCustomerProfile extends AbstractTransaction
+class UpdateCustomerProfile extends AbstractTransaction
 {
     /**
      * @inheritdoc
@@ -18,10 +18,8 @@ class CreateCustomerProfile extends AbstractTransaction
     protected function process(array $data)
     {
         $storeId = $data['store_id'] ?? null;
-        // sending store id and other additional keys are restricted by Authorize API
         unset($data['store_id']);
-
         return $this->adapterFactory->create($storeId)
-            ->createCustomerProfile($data);
+            ->updateCustomerProfile($data);
     }
 }

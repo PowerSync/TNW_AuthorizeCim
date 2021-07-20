@@ -142,6 +142,17 @@ class Config extends MagentoGatewayConfig
     const VERIFY_SPECIFIC = 'verify_specific_countries';
 
     /**
+     * @var string
+     */
+    const DEBUG = 'debug';
+
+    /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
+     * Config constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param null $methodCode
      * @param string $pathPattern
@@ -151,6 +162,7 @@ class Config extends MagentoGatewayConfig
         $methodCode = null,
         $pathPattern = self::DEFAULT_PATH_PATTERN
     ) {
+        $this->scopeConfig = $scopeConfig;
         parent::__construct($scopeConfig, $methodCode, $pathPattern);
     }
 

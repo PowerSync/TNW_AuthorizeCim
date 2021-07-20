@@ -11,11 +11,23 @@ use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1\CreateTransactionRequest;
 use net\authorize\api\contract\v1\CreateCustomerProfileFromTransactionRequest;
 use net\authorize\api\contract\v1\CreateCustomerProfileRequest;
+use net\authorize\api\contract\v1\UpdateCustomerProfileRequest;
+use net\authorize\api\controller\UpdateCustomerProfileController;
 use net\authorize\api\controller\CreateTransactionController;
 use net\authorize\api\controller\CreateCustomerProfileFromTransactionController;
 use net\authorize\api\controller\CreateCustomerProfileController;
 use TNW\AuthorizeCim\Gateway\Helper\DataObject;
+use net\authorize\api\contract\v1\CreateCustomerPaymentProfileRequest;
+use net\authorize\api\controller\CreateCustomerPaymentProfileController;
+use net\authorize\api\controller\CreateCustomerShippingAddressController;
+use net\authorize\api\contract\v1\CreateCustomerShippingAddressRequest;
+use net\authorize\api\contract\v1\GetCustomerProfileRequest;
+use net\authorize\api\controller\GetCustomerProfileController;
+use net\authorize\api\contract\v1\AnetApiResponseType;
 
+/**
+ * Class AuthorizeAdapter - uses as bridge for authorizenet-sdk
+ */
 class AuthorizeAdapter
 {
     /**
@@ -69,7 +81,7 @@ class AuthorizeAdapter
 
     /**
      * @param array $attributes
-     * @return \net\authorize\api\contract\v1\CreateTransactionResponse
+     * @return AnetApiResponseType
      */
     public function transaction(array $attributes)
     {
@@ -89,7 +101,7 @@ class AuthorizeAdapter
 
     /**
      * @param array $attributes
-     * @return \net\authorize\api\contract\v1\CreateCustomerProfileResponse
+     * @return AnetApiResponseType
      */
     public function createCustomerProfileFromTransaction(array $attributes)
     {
@@ -109,7 +121,27 @@ class AuthorizeAdapter
 
     /**
      * @param array $attributes
-     * @return \net\authorize\api\contract\v1\CreateCustomerProfileResponse
+     * @return AnetApiResponseType
+     */
+    public function updateCustomerProfile(array $attributes)
+    {
+        $transactionRequest = new UpdateCustomerProfileRequest();
+
+        // Filling the object
+        $this->dataObjectHelper->populateWithArray($transactionRequest, array_merge($attributes, [
+            'merchant_authentication' => [
+                'name' => $this->apiLoginId,
+                'transaction_key' => $this->transactionKey
+            ]
+        ]));
+
+        $controller = new UpdateCustomerProfileController($transactionRequest);
+        return $controller->executeWithApiResponse($this->endPoint());
+    }
+
+    /**
+     * @param array $attributes
+     * @return AnetApiResponseType
      */
     public function createCustomerProfile(array $attributes)
     {
@@ -124,6 +156,66 @@ class AuthorizeAdapter
         ]));
 
         $controller = new CreateCustomerProfileController($transactionRequest);
+        return $controller->executeWithApiResponse($this->endPoint());
+    }
+
+    /**
+     * @param array $attributes
+     * @return AnetApiResponseType
+     */
+    public function createCustomerPaymentProfile(array $attributes)
+    {
+        $transactionRequest = new CreateCustomerPaymentProfileRequest();
+
+        // Filling the object
+        $this->dataObjectHelper->populateWithArray($transactionRequest, array_merge($attributes, [
+            'merchant_authentication' => [
+                'name' => $this->apiLoginId,
+                'transaction_key' => $this->transactionKey
+            ]
+        ]));
+
+        $controller = new CreateCustomerPaymentProfileController($transactionRequest);
+        return $controller->executeWithApiResponse($this->endPoint());
+    }
+
+    /**
+     * @param array $attributes
+     * @return AnetApiResponseType
+     */
+    public function createCustomerShippingProfile(array $attributes)
+    {
+        $transactionRequest = new CreateCustomerShippingAddressRequest();
+
+        // Filling the object
+        $this->dataObjectHelper->populateWithArray($transactionRequest, array_merge($attributes, [
+            'merchant_authentication' => [
+                'name' => $this->apiLoginId,
+                'transaction_key' => $this->transactionKey
+            ]
+        ]));
+
+        $controller = new CreateCustomerShippingAddressController($transactionRequest);
+        return $controller->executeWithApiResponse($this->endPoint());
+    }
+
+    /**
+     * @param array $attributes
+     * @return AnetApiResponseType
+     */
+    public function getCustomerProfile(array $attributes)
+    {
+        $transactionRequest = new GetCustomerProfileRequest();
+
+        // Filling the object
+        $this->dataObjectHelper->populateWithArray($transactionRequest, array_merge($attributes, [
+            'merchant_authentication' => [
+                'name' => $this->apiLoginId,
+                'transaction_key' => $this->transactionKey
+            ]
+        ]));
+
+        $controller = new GetCustomerProfileController($transactionRequest);
         return $controller->executeWithApiResponse($this->endPoint());
     }
 }

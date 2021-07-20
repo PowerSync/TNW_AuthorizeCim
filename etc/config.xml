@@ -54,6 +54,10 @@
                 <model>AuthorizeCimVaultFacade</model>
                 <title>Stored Cards (Authorize.net CIM)</title>
                 <active>0</active>
+                <instant_purchase>
+                    <available>TNW\AuthorizeCim\Model\InstantPurchase\AvailabilityChecker</available>
+                    <tokenFormat>TNW\AuthorizeCim\Model\InstantPurchase\TokenFormatter</tokenFormat>
+                </instant_purchase>
             </tnw_authorize_cim_vault>
         </payment>
     </default>

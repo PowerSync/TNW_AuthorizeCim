@@ -9,4 +9,7 @@
   <event name="payment_method_assign_data_tnw_authorize_cim">
     <observer name="tnw_authorize_cim_data_assign" instance="TNW\AuthorizeCim\Observer\DataAssignObserver" />
   </event>
+  <event name="sales_model_service_quote_submit_success">
+    <observer name="assign_auth_net_profile_id_to_customer" instance="TNW\AuthorizeCim\Observer\QuoteSubmitSuccess\AssignAuthNetId"/>
+  </event>
 </config>
