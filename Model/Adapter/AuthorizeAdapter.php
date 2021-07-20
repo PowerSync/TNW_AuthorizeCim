@@ -19,6 +19,10 @@ use net\authorize\api\controller\CreateCustomerProfileController;
 use TNW\AuthorizeCim\Gateway\Helper\DataObject;
 use net\authorize\api\contract\v1\CreateCustomerPaymentProfileRequest;
 use net\authorize\api\controller\CreateCustomerPaymentProfileController;
+use net\authorize\api\contract\v1\UpdateCustomerPaymentProfileRequest;
+use net\authorize\api\controller\UpdateCustomerPaymentProfileController;
+use net\authorize\api\contract\v1\GetCustomerPaymentProfileRequest;
+use net\authorize\api\controller\GetCustomerPaymentProfileController;
 use net\authorize\api\controller\CreateCustomerShippingAddressController;
 use net\authorize\api\contract\v1\CreateCustomerShippingAddressRequest;
 use net\authorize\api\contract\v1\GetCustomerProfileRequest;
@@ -176,6 +180,45 @@ class AuthorizeAdapter
         ]));
 
         $controller = new CreateCustomerPaymentProfileController($transactionRequest);
+        return $controller->executeWithApiResponse($this->endPoint());
+    }
+
+    /**
+     * @param array $attributes
+     * @return AnetApiResponseType
+     */
+    public function updateCustomerPaymentProfile(array $attributes)
+    {
+        $transactionRequest = new UpdateCustomerPaymentProfileRequest();
+
+        // Filling the object
+        $this->dataObjectHelper->populateWithArray($transactionRequest, array_merge($attributes, [
+            'merchant_authentication' => [
+                'name' => $this->apiLoginId,
+                'transaction_key' => $this->transactionKey
+            ]
+        ]));
+
+        $controller = new UpdateCustomerPaymentProfileController($transactionRequest);
+        return $controller->executeWithApiResponse($this->endPoint());
+    }
+
+    /**
+     * @param array $attributes
+     * @return AnetApiResponseType
+     */
+    public function getCustomerPaymentProfile(array $attributes)
+    {
+        $transactionRequest = new GetCustomerPaymentProfileRequest();
+
+        $this->dataObjectHelper->populateWithArray($transactionRequest, array_merge($attributes, [
+            'merchant_authentication' => [
+                'name' => $this->apiLoginId,
+                'transaction_key' => $this->transactionKey
+            ]
+        ]));
+
+        $controller = new GetCustomerPaymentProfileController($transactionRequest);
         return $controller->executeWithApiResponse($this->endPoint());
     }
 
