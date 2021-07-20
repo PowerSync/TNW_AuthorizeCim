@@ -355,9 +355,7 @@ workflows:
             branches:
               only:
                 - v2.4
-                - master
-                - develop
-
+                
       - m240-open_source-php74:
           context: powersync
           requires:
@@ -366,9 +364,7 @@ workflows:
             branches:
               only:
                 - v2.4
-                - master
-                - develop
-
+                
       - m241-commerce-php74:
           context: powersync
           requires:
@@ -377,8 +373,7 @@ workflows:
             branches:
               only:
                 - v2.4
-                - master
-
+                
       - m241-open_source-php74:
           context: powersync
           requires:
@@ -387,9 +382,7 @@ workflows:
             branches:
               only:
                 - v2.4
-                - master
-                - develop
-
+                
       - m242-commerce-php74:
           context: powersync
           requires:
@@ -398,9 +391,7 @@ workflows:
             branches:
               only:
                 - v2.4
-                - master
-                - develop
-
+                
       - m242-open_source-php74:
           context: powersync
           requires:
@@ -409,28 +400,19 @@ workflows:
             branches:
               only:
                 - v2.4
-                - master
-                - develop
-
+                
       - magento-coding-standard:
           context: powersync
           filters:
             branches:
               only:
                 - v2.4
-                - master
-                - develop
-
+                
       - deploy:
           context: powersync
           requires:
             - tag-release
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-
+                
       - tag-release:
           context: powersync
           requires:
@@ -451,8 +433,3 @@ workflows:
           context: powersync
           requires:
             - check-composer-installation
-          filters:
-            branches:
-              only:
-                - master
-                - develop
