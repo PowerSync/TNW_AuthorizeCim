@@ -480,7 +480,6 @@
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="customer_profile" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerProfileCreateDataBuilder</item>
-                <item name="opaque" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\OpaqueDataBuilder</item>
                 <item name="customer_profile_id" xsi:type="string">AuthorizeCimCustomerProfileUpdateIdBuilder</item>
             </argument>
         </arguments>
@@ -527,6 +526,7 @@
                 <item name="customer_profile" xsi:type="string">CustomerPaymentProfileIdUpdateDataBuilder</item>
                 <item name="customer_payment_profile" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerPaymentProfileIdDataBuilder</item>
                 <item name="address" xsi:type="string">BillingAddressDataBuilder</item>
+                <item name="opaque" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\OpaqueDataBuilder</item>
                 <item name="store" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\StoreConfigBuilder</item>
             </argument>
         </arguments>
