@@ -102,13 +102,22 @@ class VaultDetailsHandler implements HandlerInterface
                 $payment->getAdditionalInformation('customer_id')
             );
         }
-        $profileId = $transaction->getCustomerProfileId();
-        $paymentProfileIdList = $transaction->getCustomerPaymentProfileIdList();
+        if (method_exists($transaction, 'getCustomerProfileId')) {
+            $profileId = $transaction->getCustomerProfileId();
+        } else {
+            $profileId = $payment->getAdditionalInformation('profile_id');
+        }
+        if (method_exists($transaction, 'getCustomerPaymentProfileIdList')) {
+            $paymentProfileIdList = $transaction->getCustomerPaymentProfileIdList();
+            $paymentProfileId = reset($paymentProfileIdList);
+        } else {
+            $paymentProfileId = $payment->getAdditionalInformation('payment_profile_id');
+        }
 
         /** @var PaymentTokenInterface $paymentToken */
         $paymentToken = $this->paymentTokenFactory->create()
             ->setExpiresAt($this->_getExpirationDate($payment))
-            ->setGatewayToken(sprintf('%s/%s', $profileId, reset($paymentProfileIdList)));
+            ->setGatewayToken(sprintf('%s/%s', $profileId, $paymentProfileId));
 
         $paymentToken->setTokenDetails($this->_convertDetailsToJSON([
             'type' => $this->getCreditCardType($payment->getAdditionalInformation('cc_type')),

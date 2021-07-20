@@ -11,9 +11,9 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
 /**
- * Profile Data Builder
+ * Class CustomerProfileGetDataBuilder - builds required data to get profile
  */
-class CustomerProfileDataBuilder implements BuilderInterface
+class CustomerProfileGetDataBuilder implements BuilderInterface
 {
     /**
      * @var SubjectReader
@@ -30,7 +30,7 @@ class CustomerProfileDataBuilder implements BuilderInterface
     }
 
     /**
-     * Build payment data
+     * Build customer data
      *
      * @param array $subject
      * @return array
@@ -39,11 +39,11 @@ class CustomerProfileDataBuilder implements BuilderInterface
     {
         $paymentDO = $this->subjectReader->readPayment($subject);
 
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        $payment = $paymentDO->getPayment();
+        $order = $paymentDO->getOrder();
+        $billingAddress = $order->getBillingAddress();
 
         return [
-            'trans_id' => $payment->getParentTransactionId() ?: $payment->getLastTransId(),
+            'email' => $billingAddress->getEmail(),
         ];
     }
 }
