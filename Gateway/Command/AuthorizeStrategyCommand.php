@@ -13,6 +13,7 @@ use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
 use Psr\Log\LoggerInterface;
+use TNW\AuthorizeCim\Gateway\Config\Config;
 
 /**
  * Class AuthorizeStrategyCommand - authorize strategy command
@@ -60,16 +61,24 @@ class AuthorizeStrategyCommand implements CommandInterface
     private $logger;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * AuthorizeStrategyCommand constructor.
      * @param CommandPoolInterface $commandPool
      * @param SubjectReader $subjectReader
      * @param LoggerInterface $logger
+     * @param Config $config
      */
     public function __construct(
         CommandPoolInterface $commandPool,
         SubjectReader $subjectReader,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        Config $config
     ) {
+        $this->config = $config;
         $this->commandPool = $commandPool;
         $this->subjectReader = $subjectReader;
         $this->logger = $logger;
@@ -91,32 +100,25 @@ class AuthorizeStrategyCommand implements CommandInterface
         $order = $paymentDO->getOrder();
         $shippingAddress = $order->getShippingAddress();
         $customerId = $order->getCustomerId();
-        try {
-            $this->commandPool->get(self::CUSTOMER_GET)->execute($commandSubject);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
-        }
-        if ($customerId && $payment->getAdditionalInformation('profile_id')) {
-            $this->commandPool->get(self::CUSTOMER_UPDATE)->execute($commandSubject);
-        }
-        if (!$payment->getAdditionalInformation('profile_id')) {
-            $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
-        }
-        $this->commandPool->get(self::CUSTOMER_PAYMENT_CREATE)->execute($commandSubject);
-        if ($shippingAddress) {
-            $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
-        }
-        $this->commandPool->get(self::AUTHORIZE_CUSTOMER)->execute($commandSubject);
-
-        if ($payment->getAdditionalInformation('is_active_payment_token_enabler')
-            && false
-        ) {
-            //TODO: currently handles each time with customer creation
+        if ($this->config->isCIMEnabled()) {
             try {
-                $this->commandPool->get(self::CUSTOMER)->execute($commandSubject);
+                $this->commandPool->get(self::CUSTOMER_GET)->execute($commandSubject);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
             }
+            if ($customerId && $payment->getAdditionalInformation('profile_id')) {
+                $this->commandPool->get(self::CUSTOMER_UPDATE)->execute($commandSubject);
+            }
+            if (!$payment->getAdditionalInformation('profile_id')) {
+                $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
+            }
+            $this->commandPool->get(self::CUSTOMER_PAYMENT_CREATE)->execute($commandSubject);
+            if ($shippingAddress) {
+                $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
+            }
+            $this->commandPool->get(self::AUTHORIZE_CUSTOMER)->execute($commandSubject);
+        } else {
+            $this->commandPool->get(self::AUTHORIZE)->execute($commandSubject);
         }
     }
 }
