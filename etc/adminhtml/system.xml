@@ -21,6 +21,7 @@
           <label>Vault Enabled</label>
           <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
           <config_path>payment/tnw_authorize_cim_vault/active</config_path>
+          <backend_model>TNW\AuthorizeCim\Model\Config\Backend\Vault</backend_model>
           <requires>
             <group id="required"/>
           </requires>
