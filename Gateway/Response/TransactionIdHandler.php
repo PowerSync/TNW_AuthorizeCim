@@ -68,7 +68,11 @@ class TransactionIdHandler implements HandlerInterface
      */
     protected function setTransactionId(Payment $orderPayment, $transaction)
     {
-        $orderPayment->setTransactionId($transaction->getTransId());
+        if (!$orderPayment->getTransactionId()
+            || strpos($orderPayment->getTransactionId(), $transaction->getTransId()) === false
+        ) {
+            $orderPayment->setTransactionId($transaction->getTransId());
+        }
     }
 
     /**
