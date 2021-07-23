@@ -37,13 +37,17 @@ class CustomerProfileGetDataBuilder implements BuilderInterface
      */
     public function build(array $subject)
     {
-        $paymentDO = $this->subjectReader->readPayment($subject);
+        $customerDataObject = $this->subjectReader->readCustomerData($subject);
+        $email = $customerDataObject->getEmail();
 
-        $order = $paymentDO->getOrder();
-        $billingAddress = $order->getBillingAddress();
+        if (!$email) {
+            $paymentDO = $this->subjectReader->readPayment($subject);
+            $order = $paymentDO->getOrder();
+            $email = $order->getBillingAddress()->getEmail();
+        }
 
         return [
-            'email' => $billingAddress->getEmail(),
+            'email' => $email,
         ];
     }
 }

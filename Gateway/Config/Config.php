@@ -124,6 +124,11 @@ class Config extends MagentoGatewayConfig
     /**
      * @var string
      */
+    const CIM_ENABLED_XML = 'cim_active';
+
+    /**
+     * @var string
+     */
     const THRESHOLD_AMOUNT = 'threshold_amount';
 
     /**
@@ -362,5 +367,14 @@ class Config extends MagentoGatewayConfig
     public function getVerifySdkUrl($storeId = null)
     {
         return $this->getValue(self::VERIFY_SDK_URL, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return bool
+     */
+    public function isCIMEnabled($storeId = null)
+    {
+        return (bool) $this->getValue(self::CIM_ENABLED_XML, $storeId);
     }
 }

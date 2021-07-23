@@ -76,7 +76,9 @@ class VaultDetailsHandler implements HandlerInterface
         $transaction = $this->subjectReader->readTransaction($response);
         $payment = $paymentDO->getPayment();
 
-        if (!$payment->getAdditionalInformation('is_active_payment_token_enabler')) {
+        if (!$payment->getAdditionalInformation('is_active_payment_token_enabler')
+            || !$this->config->isCIMEnabled()
+        ) {
             return;
         }
 

@@ -1,0 +1,50 @@
+<?php
+/**
+ * Copyright © 2021 TechNWeb, Inc. All rights reserved.
+ * See TNW_LICENSE.txt for license details.
+ */
+
+/** @var \TNW\AuthorizeCim\Block\Adminhtml\Customer\PaymentProfiles $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+<div class="admin__fieldset-wrapper" id="payment-profiles-info">
+    <div class="admin__fieldset-wrapper-content">
+        <div class="manage-payment-method">
+            <?php if ($block->isExistsPaymentProfiles()): ?>
+                <div class="ui-tabs">
+                    <ul class="address-list ui-tabs-nav">
+                        <?php foreach ($block->getPaymentProfiles() as $profile): ?>
+                            <?= $block->renderProfileHtml($profile); ?>
+                        <?php endforeach; ?>
+                    </ul>
+                    <div class="address-item-edit">
+                        <div class="address-item-edit-content">
+                            <?= $block->getChildHtml('adminhtml.customer.edit.tab.paymentinfo.card.form'); ?>
+                        </div>
+                    </div>
+                </div>
+            <?php else: ?>
+                <?= $escaper->escapeHtml(__('There are currently no active payment profiles.')); ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#payment-profiles-info": {
+            "TNW_AuthorizeCim/js/paymentProfilesInfo": {}
+        }
+    }
+</script>
+<?= $block->getChildHtml('tnw_authorize_cim_payment_script') ?>
+<?php
+$scriptString = <<<script
+require([
+    'jquery'
+], function ($) {
+    $('body').trigger('contentUpdated');
+});
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
