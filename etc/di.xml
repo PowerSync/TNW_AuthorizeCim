@@ -103,8 +103,8 @@
             <argument name="commands" xsi:type="array">
                 <item name="authorize" xsi:type="string">AuthorizeCimAuthorizeStrategyCommand</item>
                 <item name="capture" xsi:type="string">AuthorizeCimCaptureStrategyCommand</item>
-                <item name="vault_authorize" xsi:type="string">AuthorizeCimVaultAuthorizeCommand</item>
-                <item name="vault_sale" xsi:type="string">AuthorizeCimVaultSaleCommand</item>
+                <item name="vault_authorize" xsi:type="string">AuthorizeCimVaultAuthorizeStrategyCommand</item>
+                <item name="vault_sale" xsi:type="string">AuthorizeCimVaultSaleStrategyCommand</item>
                 <item name="void" xsi:type="string">AuthorizeCimVoidCommand</item>
                 <item name="refund" xsi:type="string">AuthorizeCimRefundCommand</item>
                 <item name="cancel" xsi:type="string">AuthorizeCimVoidCommand</item>
@@ -152,7 +152,7 @@
                 <item name="sale_customer" xsi:type="string">AuthorizeCimCustomerSaleProfileCommand</item>
                 <item name="customer_get" xsi:type="string">AuthorizeCimCustomerGetProfileCommand</item>
                 <item name="vault_capture" xsi:type="string">AuthorizeCimVaultCaptureCommand</item>
-                <item name="vault_sale" xsi:type="string">AuthorizeCimVaultSaleCommand</item>
+                <item name="vault_sale" xsi:type="string">AuthorizeCimVaultAuthorizeStrategyCommand</item>
                 <item name="customer_update" xsi:type="string">AuthorizeCimCustomerUpdateProfileCommand</item>
             </argument>
         </arguments>
@@ -217,6 +217,28 @@
             <argument name="builders" xsi:type="array">
                 <item name="capture" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CaptureDataBuilder</item>
                 <item name="store" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\StoreConfigBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeCimVaultAuthorizeStrategyCommand" type="TNW\AuthorizeCim\Gateway\Command\VaultCommand">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">AuthorizeCimVaultStrategyCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeCimVaultSaleStrategyCommand" type="TNW\AuthorizeCim\Gateway\Command\VaultCommand">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">AuthorizeCimVaultStrategyCommandPool</argument>
+            <argument name="commandName" xsi:type="string">sale_customer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeCimVaultStrategyCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="customer_payment_profile_get" xsi:type="string">AuthorizeCimCustomerPaymentGetProfileCommand</item>
+                <item name="customer_payment_profile_update" xsi:type="string">AuthorizeCimCustomerPaymentUpdateProfileCommand</item>
+                <item name="customer_shipping_profile_create" xsi:type="string">AuthorizeCimCustomerShippingCreateProfileCommand</item>
+                <item name="authorize_customer" xsi:type="string">AuthorizeCimVaultCustomerAuthorizeProfileCommand</item>
+                <item name="sale_customer" xsi:type="string">AuthorizeCimCustomerSaleProfileCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -340,6 +362,29 @@
             <argument name="handler" xsi:type="object">TNW\AuthorizeCim\Gateway\Response\CustomerAddressDetailsHandler</argument>
         </arguments>
     </virtualType>
+    <virtualType name="AuthorizeCimCustomerPaymentUpdateProfileCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">AuthorizeCimCustomerPaymentProfileUpdateBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\Client\UpdateCustomerPaymentProfile</argument>
+            <argument name="validator" xsi:type="object">CustomerPaymentProfilesResponseValidator</argument>
+            <argument name="handler" xsi:type="object">TNW\AuthorizeCim\Gateway\Response\CustomerAddressDetailsHandler</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CustomerPaymentProfileIdUpdateDataBuilder" type="TNW\AuthorizeCim\Gateway\Request\CustomerPaymentProfileIdDataBuilder">
+        <arguments>
+            <argument name="parentRequestFieldId" xsi:type="string">paymentProfile</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeCimCustomerPaymentGetProfileCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">AuthorizeCimCustomerPaymentProfileGetBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\Client\GetCustomerPaymentProfile</argument>
+            <argument name="validator" xsi:type="object">CustomerPaymentProfilesResponseValidator</argument>
+            <argument name="handler" xsi:type="object">TNW\AuthorizeCim\Gateway\Response\CustomerAddressDetailsHandler</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="AuthorizeCimCustomerUpdateProfileCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">AuthorizeCimCustomerProfileUpdateBuilder</argument>
@@ -374,6 +419,15 @@
             <argument name="transferFactory" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\Client\TransactionAuthorize</argument>
             <argument name="handler" xsi:type="object">AuthorizeCimAuthorizationHandler</argument>
+            <argument name="validator" xsi:type="object">TNW\AuthorizeCim\Gateway\Validator\TransactionResponseValidator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeCimVaultCustomerAuthorizeProfileCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">AuthorizeCiProfileAuthorizeRequest</argument>
+            <argument name="transferFactory" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">TNW\AuthorizeCim\Gateway\Http\Client\TransactionAuthorize</argument>
+            <argument name="handler" xsi:type="object">AuthorizeCimVaultResponseHandler</argument>
             <argument name="validator" xsi:type="object">TNW\AuthorizeCim\Gateway\Validator\TransactionResponseValidator</argument>
         </arguments>
     </virtualType>
@@ -462,6 +516,26 @@
                 <item name="customer_profile" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerProfileIdDataBuilder</item>
                 <item name="payment" xsi:type="string">CustomerOpaQueueDataBuilder</item>
                 <item name="address" xsi:type="string">BillingAddressDataBuilder</item>
+                <item name="store" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\StoreConfigBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeCimCustomerPaymentProfileUpdateBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="customer_profile" xsi:type="string">CustomerPaymentProfileIdUpdateDataBuilder</item>
+                <item name="customer_payment_profile" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerPaymentProfileIdDataBuilder</item>
+                <item name="address" xsi:type="string">BillingAddressDataBuilder</item>
+                <item name="opaque" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\OpaqueDataBuilder</item>
+                <item name="store" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\StoreConfigBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeCimCustomerPaymentProfileGetBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="customer_profile" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerProfileIdDataBuilder</item>
+                <item name="customer_payment_profile" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerPaymentProfileIdDataBuilder</item>
                 <item name="store" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\StoreConfigBuilder</item>
             </argument>
         </arguments>
