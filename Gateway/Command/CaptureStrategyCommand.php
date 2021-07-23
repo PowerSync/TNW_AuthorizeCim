@@ -16,6 +16,7 @@ use Magento\Sales\Api\Data\TransactionInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Psr\Log\LoggerInterface;
+use TNW\AuthorizeCim\Gateway\Config\Config;
 
 /**
  * Class CaptureStrategyCommand - capture/sale strategy command
@@ -65,25 +66,33 @@ class CaptureStrategyCommand implements CommandInterface
     private $logger;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * CaptureStrategyCommand constructor.
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param TransactionRepositoryInterface $transactionRepository
      * @param SubjectReader $subjectReader
      * @param CommandPoolInterface $commandPool
      * @param LoggerInterface $logger
+     * @param Config $config
      */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         TransactionRepositoryInterface $transactionRepository,
         SubjectReader $subjectReader,
         CommandPoolInterface $commandPool,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        Config $config
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->transactionRepository = $transactionRepository;
         $this->subjectReader = $subjectReader;
         $this->commandPool = $commandPool;
         $this->logger = $logger;
+        $this->config = $config;
     }
 
     /**
@@ -127,15 +136,6 @@ class CaptureStrategyCommand implements CommandInterface
         }
 
         $this->commandPool->get($command)->execute($commandSubject);
-
-        if ($paymentInfo->getAdditionalInformation('is_active_payment_token_enabler') && false) {
-            try {
-                //TODO: currently handles each time with customer creation
-                $this->commandPool->get(self::CUSTOMER)->execute($commandSubject);
-            } catch (\Exception $e) {
-                $this->logger->error($e->getMessage());
-            }
-        }
     }
 
     /**
@@ -146,7 +146,10 @@ class CaptureStrategyCommand implements CommandInterface
     {
         $existsCapture = $this->isExistsCaptureTransaction($payment);
         if (!$payment->getAuthorizationTransaction() && !$existsCapture) {
-            return self::SALE_CUSTOMER;
+            if ($this->config->isCIMEnabled()) {
+                return self::SALE_CUSTOMER;
+            }
+            return self::SALE;
         }
 
         if (!$existsCapture) {

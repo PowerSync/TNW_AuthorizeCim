@@ -21,9 +21,19 @@
           <label>Vault Enabled</label>
           <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
           <config_path>payment/tnw_authorize_cim_vault/active</config_path>
+          <backend_model>TNW\AuthorizeCim\Model\Config\Backend\Vault</backend_model>
           <requires>
             <group id="required"/>
           </requires>
+          <depends>
+            <field id="cim_active">1</field>
+          </depends>
+        </field>
+        <field id="cim_active" translate="label comment" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
+          <label>Enable CIM functionality</label>
+          <comment>Vault can work only if Profiles are enabled.</comment>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>payment/tnw_authorize_cim/cim_active</config_path>
         </field>
         <group id="required" translate="label" showInDefault="1" showInWebsite="1" sortOrder="5">
           <label>Basic Settings</label>
