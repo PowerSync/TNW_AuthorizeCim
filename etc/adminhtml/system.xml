@@ -39,6 +39,11 @@
           <label>Basic Settings</label>
           <attribute type="expanded">1</attribute>
           <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+          <field id="version" translate="label" type="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Version Installed</label>
+            <backend_model>TNW\AuthorizeCim\Model\Config\Version</backend_model>
+            <config_path>payment/tnw_authorize_cim/version</config_path>
+          </field>
           <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Title</label>
             <config_path>payment/tnw_authorize_cim/title</config_path>
