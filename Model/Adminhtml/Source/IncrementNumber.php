@@ -32,11 +32,11 @@ class IncrementNumber implements OptionSourceInterface
         return [
             [
                 'value' => self::NO_DATA,
-                'label' => __('No data'),
+                'label' => __('Leave Empty'),
             ],
             [
                 'value' => self::ORDER_NUMBER,
-                'label' => __('Order number')
+                'label' => __('Magento Order Number')
             ],
         ];
     }

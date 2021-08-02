@@ -9,7 +9,7 @@
   <system>
     <section id="payment">
       <group id="tnw_authorize_cim" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-        <label>Authorize.net CIM</label>
+        <label>Authorize.Net CIM (by PowerSync)</label>
         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
           <label>Enable</label>
           <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -105,12 +105,14 @@
             <config_path>payment/tnw_authorize_cim/sort_order</config_path>
           </field>
           <field id="order_invoice_number" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
-            <label>Order Invoice Number</label>
+            <label>Invoice Number Field</label>
+            <comment><![CDATA[Populate Invoice Number field in <a href="https://www.authorize.net/">Authorize.Net</a> transaction with data from Magento.]]></comment>
             <source_model>\TNW\AuthorizeCim\Model\Adminhtml\Source\IncrementNumber</source_model>
             <config_path>payment/tnw_authorize_cim/order_invoice_number</config_path>
           </field>
           <field id="order_po_number" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
-            <label>Order PO Number</label>
+            <label>PO Number Field</label>
+            <comment><![CDATA[Populate PO Number field in <a href="https://www.authorize.net/">Authorize.Net</a> transaction with data from Magento.]]></comment>
             <source_model>\TNW\AuthorizeCim\Model\Adminhtml\Source\IncrementNumber</source_model>
             <config_path>payment/tnw_authorize_cim/order_po_number</config_path>
           </field>
