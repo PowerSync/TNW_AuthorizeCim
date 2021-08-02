@@ -17,6 +17,7 @@ use Magento\Sales\Api\TransactionRepositoryInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Psr\Log\LoggerInterface;
 use TNW\AuthorizeCim\Gateway\Config\Config;
+use Magento\Framework\App\Config\ScopeConfigInterface as ScopeConfig;
 
 /**
  * Class CaptureStrategyCommand - capture/sale strategy command
@@ -71,6 +72,11 @@ class CaptureStrategyCommand implements CommandInterface
     private $config;
 
     /**
+     * @var ScopeConfig
+     */
+    private $scopeConfig;
+
+    /**
      * CaptureStrategyCommand constructor.
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param TransactionRepositoryInterface $transactionRepository
@@ -78,6 +84,7 @@ class CaptureStrategyCommand implements CommandInterface
      * @param CommandPoolInterface $commandPool
      * @param LoggerInterface $logger
      * @param Config $config
+     * @param ScopeConfig $scopeConfig
      */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -85,8 +92,10 @@ class CaptureStrategyCommand implements CommandInterface
         SubjectReader $subjectReader,
         CommandPoolInterface $commandPool,
         LoggerInterface $logger,
-        Config $config
+        Config $config,
+        ScopeConfig $scopeConfig
     ) {
+        $this->scopeConfig = $scopeConfig;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->transactionRepository = $transactionRepository;
         $this->subjectReader = $subjectReader;
@@ -130,7 +139,9 @@ class CaptureStrategyCommand implements CommandInterface
                 $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
             }
             $this->commandPool->get(self::CUSTOMER_PAYMENT_CREATE)->execute($commandSubject);
-            if ($shippingAddress) {
+            if ($shippingAddress
+                && (bool) $this->scopeConfig->getValue('payment/tnw_authorize_cim/shipping_profile')
+            ) {
                 $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
             }
         }
