@@ -91,6 +91,7 @@ class AddressDataBuilder implements BuilderInterface
                 'state' => $address->getRegionCode(),
                 'zip' => $address->getPostcode(),
                 'country' => $address->getCountryId(),
+                'phone_number' => $address->getTelephone()
             ];
             if ($target) {
                 $result[$this->requestedDataBlockName][$target] = $addressData;

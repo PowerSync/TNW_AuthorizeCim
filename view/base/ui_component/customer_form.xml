@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2021 TechNWeb, Inc. All rights reserved.
+ * See TNW_LICENSE.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <htmlContent name="payment_profiles">
+        <block acl="TNW_AuthorizeCim::payment_info"
+               class="TNW\AuthorizeCim\Block\Adminhtml\CustomerPaymentInfoTab"
+               name="payment.profiles"/>
+    </htmlContent>
+</form>

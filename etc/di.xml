@@ -628,4 +628,13 @@
             <argument name="config" xsi:type="object">TNW\AuthorizeCim\Gateway\Config\Config</argument>
         </arguments>
     </type>
+    <preference for="TNW\AuthorizeCim\Model\Customer\PaymentProfileManagementInterface"
+                type="TNW\AuthorizeCim\Model\Customer\PaymentProfileManagement"/>
+    <type name="TNW\AuthorizeCim\Model\Customer\PaymentProfileManagement">
+        <arguments>
+            <argument name="customerGetProfileCommand" xsi:type="object">AuthorizeCimCustomerGetProfileCommand</argument>
+            <argument name="customerCreateProfileCommand" xsi:type="object">AuthorizeCimCustomerCreateProfileCommand</argument>
+            <argument name="customerPaymentCreateProfileCommand" xsi:type="object">AuthorizeCimCustomerPaymentCreateProfileCommand</argument>
+        </arguments>
+    </type>
 </config>

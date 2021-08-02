@@ -46,7 +46,49 @@ define([
          */
         initEventHandlers: function () {
             this.$container.find('[name="payment[token_switcher]"]')
-                .on('click', this.setPaymentDetails.bind(this));
+                .on('click', this.selectPaymentMethod.bind(this));
+        },
+
+        /**
+         * Store payment details
+         */
+        selectPaymentMethod: function () {
+            this.disableEventListeners();
+            this.enableEventListeners();
+            this.setPaymentDetails();
+        },
+
+        /**
+         * Enable form event listeners
+         */
+        enableEventListeners: function () {
+            this.$selector.on('submitOrder.' + this.getCode(), this.submitOrder.bind(this));
+        },
+
+        /**
+         * Disable form event listeners
+         */
+        disableEventListeners: function () {
+            this.$selector.off('submitOrder');
+        },
+
+        /**
+         * Pre submit for order
+         * @returns {Boolean}
+         */
+        submitOrder: function () {
+            if (this.$selector.validate().errorList.length) {
+                return false;
+            }
+            this.setPaymentDetails();
+            this.placeOrder();
+        },
+
+        /**
+         * Place order
+         */
+        placeOrder: function () {
+            this.$selector.trigger('realOrder');
         },
 
         /**
@@ -54,6 +96,6 @@ define([
          */
         setPaymentDetails: function () {
             this.$selector.find('[name="payment[public_hash]"]').val(this.publicHash);
-        }
+        },
     });
 });
