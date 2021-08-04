@@ -40,6 +40,7 @@
                 <debug>0</debug>
                 <cctypes>AE,VI,MC,DI,JCB,DN</cctypes>
                 <useccv>1</useccv>
+                <shipping_profile>1</shipping_profile>
                 <validation_mode>none</validation_mode>
                 <vault_active>1</vault_active>
                 <allowspecific>0</allowspecific>

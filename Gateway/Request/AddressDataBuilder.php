@@ -9,6 +9,7 @@ namespace TNW\AuthorizeCim\Gateway\Request;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
  * Class for build request address data
@@ -31,16 +32,24 @@ class AddressDataBuilder implements BuilderInterface
     private $addressType;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * AddressDataBuilder constructor.
      * @param SubjectReader $subjectReader
+     * @param ScopeConfigInterface $scopeConfig
      * @param string $requestedDataBlockName
      * @param string $addressType
      */
     public function __construct(
         SubjectReader $subjectReader,
+        ScopeConfigInterface $scopeConfig,
         $requestedDataBlockName = 'transaction_request',
         $addressType = 'both'
     ) {
+        $this->scopeConfig = $scopeConfig;
         $this->addressType = $addressType;
         $this->requestedDataBlockName = $requestedDataBlockName;
         $this->subjectReader = $subjectReader;
@@ -67,7 +76,9 @@ class AddressDataBuilder implements BuilderInterface
                 $this->populateAddress($order->getBillingAddress(), $result, 'bill_to');
                 break;
             default:
-                $this->populateAddress($order->getShippingAddress(), $result, 'ship_to');
+                if ((bool) $this->scopeConfig->getValue('payment/tnw_authorize_cim/shipping_profile')) {
+                    $this->populateAddress($order->getShippingAddress(), $result, 'ship_to');
+                }
                 $this->populateAddress($order->getBillingAddress(), $result, 'bill_to');
                 break;
         }

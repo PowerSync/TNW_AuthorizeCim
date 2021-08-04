@@ -14,6 +14,7 @@ use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
 use Psr\Log\LoggerInterface;
 use TNW\AuthorizeCim\Gateway\Config\Config;
+use Magento\Framework\App\Config\ScopeConfigInterface as ScopeConfig;
 
 /**
  * Class AuthorizeStrategyCommand - authorize strategy command
@@ -66,18 +67,26 @@ class AuthorizeStrategyCommand implements CommandInterface
     private $config;
 
     /**
+     * @var ScopeConfig
+     */
+    private $scopeConfig;
+
+    /**
      * AuthorizeStrategyCommand constructor.
      * @param CommandPoolInterface $commandPool
      * @param SubjectReader $subjectReader
      * @param LoggerInterface $logger
      * @param Config $config
+     * @param ScopeConfig $scopeConfig
      */
     public function __construct(
         CommandPoolInterface $commandPool,
         SubjectReader $subjectReader,
         LoggerInterface $logger,
-        Config $config
+        Config $config,
+        ScopeConfig $scopeConfig
     ) {
+        $this->scopeConfig = $scopeConfig;
         $this->config = $config;
         $this->commandPool = $commandPool;
         $this->subjectReader = $subjectReader;
@@ -113,7 +122,9 @@ class AuthorizeStrategyCommand implements CommandInterface
                 $this->commandPool->get(self::CUSTOMER_CREATE)->execute($commandSubject);
             }
             $this->commandPool->get(self::CUSTOMER_PAYMENT_CREATE)->execute($commandSubject);
-            if ($shippingAddress) {
+            if ($shippingAddress
+                && (bool) $this->scopeConfig->getValue('payment/tnw_authorize_cim/shipping_profile')
+            ) {
                 $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
             }
             $this->commandPool->get(self::AUTHORIZE_CUSTOMER)->execute($commandSubject);

@@ -114,6 +114,11 @@
             <source_model>\TNW\AuthorizeCim\Model\Adminhtml\Source\IncrementNumber</source_model>
             <config_path>payment/tnw_authorize_cim/order_po_number</config_path>
           </field>
+          <field id="shipping_profile" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Enable Shipping Profiles</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/tnw_authorize_cim/shipping_profile</config_path>
+          </field>
         </group>
         <group id="country_specific" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
           <label>Country Specific Settings</label>
