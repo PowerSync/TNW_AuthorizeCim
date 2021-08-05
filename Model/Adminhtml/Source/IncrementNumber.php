@@ -32,7 +32,7 @@ class IncrementNumber implements OptionSourceInterface
         return [
             [
                 'value' => self::NO_DATA,
-                'label' => __('Leave Empty'),
+                'label' => __(' '),
             ],
             [
                 'value' => self::ORDER_NUMBER,
