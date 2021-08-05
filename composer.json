@@ -2,6 +2,7 @@
   "name": "tnw/module-authorizenetcim",
   "description": "Authorize.net CIM for Magento 2",
   "type": "magento2-module",
+  "time": "2021-08-02",
   "version": "2.4.2",
   "license": [
     "proprietary"

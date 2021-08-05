@@ -11,6 +11,7 @@
             <tnw_authorize_cim>
                 <model>AuthorizeCimFacade</model>
                 <title>Credit Cards (Authorize.net CIM)</title>
+                <version backend_model="TNW\AuthorizeCim\Model\Config\Version" />
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_authorize>1</can_authorize>
