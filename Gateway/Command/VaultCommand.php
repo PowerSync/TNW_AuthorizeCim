@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Command;
 
+use Magento\Framework\App\Config\ScopeConfigInterface as ScopeConfig;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
@@ -47,6 +48,11 @@ class VaultCommand implements CommandInterface
     private $commandName;
 
     /**
+     * @var ScopeConfig
+     */
+    private $scopeConfig;
+
+    /**
      * VaultCommand constructor.
      * @param CommandPoolInterface $commandPool
      * @param SubjectReader $subjectReader
@@ -57,12 +63,14 @@ class VaultCommand implements CommandInterface
         CommandPoolInterface $commandPool,
         SubjectReader $subjectReader,
         LoggerInterface $logger,
+        ScopeConfig $scopeConfig,
         $commandName = 'authorize_customer'
     ) {
         $this->commandName = $commandName;
         $this->commandPool = $commandPool;
         $this->subjectReader = $subjectReader;
         $this->logger = $logger;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -91,7 +99,9 @@ class VaultCommand implements CommandInterface
         $this->commandPool->get(self::CUSTOMER_PAYMENT_GET)->execute($commandSubject);
         //TODO: handle if no profile in on auth net
 
-        if ($shippingAddress) {
+        if ($shippingAddress
+            && (bool) $this->scopeConfig->getValue('payment/tnw_authorize_cim/shipping_profile')
+        ) {
             $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
         }
 
