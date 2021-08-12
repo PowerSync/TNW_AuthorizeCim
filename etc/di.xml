@@ -523,7 +523,9 @@
     <virtualType name="AuthorizeCimCustomerPaymentProfileUpdateBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="customer_profile" xsi:type="string">CustomerPaymentProfileIdUpdateDataBuilder</item>
+                <item name="customer_profile_id" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerProfileIdDataBuilder</item>
+                <item name="customer_payment_profile_card" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerPaymentProfileCardDataBuilder</item>
+                <item name="customer_payment_profile_id" xsi:type="string">CustomerPaymentProfileIdUpdateDataBuilder</item>
                 <item name="customer_payment_profile" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\CustomerPaymentProfileIdDataBuilder</item>
                 <item name="address" xsi:type="string">BillingAddressDataBuilder</item>
                 <item name="opaque" xsi:type="string">TNW\AuthorizeCim\Gateway\Request\OpaqueDataBuilder</item>
@@ -637,4 +639,6 @@
             <argument name="customerPaymentCreateProfileCommand" xsi:type="object">AuthorizeCimCustomerPaymentCreateProfileCommand</argument>
         </arguments>
     </type>
+    <preference for="TNW\AuthorizeCim\Api\Data\PaymentProfileAddressInterface" type="TNW\AuthorizeCim\Model\PaymentProfileAddress"/>
+    <preference for="TNW\AuthorizeCim\Api\PaymentProfileAddressRepositoryInterface" type="TNW\AuthorizeCim\Model\PaymentProfileAddressRepository"/>
 </config>

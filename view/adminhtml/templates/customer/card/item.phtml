@@ -46,5 +46,8 @@ use Magento\Vault\Api\Data\PaymentTokenInterface;
                 <small><?php echo $escaper->escapeHtml(__('(Expires %1)', $block->getExpDate())); ?></small>
             <?php endif; ?>
         </div>
+        <div class="billing-address">
+            <?= /* @noEscape */ $block->getFormattedCardAddress($block->getAddress()); ?>
+        </div>
     </address>
 </li>

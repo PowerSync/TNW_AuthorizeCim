@@ -11,6 +11,7 @@ use Magento\Payment\Gateway\Helper\ContextHelper;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
+use TNW\AuthorizeCim\Model\PaymentProfileAddressManagement;
 
 /**
  * Class CustomerAddressDetailsHandler - handles address/payment responses
@@ -33,13 +34,21 @@ class CustomerAddressDetailsHandler implements HandlerInterface
     private $subjectReader;
 
     /**
+     * @var PaymentProfileAddressManagement
+     */
+    private $paymentProfileAddressManagement;
+
+    /**
      * CardDetailsHandler constructor.
      * @param SubjectReader $subjectReader
+     * @param PaymentProfileAddressManagement $paymentProfileAddressManagement
      */
     public function __construct(
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        PaymentProfileAddressManagement $paymentProfileAddressManagement
     ) {
         $this->subjectReader = $subjectReader;
+        $this->paymentProfileAddressManagement = $paymentProfileAddressManagement;
     }
 
     /**
@@ -56,15 +65,32 @@ class CustomerAddressDetailsHandler implements HandlerInterface
             $paymentObject->getPayment()->setAdditionalInformation('profile_id', $transaction->getCustomerProfileId());
         }
         if (method_exists($transaction, 'getCustomerPaymentProfileId')
-            &&$transaction->getCustomerPaymentProfileId()
+            && $transaction->getCustomerPaymentProfileId()
         ) {
             $paymentObject->getPayment()->setAdditionalInformation(
                 'payment_profile_id',
                 $transaction->getCustomerPaymentProfileId()
             );
+            $this->paymentProfileAddressManagement->paymentProfileAddressSave($subject);
+        } elseif (method_exists($transaction, 'getPaymentProfile')
+            && method_exists($transaction->getPaymentProfile(), 'getPayment')
+            && method_exists($transaction->getPaymentProfile()->getPayment(), 'getCreditCard')
+        ) {
+            $creditCard = $transaction->getPaymentProfile()->getPayment()->getCreditCard();
+            $paymentObject->getPayment()->setAdditionalInformation(
+                'payment_profile_card_number',
+                $creditCard->getCardNumber()
+            );
+            $paymentObject->getPayment()->setAdditionalInformation(
+                'payment_profile_card_expire',
+                $creditCard->getExpirationDate()
+            );
+        } else {
+            $test1 = 1;
+            $this->paymentProfileAddressManagement->paymentProfileAddressUpdate($subject);
         }
         if (method_exists($transaction, 'getCustomerAddressId')
-            &&$transaction->getCustomerAddressId()
+            && $transaction->getCustomerAddressId()
         ) {
             $paymentObject->getPayment()->setAdditionalInformation(
                 'shipping_profile_id',
