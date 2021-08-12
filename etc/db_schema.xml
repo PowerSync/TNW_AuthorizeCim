@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © TechNWeb, Inc. All rights reserved.
+ * See TNW_LICENSE.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="tnw_authorizenet_payment_profile" engine="innodb" resource="default">
+        <column name="entity_id" xsi:type="int" unsigned="true" nullable="false" identity="true" comment="Card ID"/>
+        <column name="gateway_token" xsi:type="varchar" length="255" nullable="false" comment="Vault Gateway Token"/>
+        <column name="address" xsi:type="text" nullable="false" comment="Billing Address"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="TNW_AUTHORIZENET_PAYMENT_PROFILE_GATEWAY_TOKEN" indexType="btree">
+            <column name="gateway_token"/>
+        </index>
+    </table>
+</schema>

@@ -7,11 +7,14 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Command;
 
+use Magento\Framework\App\Config\ScopeConfigInterface as ScopeConfig;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
+use TNW\AuthorizeCim\Model\PaymentProfileAddressManagement;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
 use Psr\Log\LoggerInterface;
+use TNW\AuthorizeCim\Model\PaymentProfileAddressRepository;
 
 /**
  * Class VaultCommand - vault commands strategy command
@@ -47,6 +50,21 @@ class VaultCommand implements CommandInterface
     private $commandName;
 
     /**
+     * @var ScopeConfig
+     */
+    private $scopeConfig;
+
+    /**
+     * @var PaymentProfileAddressManagement
+     */
+    private $paymentProfileAddressManagement;
+
+    /**
+     * @var PaymentProfileAddressRepository
+     */
+    private $paymentProfileAddressRepository;
+
+    /**
      * VaultCommand constructor.
      * @param CommandPoolInterface $commandPool
      * @param SubjectReader $subjectReader
@@ -57,12 +75,18 @@ class VaultCommand implements CommandInterface
         CommandPoolInterface $commandPool,
         SubjectReader $subjectReader,
         LoggerInterface $logger,
+        ScopeConfig $scopeConfig,
+        PaymentProfileAddressManagement $paymentProfileAddressManagement,
+        PaymentProfileAddressRepository $paymentProfileAddressRepository,
         $commandName = 'authorize_customer'
     ) {
         $this->commandName = $commandName;
         $this->commandPool = $commandPool;
         $this->subjectReader = $subjectReader;
         $this->logger = $logger;
+        $this->scopeConfig = $scopeConfig;
+        $this->paymentProfileAddressManagement = $paymentProfileAddressManagement;
+        $this->paymentProfileAddressRepository = $paymentProfileAddressRepository;
     }
 
     /**
@@ -91,7 +115,22 @@ class VaultCommand implements CommandInterface
         $this->commandPool->get(self::CUSTOMER_PAYMENT_GET)->execute($commandSubject);
         //TODO: handle if no profile in on auth net
 
-        if ($shippingAddress) {
+        // if address changed
+        $orderAddress = $order->getBillingAddress()->getData();
+        $paymentProfileAddress = $this->paymentProfileAddressRepository->getByGatewayToken(
+            $paymentToken->getGatewayToken()
+        );
+        $addressDiff = $this->paymentProfileAddressManagement->addressCompare(
+            $orderAddress,
+            $paymentProfileAddress->getAddress()
+        );
+        if ($addressDiff) {
+            $this->commandPool->get(self::CUSTOMER_PAYMENT_UPDATE)->execute($commandSubject);
+        }
+
+        if ($shippingAddress
+            && (bool) $this->scopeConfig->getValue('payment/tnw_authorize_cim/shipping_profile')
+        ) {
             $this->commandPool->get(self::CUSTOMER_SHIPPING_CREATE)->execute($commandSubject);
         }
 

@@ -11,6 +11,7 @@
             <tnw_authorize_cim>
                 <model>AuthorizeCimFacade</model>
                 <title>Credit Cards (Authorize.net CIM)</title>
+                <version backend_model="TNW\AuthorizeCim\Model\Config\Version" />
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_authorize>1</can_authorize>
@@ -40,6 +41,7 @@
                 <debug>0</debug>
                 <cctypes>AE,VI,MC,DI,JCB,DN</cctypes>
                 <useccv>1</useccv>
+                <shipping_profile>1</shipping_profile>
                 <validation_mode>none</validation_mode>
                 <vault_active>1</vault_active>
                 <allowspecific>0</allowspecific>
@@ -50,6 +52,8 @@
                 <sdk_url><![CDATA[https://js.authorize.net/v1/Accept.js]]></sdk_url>
                 <verify_sdk_url><![CDATA[https://includestest.ccdc02.com/cardinalcruise/v1/songbird.js]]></verify_sdk_url>
                 <cctypes_mapper><![CDATA[{"americanexpress":"AE","american-express":"AE","discover":"DI","jcb":"JCB","mastercard":"MC","master-card":"MC","visa":"VI","maestro":"MI","dinersclub":"DN","diners-club":"DN","unionpay":"CUP"}]]></cctypes_mapper>
+                <order_invoice_number>1</order_invoice_number>
+                <order_po_number>0</order_po_number>
             </tnw_authorize_cim>
             <tnw_authorize_cim_vault>
                 <model>AuthorizeCimVaultFacade</model>
