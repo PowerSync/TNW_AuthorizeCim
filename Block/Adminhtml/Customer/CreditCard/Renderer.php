@@ -7,12 +7,13 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Block\Adminhtml\Customer\CreditCard;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
 use Magento\Payment\Model\CcConfigProvider;
 use TNW\AuthorizeCim\Block\Customer\CardRenderer;
 use TNW\AuthorizeCim\Model\PaymentProfileAddressRepository;
-use Magento\Customer\Api\Data\AddressInterfaceFactory;
 use Magento\Customer\Model\Address\Config;
+use Exception;
 
 /**
  * Class Renderer - render card
@@ -21,34 +22,47 @@ class Renderer extends CardRenderer
 {
     private $paymentProfileRepository;
 
-//    private $addressFactory;
-
     private $addressConfig;
 
+    /**
+     * @param Template\Context $context
+     * @param CcConfigProvider $iconsProvider
+     * @param PaymentProfileAddressRepository $paymentProfileRepository
+     * @param Config $addressConfig
+     * @param array $data
+     */
     public function __construct(
         Template\Context $context,
         CcConfigProvider $iconsProvider,
         PaymentProfileAddressRepository $paymentProfileRepository,
-//        AddressInterfaceFactory $addressFactory,
         Config $addressConfig,
         array $data = []
     ) {
         $this->paymentProfileRepository = $paymentProfileRepository;
-//        $this->addressFactory = $addressFactory;
         $this->addressConfig = $addressConfig;
         parent::__construct($context, $iconsProvider, $data);
     }
 
+    /**
+     * @return array
+     */
     public function getAddress()
     {
         $token = $this->getToken();
         $gatewayToken = $token->getGatewayToken();
-        $paymentProfileAddress = $this->paymentProfileRepository->getByGatewayToken($gatewayToken);
-//        return $this->convertAddressFromJSON($paymentProfileAddress->getAddress());
-        return $paymentProfileAddress->getAddress();
+        try {
+            $paymentProfileAddress = $this->paymentProfileRepository->getByGatewayToken($gatewayToken);
+            return $paymentProfileAddress->getAddress();
+        } catch (NoSuchEntityException $exception) {
+            return [];
+        }
     }
 
-    public function getFormattedCardAddress($address)
+    /**
+     * @param array $address
+     * @return string
+     */
+    public function getFormattedCardAddress(array $address)
     {
         if (empty($address)) {
             return '';
@@ -56,17 +70,8 @@ class Renderer extends CardRenderer
         try {
             $renderer = $this->addressConfig->getFormatByCode('html')->getRenderer();
             return $renderer->renderArray($address);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return '';
         }
     }
-
-//    private function convertAddressFromJSON($address)
-//    {
-//        try {
-//            return \Zend_Json::decode($address);
-//        } catch (\Exception $exception) {
-//            return [];
-//        }
-//    }
 }
