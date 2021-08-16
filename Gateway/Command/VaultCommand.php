@@ -14,6 +14,7 @@ use TNW\AuthorizeCim\Model\PaymentProfileAddressManagement;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
+use Magento\Payment\Gateway\Data\AddressAdapterInterface;
 use Psr\Log\LoggerInterface;
 use TNW\AuthorizeCim\Model\PaymentProfileAddressRepository;
 
@@ -119,7 +120,7 @@ class VaultCommand implements CommandInterface
         $this->commandPool->get(self::CUSTOMER_PAYMENT_GET)->execute($commandSubject);
         //TODO: handle if no profile in on auth net
 
-        $orderAddress = $order->getBillingAddress()->getData();
+        $orderAddress = $this->paymentProfileAddressManagement->getAddressFromObject($order->getBillingAddress());
         try {
             $paymentProfileAddress = $this->paymentProfileAddressRepository->getByGatewayToken(
                 $paymentToken->getGatewayToken()

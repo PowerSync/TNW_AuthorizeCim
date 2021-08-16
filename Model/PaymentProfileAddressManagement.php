@@ -7,6 +7,7 @@ namespace TNW\AuthorizeCim\Model;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Model\InfoInterface;
+use Magento\Customer\Api\Data\AddressInterface;
 use Psr\Log\LoggerInterface;
 use Exception;
 
@@ -16,15 +17,15 @@ use Exception;
 class PaymentProfileAddressManagement
 {
     const ADDRESS_FIELDS = [
-        'firstname',
-        'lastname',
-        'company',
-        'street',
-        'city',
-        'region',
-        'postcode',
-        'country_id',
-        'telephone'
+        AddressInterface::FIRSTNAME,
+        AddressInterface::LASTNAME,
+        AddressInterface::COMPANY,
+        AddressInterface::STREET,
+        AddressInterface::CITY,
+        AddressInterface::REGION,
+        AddressInterface::POSTCODE,
+        AddressInterface::COUNTRY_ID,
+        AddressInterface::TELEPHONE
     ];
 
     /**
@@ -127,5 +128,24 @@ class PaymentProfileAddressManagement
             $address = $payment->getQuote()->getBillingAddress()->getData();
         }
         return $address;
+    }
+
+    /**
+     * @param object $address
+     * @return array
+     */
+    public function getAddressFromObject(object $address)
+    {
+        return [
+            AddressInterface::FIRSTNAME => $address->getFirstname(),
+            AddressInterface::LASTNAME => $address->getLastname(),
+            AddressInterface::COMPANY => $address->getCompany(),
+            AddressInterface::STREET => $address->getStreetLine1(),
+            AddressInterface::CITY => $address->getCity(),
+            AddressInterface::REGION => $address->getRegionCode(),
+            AddressInterface::POSTCODE => $address->getPostcode(),
+            AddressInterface::COUNTRY_ID => $address->getCountryId(),
+            AddressInterface::TELEPHONE => $address->getTelephone()
+        ];
     }
 }
