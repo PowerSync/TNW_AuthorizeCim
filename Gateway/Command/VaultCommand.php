@@ -8,11 +8,13 @@ declare(strict_types=1);
 namespace TNW\AuthorizeCim\Gateway\Command;
 
 use Magento\Framework\App\Config\ScopeConfigInterface as ScopeConfig;
+use Magento\Framework\Exception\NoSuchEntityException;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 use TNW\AuthorizeCim\Model\PaymentProfileAddressManagement;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Helper\ContextHelper;
+use Magento\Payment\Gateway\Data\AddressAdapterInterface;
 use Psr\Log\LoggerInterface;
 use TNW\AuthorizeCim\Model\PaymentProfileAddressRepository;
 
@@ -69,6 +71,9 @@ class VaultCommand implements CommandInterface
      * @param CommandPoolInterface $commandPool
      * @param SubjectReader $subjectReader
      * @param LoggerInterface $logger
+     * @param ScopeConfig $scopeConfig
+     * @param PaymentProfileAddressManagement $paymentProfileAddressManagement
+     * @param PaymentProfileAddressRepository $paymentProfileAddressRepository
      * @param string $commandName
      */
     public function __construct(
@@ -115,16 +120,20 @@ class VaultCommand implements CommandInterface
         $this->commandPool->get(self::CUSTOMER_PAYMENT_GET)->execute($commandSubject);
         //TODO: handle if no profile in on auth net
 
-        // if address changed
-        $orderAddress = $order->getBillingAddress()->getData();
-        $paymentProfileAddress = $this->paymentProfileAddressRepository->getByGatewayToken(
-            $paymentToken->getGatewayToken()
-        );
-        $addressDiff = $this->paymentProfileAddressManagement->addressCompare(
-            $orderAddress,
-            $paymentProfileAddress->getAddress()
-        );
-        if ($addressDiff) {
+        $orderAddress = $this->paymentProfileAddressManagement->getAddressFromObject($order->getBillingAddress());
+        try {
+            $paymentProfileAddress = $this->paymentProfileAddressRepository->getByGatewayToken(
+                $paymentToken->getGatewayToken()
+            );
+            $isAddressesDifferent = $this->paymentProfileAddressManagement->isAddressesNotEqual(
+                $orderAddress,
+                $paymentProfileAddress->getAddress()
+            );
+        } catch (NoSuchEntityException $exception) {
+            $isAddressesDifferent = true;
+        }
+
+        if ($isAddressesDifferent) {
             $this->commandPool->get(self::CUSTOMER_PAYMENT_UPDATE)->execute($commandSubject);
         }
 

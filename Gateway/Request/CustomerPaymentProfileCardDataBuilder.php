@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 TechNWeb, Inc. All rights reserved.
+ * Copyright © 2021 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
 declare(strict_types=1);
@@ -58,13 +58,9 @@ class CustomerPaymentProfileCardDataBuilder implements BuilderInterface
             return [];
         }
 
-        $paymentProfileCardData['payment'] = [
-            'credit_card' => $paymentProfileCard
-        ];
+        $paymentProfileCardData['payment'] = ['credit_card' => $paymentProfileCard];
         if ($this->parentRequestFieldId) {
-            return [
-                $this->parentRequestFieldId => $paymentProfileCardData
-            ];
+            return [$this->parentRequestFieldId => $paymentProfileCardData];
         }
         return $paymentProfileCardData;
     }

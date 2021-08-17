@@ -1,15 +1,21 @@
 <?php
-
+/**
+ * Copyright © 2021 TechNWeb, Inc. All rights reserved.
+ * See TNW_LICENSE.txt for license details.
+ */
 namespace TNW\AuthorizeCim\Model;
 
+use Magento\Framework\DataObject;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use TNW\AuthorizeCim\Api\Data\PaymentProfileAddressInterface;
 use TNW\AuthorizeCim\Api\PaymentProfileAddressRepositoryInterface;
 use TNW\AuthorizeCim\Model\ResourceModel\PaymentProfileAddress as PaymentProfileAddressResource;
-use TNW\AuthorizeCim\Model\ResourceModel\PaymentProfileAddress\CollectionFactory;
 
+/**
+ * Class PaymentProfileAddressRepository - payment profile address repository model
+ */
 class PaymentProfileAddressRepository implements PaymentProfileAddressRepositoryInterface
 {
     /**
@@ -18,34 +24,26 @@ class PaymentProfileAddressRepository implements PaymentProfileAddressRepository
     private $resource;
 
     /**
-     * @var \TNW\AuthorizeCim\Model\PaymentProfileAddressFactory
+     * @var PaymentProfileAddressFactory
      */
     private $paymentProfileFactory;
 
     /**
-     * @var CollectionFactory
-     */
-    private $collectionFactory;
-
-    /**
      * PaymentProfileRepository constructor.
      * @param PaymentProfileAddressResource $resource
-     * @param \TNW\AuthorizeCim\Model\PaymentProfileAddressFactory $paymentProfileFactory
-     * @param CollectionFactory $collectionFactory
+     * @param PaymentProfileAddressFactory $paymentProfileFactory
      */
     public function __construct(
         PaymentProfileAddressResource $resource,
-        PaymentProfileAddressFactory $paymentProfileFactory,
-        CollectionFactory $collectionFactory
+        PaymentProfileAddressFactory $paymentProfileFactory
     ) {
         $this->resource = $resource;
         $this->paymentProfileFactory = $paymentProfileFactory;
-        $this->collectionFactory = $collectionFactory;
     }
 
     /**
      * @param int $id
-     * @return \TNW\AuthorizeCim\Model\PaymentProfileAddress
+     * @return PaymentProfileAddress
      * @throws NoSuchEntityException
      */
     public function getById(int $id)
@@ -62,14 +60,19 @@ class PaymentProfileAddressRepository implements PaymentProfileAddressRepository
 
     /**
      * @param $token
-     * @return \Magento\Framework\DataObject
+     * @return DataObject|PaymentProfileAddressInterface|PaymentProfileAddress
+     * @throws NoSuchEntityException
      */
     public function getByGatewayToken($token)
     {
-        $collection = $this->collectionFactory->create();
-        $collection->addFieldToFilter(PaymentProfileAddressInterface::GATEWAY_TOKEN, $token);
-        $collection->setPageSize(1);
-        return $collection->getFirstItem();
+        $paymentProfile = $this->paymentProfileFactory->create();
+        $this->resource->load($paymentProfile, $token, PaymentProfileAddressInterface::GATEWAY_TOKEN);
+        if (!$paymentProfile->getId()) {
+            throw new NoSuchEntityException(
+                __('Payment profile with the "%1" gateway token doesn\'t exist.', $token)
+            );
+        }
+        return $paymentProfile;
     }
 
     /**
