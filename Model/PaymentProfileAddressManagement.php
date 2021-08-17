@@ -1,32 +1,40 @@
 <?php
-
+/**
+ * Copyright © 2021 TechNWeb, Inc. All rights reserved.
+ * See TNW_LICENSE.txt for license details.
+ */
 namespace TNW\AuthorizeCim\Model;
 
-use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Payment\Model\InfoInterface;
+use Magento\Customer\Api\Data\AddressInterface;
 use Psr\Log\LoggerInterface;
 use Exception;
 
+/**
+ * Class PaymentProfileAddressManagement - payment profile address manager model
+ */
 class PaymentProfileAddressManagement
 {
     const ADDRESS_FIELDS = [
-        'firstname',
-        'lastname',
-        'company',
-        'street',
-        'city',
-        'region',
-        'postcode',
-        'country_id',
-        'telephone'
+        AddressInterface::FIRSTNAME,
+        AddressInterface::LASTNAME,
+        AddressInterface::COMPANY,
+        AddressInterface::STREET,
+        AddressInterface::CITY,
+        AddressInterface::REGION,
+        AddressInterface::POSTCODE,
+        AddressInterface::COUNTRY_ID,
+        AddressInterface::TELEPHONE
     ];
 
     /**
-     * @var \TNW\AuthorizeCim\Model\PaymentProfileAddressFactory
+     * @var PaymentProfileAddressFactory
      */
     private $paymentProfileFactory;
 
     /**
-     * @var \TNW\AuthorizeCim\Model\PaymentProfileAddressRepository
+     * @var PaymentProfileAddressRepository
      */
     private $paymentProfileRepository;
 
@@ -36,76 +44,34 @@ class PaymentProfileAddressManagement
     private $logger;
 
     /**
-     * @var SubjectReader
-     */
-    private $subjectReader;
-
-    /**
-     * @param \TNW\AuthorizeCim\Model\PaymentProfileAddressFactory $paymentProfileFactory
-     * @param \TNW\AuthorizeCim\Model\PaymentProfileAddressRepository $paymentProfileRepository
+     * @param PaymentProfileAddressFactory $paymentProfileFactory
+     * @param PaymentProfileAddressRepository $paymentProfileRepository
      * @param LoggerInterface $logger
-     * @param SubjectReader $subjectReader
      */
     public function __construct(
         PaymentProfileAddressFactory $paymentProfileFactory,
         PaymentProfileAddressRepository $paymentProfileRepository,
-        LoggerInterface $logger,
-        SubjectReader $subjectReader
+        LoggerInterface $logger
     ) {
         $this->paymentProfileFactory = $paymentProfileFactory;
         $this->paymentProfileRepository = $paymentProfileRepository;
         $this->logger = $logger;
-        $this->subjectReader = $subjectReader;
     }
 
     /**
-     * @param array $subject
+     * @param InfoInterface $payment
      */
-    public function paymentProfileAddressSave(array $subject)
+    public function paymentProfileAddressSave(InfoInterface $payment)
     {
         try {
-            $paymentObject = $this->subjectReader->readPayment($subject);
-            $customerProfileId = $paymentObject->getPayment()->getAdditionalInformation('profile_id');
-            $paymentProfileId = $paymentObject->getPayment()->getAdditionalInformation('payment_profile_id');
-            $payment = $paymentObject->getPayment();
-            $address = [];
-            if ($payment->getOrder()) {
-                $address = $paymentObject->getPayment()->getOrder()->getBillingAddress()->getData();
-            } elseif ($payment->getQuote()) {
-                $address = $paymentObject->getPayment()->getQuote()->getBillingAddress()->getData();
-            }
-            $paymentProfile = $this->paymentProfileFactory->create();
-            $paymentProfile->setAddress($address);
-            $paymentProfile->setGatewayToken(sprintf('%s/%s', $customerProfileId, $paymentProfileId));
-            $this->paymentProfileRepository->save($paymentProfile);
-        } catch (Exception $exception) {
-            $this->logger->error($exception->getMessage());
-        }
-    }
-
-    /**
-     * @param array $subject
-     */
-    public function paymentProfileAddressUpdate(array $subject)
-    {
-        try {
-            $paymentObject = $this->subjectReader->readPayment($subject);
-            $customerProfileId = $paymentObject->getPayment()->getAdditionalInformation('profile_id');
-            $paymentProfileId = $paymentObject->getPayment()->getAdditionalInformation('payment_profile_id');
-            $payment = $paymentObject->getPayment();
-            $address = [];
-            if ($payment->getOrder()) {
-                $address = $paymentObject->getPayment()->getOrder()->getBillingAddress()->getData();
-            } elseif ($payment->getQuote()) {
-                $address = $paymentObject->getPayment()->getQuote()->getBillingAddress()->getData();
-            }
-            $gatewayToken = sprintf('%s/%s', $customerProfileId, $paymentProfileId);
-            $paymentProfile = $this->paymentProfileRepository->getByGatewayToken($gatewayToken);
-            if (!$paymentProfile->getId()) {
+            $gatewayToken = $this->getGatewayToken($payment);
+            try {
+                $paymentProfile = $this->paymentProfileRepository->getByGatewayToken($gatewayToken);
+            } catch (NoSuchEntityException $exception) {
                 $paymentProfile = $this->paymentProfileFactory->create();
-                $paymentProfile->setGatewayToken(sprintf('%s/%s', $customerProfileId, $paymentProfileId));
+                $paymentProfile->setGatewayToken($gatewayToken);
             }
-            $paymentProfile->setAddress($address);
+            $paymentProfile->setAddress($this->getAddress($payment));
             $this->paymentProfileRepository->save($paymentProfile);
         } catch (Exception $exception) {
             $this->logger->error($exception->getMessage());
@@ -117,7 +83,7 @@ class PaymentProfileAddressManagement
      * @param array $address2
      * @return bool
      */
-    public function addressCompare(array $address1, array $address2)
+    public function isAddressesNotEqual(array $address1, array $address2)
     {
         return (bool) array_diff(
             $this->populateAddress($address1),
@@ -129,12 +95,57 @@ class PaymentProfileAddressManagement
      * @param array $address
      * @return array
      */
-    public function populateAddress(array $address)
+    private function populateAddress(array $address)
     {
         $result = [];
         foreach (self::ADDRESS_FIELDS as $addressField) {
             $result[$addressField] = $address[$addressField] ?? '';
         }
         return $result;
+    }
+
+    /**
+     * @param InfoInterface $payment
+     * @return string
+     */
+    private function getGatewayToken(InfoInterface $payment)
+    {
+        $customerProfileId = $payment->getAdditionalInformation('profile_id');
+        $paymentProfileId = $payment->getAdditionalInformation('payment_profile_id');
+        return sprintf('%s/%s', $customerProfileId, $paymentProfileId);
+    }
+
+    /**
+     * @param InfoInterface $payment
+     * @return array|mixed
+     */
+    private function getAddress(InfoInterface $payment)
+    {
+        $address = [];
+        if ($payment->getOrder()) {
+            $address = $payment->getOrder()->getBillingAddress()->getData();
+        } elseif ($payment->getQuote()) {
+            $address = $payment->getQuote()->getBillingAddress()->getData();
+        }
+        return $address;
+    }
+
+    /**
+     * @param object $address
+     * @return array
+     */
+    public function getAddressFromObject(object $address)
+    {
+        return [
+            AddressInterface::FIRSTNAME => $address->getFirstname(),
+            AddressInterface::LASTNAME => $address->getLastname(),
+            AddressInterface::COMPANY => $address->getCompany(),
+            AddressInterface::STREET => $address->getStreetLine1(),
+            AddressInterface::CITY => $address->getCity(),
+            AddressInterface::REGION => $address->getRegionCode(),
+            AddressInterface::POSTCODE => $address->getPostcode(),
+            AddressInterface::COUNTRY_ID => $address->getCountryId(),
+            AddressInterface::TELEPHONE => $address->getTelephone()
+        ];
     }
 }

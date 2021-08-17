@@ -1,7 +1,13 @@
 <?php
-
+/**
+ * Copyright © 2021 TechNWeb, Inc. All rights reserved.
+ * See TNW_LICENSE.txt for license details.
+ */
 namespace TNW\AuthorizeCim\Api\Data;
 
+/**
+ * Interface PaymentProfileAddressInterface - payment profile address interface
+ */
 interface PaymentProfileAddressInterface
 {
     const ENTITY_ID = 'entity_id';
@@ -9,35 +15,35 @@ interface PaymentProfileAddressInterface
     const GATEWAY_TOKEN = 'gateway_token';
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId();
 
     /**
-     * @param $id
-     * @return mixed
+     * @param int $id
+     * @return $this
      */
-    public function setId($id);
+    public function setId(int $id);
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getAddress();
 
     /**
-     * @param $address
-     * @return mixed
+     * @param array $address
+     * @return $this
      */
-    public function setAddress($address);
+    public function setAddress(array $address);
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getGatewayToken();
 
     /**
-     * @param $token
-     * @return mixed
+     * @param string $token
+     * @return $this
      */
-    public function setGatewayToken($token);
+    public function setGatewayToken(string $token);
 }

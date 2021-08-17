@@ -71,7 +71,7 @@ class CustomerAddressDetailsHandler implements HandlerInterface
                 'payment_profile_id',
                 $transaction->getCustomerPaymentProfileId()
             );
-            $this->paymentProfileAddressManagement->paymentProfileAddressSave($subject);
+            $this->paymentProfileAddressManagement->paymentProfileAddressSave($paymentObject->getPayment());
         } elseif (method_exists($transaction, 'getPaymentProfile')
             && method_exists($transaction->getPaymentProfile(), 'getPayment')
             && method_exists($transaction->getPaymentProfile()->getPayment(), 'getCreditCard')
@@ -86,8 +86,7 @@ class CustomerAddressDetailsHandler implements HandlerInterface
                 $creditCard->getExpirationDate()
             );
         } else {
-            $test1 = 1;
-            $this->paymentProfileAddressManagement->paymentProfileAddressUpdate($subject);
+            $this->paymentProfileAddressManagement->paymentProfileAddressSave($paymentObject->getPayment());
         }
         if (method_exists($transaction, 'getCustomerAddressId')
             && $transaction->getCustomerAddressId()
