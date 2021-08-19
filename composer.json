@@ -10,7 +10,7 @@
   "require": {
     "powersync/authorizenet-sdk-php": "~2.0.2",
     "tnw/marketing": "~2",
-    "lcobucci/jwt": "~3.2.2"
+    "lcobucci/jwt": "~3.2.2",
     "magento/framework": "^103.0",
     "magento/module-catalog": "^104.0",
     "magento/module-wishlist": "^101.2",
