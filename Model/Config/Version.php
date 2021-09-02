@@ -76,7 +76,7 @@ class Version extends Value implements ProcessorInterface
     {
         try {
             $composerFile = $this->fileHandler->read(
-                $this->moduleDir->getDir('TNW_AuthorizeCim') . DS . 'composer.json'
+                $this->moduleDir->getDir('TNW_AuthorizeCim') . DIRECTORY_SEPARATOR . 'composer.json'
             );
             $composer = json_decode($composerFile, 1);
             if (isset($composer['version'], $composer['time'])) {
