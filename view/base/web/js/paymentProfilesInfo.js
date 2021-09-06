@@ -95,6 +95,8 @@ define([
                         if(typeof data.message != 'undefined') {
                             this.element.find(this.options.saveActionSelector).removeProp('disabled');
                             alert(data.message);
+                        } else if (typeof data.url != 'undefined') {
+                            window.location.href = data.url;
                         } else {
                             this.element.find(this.options.saveActionSelector).removeProp('disabled');
                             this.element.html(

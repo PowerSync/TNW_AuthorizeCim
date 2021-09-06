@@ -10,5 +10,8 @@
         <route id="tnw_authorizecim" frontName="tnw_authorizecim">
             <module name="TNW_AuthorizeCim" />
         </route>
+        <route id="customer" frontName="customer">
+            <module name="TNW_AuthorizeCim" after="Magento_Customer" />
+        </route>
     </router>
 </config>
