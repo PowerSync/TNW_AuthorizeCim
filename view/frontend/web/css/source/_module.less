@@ -1,0 +1,183 @@
+& when (@media-common = true) {
+    #payment-profiles-info {
+        > .fieldset-wrapper-title {
+          padding-bottom: 0;
+          margin-bottom: 1.5rem;
+          border: 0;
+        }
+
+        .block-title h2 {
+          margin-bottom: 1rem;
+        }
+
+        .admin__fieldset {
+          padding-top: 0;
+        }
+
+        .fieldset-wrapper-title {
+          margin-bottom: 1rem;
+        }
+
+        .field-control .nested {
+          margin-top: 1.5rem;
+        }
+
+        .fieldset:not(.ccard) .admin__control-select {
+          width: 100%;
+        }
+
+        .cc-image {
+            float: left;
+        }
+
+        .additional-data {
+            display: inline-block;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        .billing-address {
+            margin-top: 5px;
+        }
+
+        .address-item-edit-content {
+            background: @color-white;
+            border: 1px solid @color-gray_light;
+            box-shadow: 0 2px 1px 0 rgba(217, 210, 202, .5);
+            margin-left: 359px;
+            max-width: 500px;
+            padding: 15px 30px;
+
+            .field {
+                &:extend(.abs-field-rows all);
+            }
+
+            .legend {
+                display: none;
+            }
+        }
+
+        .address-list {
+            float: left;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 360px;
+
+            .address-list-item-actions {
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+            }
+
+            .address-list-item {
+                background: @color-white-fog;
+                border: 1px solid @color-gray_light;
+                cursor: pointer;
+                margin-bottom: -1px;
+                padding: 10px 10px 15px;
+                position: relative;
+                z-index: 1;
+
+                &.ui-state-active {
+                    background: @color-white;
+                    box-shadow: 0 1px 1px 0 rgba(217, 210, 202, 1);
+                    margin-left: -2px;
+                    padding-left: 12px;
+                    position: relative;
+                    z-index: 2;
+
+                    &:before,
+                    &:after {
+                        color: @color-white;
+                        content: '\e02a';
+                        font-family: 'MUI-Icons';
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: normal;
+                        line-height: 11px;
+                        margin-top: -5px;
+                        position: absolute;
+                        right: -9px;
+                        speak: none;
+                        text-indent: -6px;
+                        top: 50%;
+                        width: 10px;
+                        z-index: 2;
+                    }
+
+                    &:before {
+                        color: @color-gray_light;
+                        right: -11px;
+                        z-index: 1;
+                    }
+                }
+            }
+
+            address {
+                font-style: normal;
+                line-height: 1.5;
+                margin: 0 20px 15px 0;
+
+                &:first-line {
+                    font-weight: bold;
+                }
+            }
+
+            .address-list-actions {
+                background: none;
+                border: 0;
+                box-shadow: none;
+                cursor: default;
+                padding: 20px 0 0;
+            }
+
+            .action-delete {
+                .lib-button-reset();
+                .lib-icon-font(
+                    @icon-remove,
+                    @icon-font,
+                    @_icon-font-size: 1.6rem,
+                    @_icon-font-line-height: 16px,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-position: after,
+                    @_icon-font-color: @color-black_dark
+                );
+
+                span {
+                    max-height: 1px;
+                    max-width: 1px;
+                }
+
+                &:hover {
+                    position: relative;
+                    z-index: 2;
+
+                    &:after {
+                        color: darken(@color-brownie1, 20%);
+                    }
+
+                    span {
+                        background-color: @color-gray-light0;
+                        border: 1px solid @color-gray-light3;
+                        border-radius: .4rem;
+                        bottom: 100%;
+                        clip: auto;
+                        font-size: @font-size__s;
+                        height: auto;
+                        left: auto;
+                        margin: 0 auto .1rem;
+                        max-height: 50px;
+                        max-width: 200px;
+                        padding: .5rem;
+                        right: auto;
+                        top: auto;
+                        transition: all .01s linear .7s;
+                        white-space: nowrap;
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+}

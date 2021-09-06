@@ -3,7 +3,7 @@
   "description": "Authorize.net CIM for Magento 2",
   "type": "magento2-module",
   "time": "2021-08-19",
-  "version": "2.4.5",
+  "version": "2.4.6",
   "license": [
     "proprietary"
   ],

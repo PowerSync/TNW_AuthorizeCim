@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="customer_account_dashboard_top" as="top" />
+            <block class="TNW\AuthorizeCim\Block\Customer\CreditCards"
+                   name="customer.edit.tab.paymentinfo"
+                   template="TNW_AuthorizeCim::customer/cards_list.phtml"
+                   cacheable="false">
+                <block class="TNW\AuthorizeCim\Block\Customer\CreditCard\Renderer"
+                       name="customer.edit.tab.paymentinfo.card.item"
+                       as="customer.edit.tab.paymentinfo.card.item"
+                       template="TNW_AuthorizeCim::customer/card/item.phtml"/>
+                <block class="TNW\AuthorizeCim\Block\Customer\CreditCard\Form"
+                       name="customer.edit.tab.paymentinfo.card.form"
+                       as="customer.edit.tab.paymentinfo.card.form"
+                       template="TNW_AuthorizeCim::customer/card/form.phtml">
+                    <arguments>
+                        <argument name="method_form_template" xsi:type="string">TNW_AuthorizeCim::customer/card/form/cc.phtml</argument>
+                        <argument name="customer_address_attribute_data" xsi:type="object">Magento\Customer\Block\DataProviders\AddressAttributeData</argument>
+                        <argument name="customer_post_codes_patterns_attribute_data" xsi:type="object">Magento\Customer\Block\DataProviders\PostCodesPatternsAttributeData</argument>
+                        <argument name="directory_data" xsi:type="object">TNW\AuthorizeCim\ViewModel\Directory\Data</argument>
+                        <argument name="customer_address_view_model" xsi:type="object">Magento\Customer\ViewModel\Address</argument>
+                    </arguments>
+                </block>
+                <block class="TNW\AuthorizeCim\Block\Payment"
+                       name="tnw_authorize_cim_payment_script"
+                       as="tnw_authorize_cim_payment_script"
+                       template="TNW_AuthorizeCim::customer/script.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
