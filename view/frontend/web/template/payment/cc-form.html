@@ -30,7 +30,7 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
-        <form id="tnw_authorize_cim-form" class="form" method="post" action="#">
+        <form id="tnw_authorize_cim-form" class="form" method="post" action="#" data-bind="mageInit: {validation:{}}">
             <fieldset data-bind="attr: {class: 'fieldset payment items ccard ' + getCode(), id: 'payment_form_' + getCode()}">
                 <!-- ko if: (isShowLegend())-->
                 <legend class="legend">

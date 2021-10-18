@@ -10,9 +10,10 @@ define([
     'Magento_Checkout/js/model/quote',
     'Magento_Vault/js/view/payment/vault-enabler',
     'TNW_AuthorizeCim/js/view/payment/validator-handler',
+    'Magento_Payment/js/model/credit-card-validation/validator',
     'Magento_Checkout/js/model/full-screen-loader'
 ],
-function ($, $t, Component, quote, VaultEnabler, validatorManager, fullScreenLoader) {
+function ($, $t, Component, quote, VaultEnabler, validatorManager, validator, fullScreenLoader) {
     'use strict';
 
     return Component.extend({
@@ -184,7 +185,7 @@ function ($, $t, Component, quote, VaultEnabler, validatorManager, fullScreenLoa
          * Triggers order placing
          */
         placeOrderClick: function () {
-            if (this.validateCardType()) {
+            if ($('#' + this.getCode() + '-form').validation('isValid') && this.validateCardType()) {
                 this.placeOrder();
             }
         },
