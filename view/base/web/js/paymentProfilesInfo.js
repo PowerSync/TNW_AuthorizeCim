@@ -4,7 +4,8 @@
  */
 define([
     'jquery',
-    'jquery/ui'
+    'jquery/ui',
+    'Magento_Payment/js/model/credit-card-validation/validator'
 ], function ($) {
     'use strict';
 
@@ -73,7 +74,7 @@ define([
 
             var form = this.element.find(this.options.formSelector);
             form.data("validator").settings.submitHandler = null;
-            if (form.validation('isValid') === false) {
+            if (form.validation() && form.validation('isValid') === false) {
                 return;
             }
             this.element.find(this.options.saveActionSelector).prop('disabled', true);
