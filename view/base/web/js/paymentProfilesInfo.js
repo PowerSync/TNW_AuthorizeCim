@@ -5,7 +5,7 @@
 define([
     'jquery',
     'jquery/ui',
-    'Magento_Payment/js/model/credit-card-validation/validator'
+    'mage/validation'
 ], function ($) {
     'use strict';
 

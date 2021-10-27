@@ -26,7 +26,11 @@ $ccExpYear = $block->getInfoData('cc_exp_year');
         <div class="admin__field-control">
             <select name="payment[cc_type]"
                     id="<?= /* @noEscape */ $code ?>_cc_type"
-                    class="required-entry validate-cc-type-select admin__control-select">
+                    class="admin__control-select"
+                    data-validate='{
+                            required:true,
+                            "validate-cc-type-select":"#<?= /* @noEscape */ $code ?>_cc_number"
+                        }'>
                 <option value=""></option>
                 <?php foreach ($block->getCcAvailableTypes() as $typeCode => $typeName): ?>
                     <option value="<?= $escaper->escapeHtml($typeCode) ?>" <?php if ($typeCode == $ccType): ?>selected="selected"<?php endif ?>>
@@ -45,8 +49,8 @@ $ccExpYear = $block->getInfoData('cc_exp_year');
                    name="payment[cc_number]"
                    id="<?= /* @noEscape */ $code ?>_cc_number"
                    title="<?= $escaper->escapeHtml(__('Credit Card Number')) ?>"
-                   class="admin__control-text validate-cc-number"
-                   data-validate="{'validate-card-number':'#<?= /* @noEscape */ $code ?>_cc_type', 'validate-cc-type':'#<?= /* @noEscape */ $code ?>_cc_type'}"
+                   class="admin__control-text"
+                   data-validate="{'validate-cc-number':'#<?= /* @noEscape */ $code ?>_cc_type', 'validate-cc-type':'#<?= /* @noEscape */ $code ?>_cc_type'}"
                    value="<?= /* @noEscape */ $block->getInfoData('cc_number') ?>"/>
         </div>
     </div>
@@ -58,7 +62,7 @@ $ccExpYear = $block->getInfoData('cc_exp_year');
             <select name="payment[cc_exp_month]"
                     id="<?= /* @noEscape */ $code ?>_expiration"
                     data-validate='{required:true, "validate-cc-exp":"#<?= /* @noEscape */ $code ?>_expiration_yr"}'
-                    class="admin__control-select admin__control-select-month validate-cc-exp required-entry">
+                    class="admin__control-select admin__control-select-month">
                 <?php foreach ($block->getCcMonths() as $k => $v): ?>
                     <option value="<?= $escaper->escapeHtml($k) ?>"
                             <?php if ($k == $ccExpMonth): ?>selected="selected"<?php endif ?>>
@@ -69,7 +73,7 @@ $ccExpYear = $block->getInfoData('cc_exp_year');
             <select name="payment[cc_exp_year]"
                     id="<?= /* @noEscape */ $code ?>_expiration_yr"
                     data-validate='{required:true}'
-                    class="admin__control-select admin__control-select-year required-entry">
+                    class="admin__control-select admin__control-select-year">
                 <?php foreach ($block->getCcYears() as $k => $v): ?>
                     <option value="<?= /* @noEscape */ $k ? $escaper->escapeHtml($k) : '' ?>"
                             <?php if ($k == $ccExpYear): ?>selected="selected"<?php endif ?>>
@@ -90,8 +94,8 @@ $ccExpYear = $block->getInfoData('cc_exp_year');
                        name="payment[cc_cid]"
                        id="<?= /* @noEscape */ $code ?>_cc_cid"
                        title="<?= $escaper->escapeHtml(__('Card Verification Number')) ?>"
-                       class="required-entry validate-cc-cvn admin__control-cvn admin__control-text"
-                       data-validate="{'required-number':true, 'validate-card-cvv':'#<?= /* @noEscape */ $code ?>_cc_type'}"
+                       class="admin__control-cvn admin__control-text"
+                       data-validate="{'required-number':true, 'validate-cc-cvn':'#<?= /* @noEscape */ $code ?>_cc_type'}"
                        value="<?= /* @noEscape */ $block->getInfoData('cc_cid') ?>"/>
             </div>
         </div>
