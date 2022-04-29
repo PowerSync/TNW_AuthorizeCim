@@ -24,6 +24,97 @@ jobs:
             chmod +x git_release.sh
             ./git_release.sh
 
+  m244-commerce-php81-elastic716: &base-image
+    docker:
+      - image: powersync/magento-builds:m244-commerce-php815-elastic716
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
+      - image: circleci/mysql:8.0
+        environment:
+          MYSQL_PASSWORD: mage
+          MYSQL_USER: mage
+          MYSQL_DATABASE: magento
+          MYSQL_ROOT_PASSWORD: docker
+      - image: elasticsearch:7.16.0
+        environment:
+          - cluster.name: elasticsearch
+          - transport.host: localhost
+          - network.host: 127.0.0.1
+          - http.port: 9200
+          - discovery.type: single-node
+          - xpack.security.enabled: false
+          - ES_JAVA_OPTS: -Xms750m -Xmx750m
+    working_directory: ~/tnw_extension
+    steps:
+      - checkout
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+      - run:
+          name: Installing Magento
+          command: |
+            cd /var/www/html/magento/
+            composer config -g http-basic.repo.magento.com $MAGENTO_REPO_LOGIN $MAGENTO_REPO_PASSWORD
+            ./bin/magento setup:install --backend-frontname admin --db-host 127.0.0.1 --db-prefix tnwc_ --db-name magento --db-user mage --db-password mage --base-url http://magento-qa.box/ --language en_US --timezone America/Chicago --currency USD --admin-lastname Admin --admin-firstname Admin --admin-email admin@example.com --admin-user admin --admin-password admin123 --cleanup-database --use-rewrites 1
+            ./bin/magento --version
+      - run:
+          name: Checkout related modules
+          command: |
+            mkdir -p ~/tnw_extension/modules
+            cd ~/tnw_extension/modules
+            for moduleName in $MODULES_NAME; do
+              git clone git@github.com:PowerSync/TNW_$moduleName.git $moduleName
+              cd ~/tnw_extension/modules/$moduleName
+              set +e
+              branchExists=(`git branch -a|grep $CIRCLE_BRANCH`)
+              set -e
+              if test -z "$branchExists"
+              then
+                git checkout develop;
+              else
+                git checkout $CIRCLE_BRANCH;
+              fi
+              cd ~/tnw_extension/modules
+            done
+      - run:
+          name: Install the Extension
+          command: |
+            cd /var/www/html/magento
+            rm -rf ./generated/*
+            ./bin/magento module:status
+            ./bin/magento module:enable --all
+            ./bin/magento setup:upgrade
+      - run:
+          name: Compile the Code
+          command: |
+            cd /var/www/html/magento
+            php bin/magento setup:di:compile
+            php bin/magento deploy:mode:set developer
+
+  m244-open_source-php81-elastic716:
+    <<: *base-image
+    docker:
+      - image: powersync/magento-builds:m244-open_source-php815-elastic716
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
+      - image: circleci/mysql:8.0
+        environment:
+          MYSQL_PASSWORD: mage
+          MYSQL_USER: mage
+          MYSQL_DATABASE: magento
+          MYSQL_ROOT_PASSWORD: docker
+      - image: elasticsearch:7.16.0
+        environment:
+          - cluster.name: elasticsearch
+          - transport.host: localhost
+          - network.host: 127.0.0.1
+          - http.port: 9200
+          - discovery.type: single-node
+          - xpack.security.enabled: false
+          - ES_JAVA_OPTS: -Xms750m -Xmx750m
+
   m242-commerce-php74: &base-image
     docker:
       - image: powersync/magento-builds:m242-commerce-php74
@@ -91,7 +182,7 @@ jobs:
             cd /var/www/html/magento
             php bin/magento setup:di:compile
             php bin/magento deploy:mode:set developer
-  
+
   m242-open_source-php74:
     <<: *base-image
     docker:
@@ -400,6 +491,24 @@ workflows:
             branches:
               only:
                 - v2.4
+
+      - m244-commerce-php81-elastic716:
+          context: powersync
+          requires:
+            - magento-coding-standard
+          filters:
+            branches:
+              only:
+                - v2.4
+
+      - m244-open_source-php81-elastic716:
+          context: powersync
+          requires:
+            - magento-coding-standard
+          filters:
+            branches:
+              only:
+                - v2.4
                 
       - magento-coding-standard:
           context: powersync
@@ -423,6 +532,8 @@ workflows:
             - m241-open_source-php74
             - m242-commerce-php74
             - m242-open_source-php74
+            - m244-commerce-php81-elastic716
+            - m244-open_source-php81-elastic716
             
 #      - check-composer-installation:
 #          context: powersync
