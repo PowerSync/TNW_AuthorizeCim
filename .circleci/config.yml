@@ -300,7 +300,7 @@ jobs:
   
   magento-coding-standard:
     docker:
-      - image: powersync/magento-builds:m242-commerce-php74
+      - image: powersync/magento-builds:m244-commerce-php815-elastic716
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASS
