@@ -64,7 +64,7 @@ $ccExpYear = $block->getInfoData('cc_exp_year');
                     data-validate='{required:true, "validate-cc-exp":"#<?= /* @noEscape */ $code ?>_expiration_yr"}'
                     class="admin__control-select admin__control-select-month">
                 <?php foreach ($block->getCcMonths() as $k => $v): ?>
-                    <option value="<?= $escaper->escapeHtml($k) ?>"
+                    <option value="<?= /* @noEscape */ $k ? $escaper->escapeHtml($k) : '' ?>"
                             <?php if ($k == $ccExpMonth): ?>selected="selected"<?php endif ?>>
                         <?= $escaper->escapeHtml($v) ?>
                     </option>
