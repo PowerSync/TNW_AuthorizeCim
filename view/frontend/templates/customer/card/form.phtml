@@ -15,221 +15,224 @@ $customerAddressAttributeData = $block->getCustomerAddressAttributeData();
 $customerPostCodesPatternsAttributeData = $block->getCustomerPostCodesPatternsAttributeData();
 $directoryData = $block->getDirectoryData();
 $customerAddressViewModel = $block->getCustomerAddressViewModel();
-$code = $block->getCurrentMethod()->getCode();
+$method = $block->getCurrentMethod();
+$code = $method ? $method->getCode() : null;
 ?>
+<?php if ($code) : ?>
+    <?php $_firstname = $customerAddressAttributeData->getFrontendLabel('firstname'); ?>
+    <?php $_lastname = $customerAddressAttributeData->getFrontendLabel('lastname'); ?>
+    <?php $_company = $customerAddressAttributeData->getFrontendLabel('company'); ?>
+    <?php $_telephone = $customerAddressAttributeData->getFrontendLabel('telephone'); ?>
+    <?php $_street = $customerAddressAttributeData->getFrontendLabel('street'); ?>
+    <?php $_country_id = $customerAddressAttributeData->getFrontendLabel('country_id'); ?>
+    <?php $_region = $customerAddressAttributeData->getFrontendLabel('region'); ?>
+    <?php $_city = $customerAddressAttributeData->getFrontendLabel('city'); ?>
+    <?php $_postcode = $customerAddressAttributeData->getFrontendLabel('postcode'); ?>
+    <?php $_selectRegion = 'Please select a region, state or province.'; ?>
+    <?php $_displayAll = $block->getConfig('general/region/display_all'); ?>
 
-<?php $_firstname = $customerAddressAttributeData->getFrontendLabel('firstname'); ?>
-<?php $_lastname = $customerAddressAttributeData->getFrontendLabel('lastname'); ?>
-<?php $_company = $customerAddressAttributeData->getFrontendLabel('company'); ?>
-<?php $_telephone = $customerAddressAttributeData->getFrontendLabel('telephone'); ?>
-<?php $_street = $customerAddressAttributeData->getFrontendLabel('street'); ?>
-<?php $_country_id = $customerAddressAttributeData->getFrontendLabel('country_id'); ?>
-<?php $_region = $customerAddressAttributeData->getFrontendLabel('region'); ?>
-<?php $_city = $customerAddressAttributeData->getFrontendLabel('city'); ?>
-<?php $_postcode = $customerAddressAttributeData->getFrontendLabel('postcode'); ?>
-<?php $_selectRegion = 'Please select a region, state or province.'; ?>
-<?php $_displayAll = $block->getConfig('general/region/display_all'); ?>
+    <?php $_firstnameValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('firstname'); ?>
+    <?php $_lastnameValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('lastname'); ?>
+    <?php $_companyValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('company'); ?>
+    <?php $_telephoneValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('telephone'); ?>
+    <?php $_streetValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('street'); ?>
+    <?php $_streetValidationClassNotRequired = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+    <?php $_regionValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('region'); ?>
+    <?php $_cityValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('city'); ?>
+    <?php $_postcodeValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('postcode'); ?>
 
-<?php $_firstnameValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('firstname'); ?>
-<?php $_lastnameValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('lastname'); ?>
-<?php $_companyValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('company'); ?>
-<?php $_telephoneValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('telephone'); ?>
-<?php $_streetValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('street'); ?>
-<?php $_streetValidationClassNotRequired = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
-<?php $_regionValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('region'); ?>
-<?php $_cityValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('city'); ?>
-<?php $_postcodeValidationClass = $customerAddressViewModel->addressGetAttributeValidationClass('postcode'); ?>
-
-<div class="block-title">
-    <h2><?= $escaper->escapeHtml(__('Add A Credit Card')); ?></h2>
-    <form class="customer-payment-profile"
-          action="<?= $escaper->escapeUrl($block->getSaveUrl()) ?>"
-          method="post"
-          id="<?= $code; ?>-form-validate"
-          enctype="multipart/form-data"
-          data-mage-init='{"validation": {}}'
-          data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')) ?>">
-        <?= $block->getBlockHtml('formkey'); ?>
-        <input type="hidden" name="method" value="<?= $code; ?>"/>
-        <fieldset class="fieldset">
-            <div class="fieldset-wrapper-title">
-                <strong class="title">
-                    <span><?= $escaper->escapeHtml(__('Cardholder Information')) ?></span>
-                </strong>
-            </div>
-            <div class="field field-name-firstname required">
-                <label class="label" for="<?= $code; ?>-firstname">
-                    <span><?= /* @noEscape */ $_firstname; ?></span>
-                </label>
-                <div class="field-control">
-                    <input type="text"
-                           name="billing[firstname]"
-                           id="<?= $code; ?>-firstname"
-                           title="<?= /* @noEscape */ $_firstname; ?>"
-                           value=""
-                           class="control-text input-text <?= $escaper->escapeHtmlAttr($_firstnameValidationClass); ?>"/>
-                </div>
-            </div>
-            <div class="field field-name-lastname required">
-                <label class="label" for="<?= $code; ?>-lastname">
-                    <span><?= /* @noEscape */ $_lastname; ?></span>
-                </label>
-                <div class="field-control">
-                    <input type="text"
-                           name="billing[lastname]"
-                           id="<?= $code; ?>-lastname"
-                           title="<?= /* @noEscape */ $_lastname; ?>"
-                           value=""
-                           class="control-text input-text <?= $escaper->escapeHtmlAttr($_lastnameValidationClass); ?>"/>
-                </div>
-            </div>
-            <div class="field company">
-                <label class="label" for="<?= $code; ?>-company">
-                    <span><?= /* @noEscape */ $_company; ?></span>
-                </label>
-                <div class="field-control">
-                    <input type="text"
-                           name="billing[company]"
-                           id="<?= $code; ?>-company"
-                           title="<?= /* @noEscape */ $_company; ?>"
-                           value=""
-                           class="control-text input-text <?= $escaper->escapeHtmlAttr($_companyValidationClass); ?>"/>
-                </div>
-            </div>
-            <div class="field telephone <?php if (strpos($_telephoneValidationClass, 'required') !== false) : ?>_required<?php endif; ?>">
-                <label class="label" for="<?= $code; ?>-telephone">
-                    <span><?= /* @noEscape */ $_telephone; ?></span>
-                </label>
-                <div class="field-control">
-                    <input type="text"
-                           name="billing[telephone]"
-                           id="<?= $code; ?>-telephone"
-                           value=""
-                           title="<?= /* @noEscape */ $_telephone; ?>"
-                           class="control-text input-text <?= $escaper->escapeHtmlAttr($_telephoneValidationClass); ?>"/>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset class="fieldset">
-            <div class="fieldset-wrapper-title">
-                <strong class="title">
-                    <span><?= $escaper->escapeHtml(__('Cardholder Address')) ?></span>
-                </strong>
-            </div>
-            <div class="field street required">
-                <label for="<?= $code; ?>-street_1" class="label">
-                    <span><?= /* @noEscape */ $_street; ?></span>
-                </label>
-                <div class="field-control">
-                    <input type="text"
-                           name="billing[street][]"
-                           id="<?= $code; ?>-street_1"
-                           value=""
-                           title="<?= /* @noEscape */ $_street; ?>"
-                           class="control-text input-text <?= $escaper->escapeHtmlAttr($_streetValidationClass); ?>"/>
-                    <div class="nested">
-                        <?php for ($_i = 1, $_n = $customerAddressViewModel->addressGetStreetLines(); $_i < $_n; $_i++): ?>
-                            <div class="field additional">
-                                <label class="label" for="street_<?= /* @noEscape */ $_i + 1 ?>">
-                                    <span><?= $escaper->escapeHtml(__('Street Address: Line %1', $_i + 1)) ?></span>
-                                </label>
-                                <div class="field-control">
-                                    <input type="text"
-                                           name="billing[street][]"
-                                           id="<?= $code; ?>street_<?= /* @noEscape */ $_i + 1 ?>"
-                                           value=""
-                                           title="<?= $escaper->escapeHtmlAttr(__('Street Address %1', $_i + 1)) ?>"
-                                           class="control-text input-text <?= $escaper->escapeHtmlAttr($_streetValidationClassNotRequired); ?>"/>
-                                </div>
+    <div class="address-item-edit-content">
+        <div class="block-title">
+            <h2><?= $escaper->escapeHtml(__('Add A Credit Card')); ?></h2>
+            <form class="customer-payment-profile"
+                  action="<?= $escaper->escapeUrl($block->getSaveUrl()) ?>"
+                  method="post"
+                  id="<?= $code; ?>-form-validate"
+                  enctype="multipart/form-data"
+                  data-mage-init='{"validation": {}}'
+                  data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')) ?>">
+                <?= $block->getBlockHtml('formkey'); ?>
+                <input type="hidden" name="method" value="<?= $code; ?>"/>
+                <fieldset class="fieldset">
+                    <div class="fieldset-wrapper-title">
+                        <strong class="title">
+                            <span><?= $escaper->escapeHtml(__('Cardholder Information')) ?></span>
+                        </strong>
+                    </div>
+                    <div class="field field-name-firstname required">
+                        <label class="label" for="<?= $code; ?>-firstname">
+                            <span><?= /* @noEscape */ $_firstname; ?></span>
+                        </label>
+                        <div class="field-control">
+                            <input type="text"
+                                   name="billing[firstname]"
+                                   id="<?= $code; ?>-firstname"
+                                   title="<?= /* @noEscape */ $_firstname; ?>"
+                                   value=""
+                                   class="control-text input-text <?= $escaper->escapeHtmlAttr($_firstnameValidationClass); ?>"/>
+                        </div>
+                    </div>
+                    <div class="field field-name-lastname required">
+                        <label class="label" for="<?= $code; ?>-lastname">
+                            <span><?= /* @noEscape */ $_lastname; ?></span>
+                        </label>
+                        <div class="field-control">
+                            <input type="text"
+                                   name="billing[lastname]"
+                                   id="<?= $code; ?>-lastname"
+                                   title="<?= /* @noEscape */ $_lastname; ?>"
+                                   value=""
+                                   class="control-text input-text <?= $escaper->escapeHtmlAttr($_lastnameValidationClass); ?>"/>
+                        </div>
+                    </div>
+                    <div class="field company">
+                        <label class="label" for="<?= $code; ?>-company">
+                            <span><?= /* @noEscape */ $_company; ?></span>
+                        </label>
+                        <div class="field-control">
+                            <input type="text"
+                                   name="billing[company]"
+                                   id="<?= $code; ?>-company"
+                                   title="<?= /* @noEscape */ $_company; ?>"
+                                   value=""
+                                   class="control-text input-text <?= $escaper->escapeHtmlAttr($_companyValidationClass); ?>"/>
+                        </div>
+                    </div>
+                    <div class="field telephone <?php if (strpos($_telephoneValidationClass, 'required') !== false) : ?>_required<?php endif; ?>">
+                        <label class="label" for="<?= $code; ?>-telephone">
+                            <span><?= /* @noEscape */ $_telephone; ?></span>
+                        </label>
+                        <div class="field-control">
+                            <input type="text"
+                                   name="billing[telephone]"
+                                   id="<?= $code; ?>-telephone"
+                                   value=""
+                                   title="<?= /* @noEscape */ $_telephone; ?>"
+                                   class="control-text input-text <?= $escaper->escapeHtmlAttr($_telephoneValidationClass); ?>"/>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="fieldset">
+                    <div class="fieldset-wrapper-title">
+                        <strong class="title">
+                            <span><?= $escaper->escapeHtml(__('Cardholder Address')) ?></span>
+                        </strong>
+                    </div>
+                    <div class="field street required">
+                        <label for="<?= $code; ?>-street_1" class="label">
+                            <span><?= /* @noEscape */ $_street; ?></span>
+                        </label>
+                        <div class="field-control">
+                            <input type="text"
+                                   name="billing[street][]"
+                                   id="<?= $code; ?>-street_1"
+                                   value=""
+                                   title="<?= /* @noEscape */ $_street; ?>"
+                                   class="control-text input-text <?= $escaper->escapeHtmlAttr($_streetValidationClass); ?>"/>
+                            <div class="nested">
+                                <?php for ($_i = 1, $_n = $customerAddressViewModel->addressGetStreetLines(); $_i < $_n; $_i++): ?>
+                                    <div class="field additional">
+                                        <label class="label" for="street_<?= /* @noEscape */ $_i + 1 ?>">
+                                            <span><?= $escaper->escapeHtml(__('Street Address: Line %1', $_i + 1)) ?></span>
+                                        </label>
+                                        <div class="field-control">
+                                            <input type="text"
+                                                   name="billing[street][]"
+                                                   id="<?= $code; ?>street_<?= /* @noEscape */ $_i + 1 ?>"
+                                                   value=""
+                                                   title="<?= $escaper->escapeHtmlAttr(__('Street Address %1', $_i + 1)) ?>"
+                                                   class="control-text input-text <?= $escaper->escapeHtmlAttr($_streetValidationClassNotRequired); ?>"/>
+                                        </div>
+                                    </div>
+                                <?php endfor; ?>
                             </div>
-                        <?php endfor; ?>
+                        </div>
+                    </div>
+                    <div class="field country required">
+                        <label class="label" for="<?= $code; ?>-country">
+                            <span><?= /* @noEscape */ $_country_id; ?></span>
+                        </label>
+                        <div class="field-control">
+                            <?= str_replace('class="', 'class="control-select ', $directoryData->getCountryHtmlSelect(null, 'billing[country_id]', $code . '-country')) ?>
+                        </div>
+                    </div>
+                    <div class="field region required">
+                        <label class="label" for="<?= $code; ?>-region-id">
+                            <span><?= /* @noEscape */ $_region ?></span>
+                        </label>
+                        <div class="field-control">
+                            <select name="billing[region_id]"
+                                    id="<?= $code; ?>-region-id"
+                                    title="<?= /* @noEscape */ $_region ?>"
+                                    class="control-select validate-select"
+                                <?= /* @noEscape */ !$_displayAll ? ' disabled="disabled"' : '' ?>>
+                                <option value=""><?= $escaper->escapeHtml(__($_selectRegion)) ?></option>
+                            </select>
+                            <input type="text"
+                                   name="billing[region]"
+                                   id="<?= $code; ?>-region"
+                                   value=""
+                                   title="<?= /* @noEscape */ $_region ?>"
+                                   class="control-text input-text <?= $escaper->escapeHtmlAttr($_regionValidationClass) ?>"
+                                <?= !$_displayAll ? ' disabled="disabled"' : '' ?>/>
+                        </div>
+                    </div>
+                    <div class="field city required">
+                        <label class="label" for="<?= $code; ?>-city">
+                            <span><?= /* @noEscape */ $_city; ?></span>
+                        </label>
+                        <div class="field-control">
+                            <input type="text"
+                                   name="billing[city]"
+                                   id="<?= $code; ?>-city"
+                                   value=""
+                                   title="<?= /* @noEscape */ $_city; ?>"
+                                   class="control-text input-text <?= $escaper->escapeHtmlAttr($_cityValidationClass); ?>"/>
+                        </div>
+                    </div>
+                    <div class="field zip required">
+                        <label class="label" for="<?= $code; ?>-zip">
+                            <span><?= /* @noEscape */ $_postcode; ?></span>
+                        </label>
+                        <div class="field-control">
+                            <input type="text"
+                                   name="billing[postcode]"
+                                   id="<?= $code; ?>-zip"
+                                   value=""
+                                   title="<?= /* @noEscape */ $_postcode; ?>"
+                                   class="control-text input-text validate-zip-international <?= $escaper->escapeHtmlAttr($_postcodeValidationClass); ?>"/>
+                            <div role="alert" class="message warning">
+                                <span></span>
+                            </div>
+                            <?= /* @noEscape */ $secureRenderer->renderStyleAsTag("display: none;", 'div.message.warning') ?>
+                        </div>
+                    </div>
+                </fieldset>
+                <?= $block->getMethodFormBlockHtml(); ?>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button type="submit"
+                                class="action action-save primary"
+                                data-action="save-address"
+                                title="<?= $escaper->escapeHtmlAttr(__('Save')) ?>">
+                            <span><?= $escaper->escapeHtml(__('Save')) ?></span>
+                        </button>
+                    </div>
+                    <div class="secondary">
+                        <a class="action cancel" href="<?= $escaper->escapeUrl($block->getBackUrl()) ?>">
+                            <span><?= $escaper->escapeHtml(__('Cancel')) ?></span>
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="field country required">
-                <label class="label" for="<?= $code; ?>-country">
-                    <span><?= /* @noEscape */ $_country_id; ?></span>
-                </label>
-                <div class="field-control">
-                    <?= str_replace('class="', 'class="control-select ', $directoryData->getCountryHtmlSelect(null, 'billing[country_id]', $code . '-country')) ?>
-                </div>
-            </div>
-            <div class="field region required">
-                <label class="label" for="<?= $code; ?>-region-id">
-                    <span><?= /* @noEscape */ $_region ?></span>
-                </label>
-                <div class="field-control">
-                    <select name="billing[region_id]"
-                            id="<?= $code; ?>-region-id"
-                            title="<?= /* @noEscape */ $_region ?>"
-                            class="control-select validate-select"
-                            <?= /* @noEscape */ !$_displayAll ? ' disabled="disabled"' : '' ?>>
-                        <option value=""><?= $escaper->escapeHtml(__($_selectRegion)) ?></option>
-                    </select>
-                    <input type="text"
-                           name="billing[region]"
-                           id="<?= $code; ?>-region"
-                           value=""
-                           title="<?= /* @noEscape */ $_region ?>"
-                           class="control-text input-text <?= $escaper->escapeHtmlAttr($_regionValidationClass) ?>"
-                           <?= !$_displayAll ? ' disabled="disabled"' : '' ?>/>
-                </div>
-            </div>
-            <div class="field city required">
-                <label class="label" for="<?= $code; ?>-city">
-                    <span><?= /* @noEscape */ $_city; ?></span>
-                </label>
-                <div class="field-control">
-                    <input type="text"
-                           name="billing[city]"
-                           id="<?= $code; ?>-city"
-                           value=""
-                           title="<?= /* @noEscape */ $_city; ?>"
-                           class="control-text input-text <?= $escaper->escapeHtmlAttr($_cityValidationClass); ?>"/>
-                </div>
-            </div>
-            <div class="field zip required">
-                <label class="label" for="<?= $code; ?>-zip">
-                    <span><?= /* @noEscape */ $_postcode; ?></span>
-                </label>
-                <div class="field-control">
-                    <input type="text"
-                           name="billing[postcode]"
-                           id="<?= $code; ?>-zip"
-                           value=""
-                           title="<?= /* @noEscape */ $_postcode; ?>"
-                           class="control-text input-text validate-zip-international <?= $escaper->escapeHtmlAttr($_postcodeValidationClass); ?>"/>
-                    <div role="alert" class="message warning">
-                        <span></span>
-                    </div>
-                    <?= /* @noEscape */ $secureRenderer->renderStyleAsTag("display: none;", 'div.message.warning') ?>
-                </div>
-            </div>
-        </fieldset>
-        <?= $block->getMethodFormBlockHtml(); ?>
-        <div class="actions-toolbar">
-            <div class="primary">
-                <button type="submit"
-                        class="action action-save primary"
-                        data-action="save-address"
-                        title="<?= $escaper->escapeHtmlAttr(__('Save')) ?>">
-                    <span><?= $escaper->escapeHtml(__('Save')) ?></span>
-                </button>
-            </div>
-            <div class="secondary">
-                <a class="action cancel" href="<?= $escaper->escapeUrl($block->getBackUrl()) ?>">
-                    <span><?= $escaper->escapeHtml(__('Cancel')) ?></span>
-                </a>
-            </div>
+            </form>
         </div>
-    </form>
-</div>
-<?php
-$countryId = "{$code}-country";
-$regionInputId = "{$code}-region";
-$regionListId = "{$code}-region-id";
-$regionJson = $customerAddressViewModel->dataGetRegionJson();
-$scriptString = <<<script
+    </div>
+    <?php
+    $countryId = "{$code}-country";
+    $regionInputId = "{$code}-region";
+    $regionListId = "{$code}-region-id";
+    $regionJson = $customerAddressViewModel->dataGetRegionJson();
+    $scriptString = <<<script
 require([
     "jquery",
     "mage/adminhtml/form"
@@ -244,5 +247,17 @@ require([
     window.updater = updater;
 });
 script;
-?>
-<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+    ?>
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+<?php else: ?>
+    <table>
+        <tr>
+            <td>
+                <div class="message message-warning warning">
+                    <span><?= $escaper->escapeHtml(__('The Authorize.Net CIM payment method is not enabled.')); ?></span>
+                </div>
+            </td>
+        </tr>
+    </table>
+<?php endif; ?>
+
