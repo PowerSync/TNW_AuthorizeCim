@@ -12,19 +12,27 @@
     <div class="fieldset-wrapper-content">
         <div class="manage-payment-method">
             <div class="ui-tabs">
-                <ul class="address-list ui-tabs-nav">
-                    <?php if ($block->isExistsPaymentProfiles()): ?>
+                <?php if ($block->isExistsPaymentProfiles()): ?>
+                    <ul class="address-list ui-tabs-nav">
                         <?php foreach ($block->getPaymentProfiles() as $profile): ?>
                             <?= $block->renderProfileHtml($profile); ?>
                         <?php endforeach; ?>
-                    <?php else: ?>
-                        <?= $escaper->escapeHtml(__('There are currently no active payment profiles.')); ?>
-                    <?php endif; ?>
-                </ul>
+                    </ul>
+                <?php else: ?>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="message info empty">
+                                    <span>
+                                        <?= $escaper->escapeHtml(__('There are currently no active payment profiles.')); ?>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                <?php endif; ?>
                 <div class="address-item-edit">
-                    <div class="address-item-edit-content">
-                        <?= $block->getChildHtml('customer.edit.tab.paymentinfo.card.form'); ?>
-                    </div>
+                    <?= $block->getChildHtml('customer.edit.tab.paymentinfo.card.form'); ?>
                 </div>
             </div>
         </div>
