@@ -41,7 +41,7 @@ define([
         _bind: function () {
             $(this.options.deleteActionSelector, this.element).on('click', $.proxy(this._deleteProfile, this));
             $(this.options.formSelector, this.element).on('realSubmit', $.proxy(this._realSave, this));
-            $(this.options.formSelector, this.element).on('submit', $.proxy(this._saveProfile, this)).validation();
+            $(this.options.saveActionSelector, this.element).on('click', $.proxy(this._saveProfile, this));
         },
 
         /**
@@ -78,7 +78,7 @@ define([
                 return;
             }
             this.element.find(this.options.saveActionSelector).prop('disabled', true);
-            form.data('preventSave', false);
+            form.data('preventSave', true);
             form.trigger('authorizeCimSave');
         },
 
@@ -93,13 +93,13 @@ define([
             if (form.data('preventSave') === false) {
                 $.post(
                     form.attr('action'), form.serialize(), function (data) {
-                        if(typeof data.message != 'undefined') {
-                            this.element.find(this.options.saveActionSelector).removeProp('disabled');
+                        if (typeof data.message != 'undefined') {
+                            this.element.find(this.options.saveActionSelector).prop('disabled', false);
                             alert(data.message);
                         } else if (typeof data.url != 'undefined') {
                             window.location.href = data.url;
                         } else {
-                            this.element.find(this.options.saveActionSelector).removeProp('disabled');
+                            this.element.find(this.options.saveActionSelector).prop('disabled', false);
                             this.element.html(
                                 $($.parseHTML(data.trim(), document, true)).html()
                             );
@@ -112,7 +112,7 @@ define([
                     }.bind(this)
                 );
             } else {
-                this.element.find(this.options.saveActionSelector).removeProp('disabled');
+                this.element.find(this.options.saveActionSelector).prop('disabled', false);
             }
         }
     });

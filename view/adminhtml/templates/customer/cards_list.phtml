@@ -37,7 +37,19 @@
             </div>
         </div>
     </div>
+    <?= $block->getChildHtml('tnw_authorize_cim_payment_script') ?>
+    <?php
+    $scriptString = <<<script
+require([
+    'jquery'
+], function ($) {
+    $('body').trigger('contentUpdated');
+});
+script;
+    ?>
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
 </div>
+
 <script type="text/x-magento-init">
     {
         "#payment-profiles-info": {
@@ -45,14 +57,3 @@
         }
     }
 </script>
-<?= $block->getChildHtml('tnw_authorize_cim_payment_script') ?>
-<?php
-$scriptString = <<<script
-require([
-    'jquery'
-], function ($) {
-    $('body').trigger('contentUpdated');
-});
-script;
-?>
-<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
