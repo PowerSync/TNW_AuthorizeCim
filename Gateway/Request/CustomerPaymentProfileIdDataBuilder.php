@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 TechNWeb, Inc. All rights reserved.
+ * Copyright © 2022 TechNWeb, Inc. All rights reserved.
  * See TNW_LICENSE.txt for license details.
  */
 declare(strict_types=1);
@@ -48,9 +48,8 @@ class CustomerPaymentProfileIdDataBuilder implements BuilderInterface
     {
         $paymentDO = $this->subjectReader->readPayment($subject);
         $payment = $paymentDO->getPayment();
-        try {
-            $paymentProfileId =  $payment->getAdditionalInformation('payment_profile_id');
-        } catch (\Exception $e) {
+        $paymentProfileId = $payment->getAdditionalInformation('payment_profile_id');
+        if (!$paymentProfileId) {
             $extensionAttributes = $payment->getExtensionAttributes();
             $paymentToken = $extensionAttributes->getVaultPaymentToken();
             list($profileId, $paymentProfileId)
