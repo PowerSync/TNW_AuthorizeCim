@@ -14,6 +14,9 @@ use Magento\Payment\Model\Config as PaymentConfig;
 use TNW\AuthorizeCim\Gateway\Config\Config;
 use TNW\AuthorizeCim\Model\Ui\ConfigProvider;
 
+/**
+ * Class Form - block to display cc form
+ */
 class Form extends Cc
 {
     /** @var Config */
