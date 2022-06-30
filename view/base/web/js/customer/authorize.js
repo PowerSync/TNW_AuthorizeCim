@@ -38,12 +38,6 @@ define([
                     'scriptLoaded'
                 ]);
 
-            domObserver.get('#' + self.container, function () {
-                if (self.scriptLoaded()) {
-                    self.$selector.off('submit');
-                }
-            });
-
             return this;
         },
 
@@ -106,7 +100,6 @@ define([
          */
         disableEventListeners: function () {
             this.$selector.off('authorizeCimSave');
-            this.$selector.off('submit');
         },
 
         /**
@@ -161,6 +154,7 @@ define([
                     }
                     self.$selector.data('preventSave', true);
                 } else {
+                    self.$selector.data('preventSave', false);
                     self.setOpaqueDescriptor(response.opaqueData.dataDescriptor);
                     self.setOpaqueValue(response.opaqueData.dataValue);
                     self.realSubmit();
