@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Request;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
@@ -21,12 +23,20 @@ class CustomerProfileGetDataBuilder implements BuilderInterface
     private $subjectReader;
 
     /**
+     * @var CustomerRepositoryInterface
+     */
+    private $customerRepository;
+
+    /**
      * @param SubjectReader $subjectReader
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        CustomerRepositoryInterface $customerRepository
     ) {
         $this->subjectReader = $subjectReader;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -39,6 +49,7 @@ class CustomerProfileGetDataBuilder implements BuilderInterface
     {
         $customerDataObject = $this->subjectReader->readCustomerData($subject);
         $email = $customerDataObject->getEmail();
+        //$customerId = $customerDataObject->getCustomerId();
 
         if (!$email) {
             $paymentDO = $this->subjectReader->readPayment($subject);
@@ -46,8 +57,38 @@ class CustomerProfileGetDataBuilder implements BuilderInterface
             $email = $order->getBillingAddress()->getEmail();
         }
 
-        return [
-            'email' => $email,
-        ];
+        try {
+            $customer = $this->customerRepository->get($email);
+            $customerProfileIdAttr = $customer->getCustomAttribute('customer_profile_id');
+            if (!$customerProfileIdAttr || !$customerProfileIdAttr->getValue()) {
+                $customerId = $this->generateEmailHash($email);
+            } else {
+                $customerProfileId = $customerProfileIdAttr->getValue();
+            }
+        } catch (NoSuchEntityException $e) {
+            $customerId = $this->generateEmailHash($email);
+        }
+
+        if (!empty($customerProfileId)) {
+            return [
+                'customer_profile_id' => $customerProfileId
+            ];
+        } else {
+            return [
+                'email' => $email,
+                'merchant_customer_id' => $customerId
+            ];
+        }
+    }
+
+    /**
+     * Generates email hash for use as merchant customer id for guest customers
+     *
+     * @param string $email
+     * @return false|string
+     */
+    private function generateEmailHash(string $email)
+    {
+        return hash('crc32', $email);
     }
 }
