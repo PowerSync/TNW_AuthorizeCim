@@ -6,6 +6,7 @@
 
 namespace TNW\AuthorizeCim\Plugin\Framework\App\Config;
 
+use Magento\Framework\App\Config;
 use Magento\Vault\Model\CustomerTokenManagement\Proxy as CustomerTokenManagement;
 
 /**
@@ -36,12 +37,12 @@ class AfterGetTnwAuthorizeCimVaultActiveValue
     /**
      * Overrides 'active' config value of Auth.net CIM vault payment method when customer have active payment tokens.
      *
-     * @param \Magento\Framework\App\Config $subject
+     * @param Config $subject
      * @param mixed $result
      * @param string|null $path
      * @return bool|mixed|null
      */
-    public function afterGetValue(\Magento\Framework\App\Config $subject, $result, $path = null)
+    public function afterGetValue(Config $subject, $result, $path = null)
     {
         if ($path === 'payment/tnw_authorize_cim_vault/active' && !$result) {
             return $this->getCustomerHasTokens();
