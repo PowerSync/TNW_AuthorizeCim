@@ -7,7 +7,7 @@
 namespace TNW\AuthorizeCim\Plugin\Framework\App\Config;
 
 use Magento\Framework\App\Config;
-use Magento\Vault\Model\CustomerTokenManagement\Proxy as CustomerTokenManagement;
+use Magento\Vault\Model\CustomerTokenManagement;
 
 /**
  * Plugin for enabling Authorize.net vault payments if vault is disabled, but customer has saved cards
