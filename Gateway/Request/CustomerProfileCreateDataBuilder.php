@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace TNW\AuthorizeCim\Gateway\Request;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use TNW\AuthorizeCim\Gateway\Helper\SubjectReader;
 
@@ -21,12 +23,20 @@ class CustomerProfileCreateDataBuilder implements BuilderInterface
     private $subjectReader;
 
     /**
+     * @var CustomerRepositoryInterface
+     */
+    private $customerRepository;
+
+    /**
      * @param SubjectReader $subjectReader
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
-        SubjectReader $subjectReader
+        SubjectReader $subjectReader,
+        CustomerRepositoryInterface $customerRepository
     ) {
         $this->subjectReader = $subjectReader;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -38,11 +48,34 @@ class CustomerProfileCreateDataBuilder implements BuilderInterface
     public function build(array $subject)
     {
         $customerDataObject = $this->subjectReader->readCustomerData($subject);
+        $email = $customerDataObject->getEmail();
+        $customerId = $customerDataObject->getCustomerId();
+
+        if (!$customerId) {
+            try {
+                $customer = $this->customerRepository->get($email);
+                $customerId = $customer->getId();
+            } catch (NoSuchEntityException $e) {
+                $customerId = $this->generateEmailHash($email);
+            }
+        }
+
         return [
             'profile' => [
-                "merchant_customer_id" => $customerDataObject->getCustomerId(),
-                "email" => $customerDataObject->getEmail(),
+                "merchant_customer_id" => $customerId,
+                "email" => $email
             ]
         ];
+    }
+
+    /**
+     * Generates email hash for use as merchant customer id for guest customers
+     *
+     * @param string $email
+     * @return false|string
+     */
+    private function generateEmailHash(string $email)
+    {
+        return hash('crc32', $email);
     }
 }
