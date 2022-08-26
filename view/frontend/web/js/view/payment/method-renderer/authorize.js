@@ -162,7 +162,7 @@ function ($, $t, Component, quote, VaultEnabler, validatorManager, validator, fu
          * @returns {Boolean}
          */
         isVaultEnabled: function () {
-            return this.vaultEnabler.isVaultEnabled() && window.checkoutConfig.payment[this.getCode()].isCimEnabled;
+            return this.vaultEnabler.isVaultEnabled();
         },
 
         /**

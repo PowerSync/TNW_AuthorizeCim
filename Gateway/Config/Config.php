@@ -9,6 +9,7 @@ namespace TNW\AuthorizeCim\Gateway\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Payment\Gateway\Config\Config as MagentoGatewayConfig;
+use Magento\Store\Model\ScopeInterface;
 use TNW\AuthorizeCim\Model\Adminhtml\Source\Environment;
 
 /**
@@ -120,11 +121,6 @@ class Config extends MagentoGatewayConfig
      * @var string
      */
     const VERIFY_SDK_URL = 'verify_sdk_url';
-
-    /**
-     * @var string
-     */
-    const CIM_ENABLED_XML = 'cim_active';
 
     /**
      * @var string
@@ -375,6 +371,7 @@ class Config extends MagentoGatewayConfig
      */
     public function isCIMEnabled($storeId = null)
     {
-        return (bool) $this->getValue(self::CIM_ENABLED_XML, $storeId);
+        return $this->scopeConfig
+            ->getValue('payment/tnw_authorize_cim_vault/active', ScopeInterface::SCOPE_STORE, $storeId);
     }
 }
