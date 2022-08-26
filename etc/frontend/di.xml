@@ -34,10 +34,4 @@
       </argument>
     </arguments>
   </type>
-    <type name="Magento\Framework\App\Config">
-        <plugin
-            name="after_get_tnw_authorize_cim_vault_active_value"
-            type="TNW\AuthorizeCim\Plugin\Framework\App\Config\AfterGetTnwAuthorizeCimVaultActiveValue"
-        />
-    </type>
 </config>

@@ -74,7 +74,6 @@ class ConfigProvider implements ConfigProviderInterface
                     'apiLoginID' => $this->config->getApiLoginId($storeId),
                     'sdkUrl' => $this->config->getSdkUrl($storeId),
                     'vaultCode' => self::VAULT_CODE,
-                    'isCimEnabled' => $this->config->isCIMEnabled($storeId)
                 ],
                 'verify_authorize' => [
                     'enabled' => (int)$this->config->isVerify3DSecure($storeId),

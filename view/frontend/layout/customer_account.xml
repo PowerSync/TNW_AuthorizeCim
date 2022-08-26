@@ -11,6 +11,7 @@
         <referenceBlock name="customer_account_navigation">
             <block class="Magento\Customer\Block\Account\SortLinkInterface"
                    name="customer-account-navigation-tnw-credit-cards-link"
+                   ifconfig="payment/tnw_authorize_cim_vault/active"
             >
                 <arguments>
                     <argument name="path" xsi:type="string">customer/paymentprofiles</argument>
