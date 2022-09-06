@@ -18,7 +18,8 @@
           </requires>
         </field>
         <field id="vault_active" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
-          <label>Enable CIM and Vault functionality</label>
+          <label>Save Cards</label>
+          <comment>Allow customers to save cards for faster checkout in the future.</comment>
           <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
           <config_path>payment/tnw_authorize_cim_vault/active</config_path>
           <requires>
