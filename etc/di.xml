@@ -641,10 +641,4 @@
     </type>
     <preference for="TNW\AuthorizeCim\Api\Data\PaymentProfileAddressInterface" type="TNW\AuthorizeCim\Model\PaymentProfileAddress"/>
     <preference for="TNW\AuthorizeCim\Api\PaymentProfileAddressRepositoryInterface" type="TNW\AuthorizeCim\Model\PaymentProfileAddressRepository"/>
-
-    <type name="TNW\AuthorizeCim\Plugin\Framework\App\Config\AfterGetTnwAuthorizeCimVaultActiveValue">
-        <arguments>
-            <argument name="customerTokenManagement" xsi:type="object">Magento\Vault\Model\CustomerTokenManagement\Proxy</argument>
-        </arguments>
-    </type>
 </config>

@@ -10,6 +10,7 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Ui\Component\Layout\Tabs\TabWrapper;
+use TNW\AuthorizeCim\Gateway\Config\Config;
 
 /**
  * Class CustomerPaymentInfoTab
@@ -29,18 +30,26 @@ class CustomerPaymentInfoTab extends TabWrapper
     protected $isAjaxLoaded = true;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * Constructor
      *
      * @param Context $context
      * @param Registry $registry
+     * @param Config $config
      * @param array $data
      */
     public function __construct(
         Context $context,
         Registry $registry,
+        Config $config,
         array $data = []
     ) {
         $this->coreRegistry = $registry;
+        $this->config = $config;
         parent::__construct($context, $data);
     }
 
@@ -49,7 +58,8 @@ class CustomerPaymentInfoTab extends TabWrapper
      */
     public function canShowTab()
     {
-        return $this->coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+        return $this->coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+            && $this->config->isCIMEnabled();
     }
 
     /**
